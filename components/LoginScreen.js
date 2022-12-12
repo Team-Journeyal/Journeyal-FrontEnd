@@ -5,25 +5,14 @@ import {
   TextInput,
   Pressable,
   Button,
-  SafeAreaView,
   StatusBar,
 } from "react-native";
-import { useState } from "react";
-import Register from "./RegisterScreen.js";
-import Home from "./HomeScreen.js";
 import colors from "../colors.js";
 
-export default function Login({ loggedIn, setLoggedIn }) {
-  const [register, setRegister] = useState(false);
-
-  if (register) return <Register />;
+export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.background}>
-      {loggedIn ? (
-        <Home />
-      ) : (
-        <>
           <StatusBar barStyle={"light-content"} />
           <View style={styles.header}>
             <Text style={styles.title}>Journeyal</Text>
@@ -35,13 +24,11 @@ export default function Login({ loggedIn, setLoggedIn }) {
               placeholder="password"
               style={styles.inputs}
             ></TextInput>
-            <Pressable style={styles.button} onPress={() => setLoggedIn(true)}>
+            <Pressable style={styles.button} onPress={() => navigation.navigate('Home')}>
               <Text>Log In</Text>
             </Pressable>
-            <Button title="Register" onPress={() => setRegister(true)} />
+            <Button title="Register" onPress={() => navigation.navigate('Register')}/>
           </View>
-        </>
-      )}
     </View>
   );
 }
@@ -67,10 +54,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: "100%",
-    height: "20%",
+    height: "10%",
     backgroundColor: colors.dark,
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   inputs: {
     borderWidth: 2,
