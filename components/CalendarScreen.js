@@ -1,11 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Calendar } from "react-native-calendars";
-import colors from "../colors";
+import CalendarScroll from "./CalendarScroll";
 
 export default function CalendarScreen() {
   return (
     <View style={styles.background}>
       <Calendar />
+      <CalendarScroll />
     </View>
   );
 }
@@ -13,6 +14,5 @@ export default function CalendarScreen() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: colors.background,
   },
 });
