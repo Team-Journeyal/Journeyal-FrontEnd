@@ -1,28 +1,13 @@
 
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
-import Login from './components/Login.js'
-import Register from './components/Register.js'
+import Login from './components/LoginScreen.js'
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false)
 
   return (
-    <View style={styles.container}>
-
-      <Text>Hello World</Text>
-      <Button onPress={() => {setLoggedIn(!loggedIn)}} title="Login" />
-      {loggedIn ? <Login /> : <Register/>}
-    
-    </View>
+    <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

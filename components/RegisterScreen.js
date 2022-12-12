@@ -1,9 +1,9 @@
 import { View, Text} from 'react-native'
 
 export default function Register () {
-    return(
+    return (
         <View>
-            <Text>Register</Text>
+            <Text>Register Page</Text>
         </View>
     )
 }
