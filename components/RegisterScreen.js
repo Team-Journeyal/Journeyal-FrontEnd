@@ -4,11 +4,10 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
-  Button,
 } from "react-native";
 import colors from "../colors";
 
-export default function Register() {
+export default function RegisterScreen() {
   return (
     <View style={styles.background}>
       <View style={styles.header}>
