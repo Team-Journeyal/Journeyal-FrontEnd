@@ -11,6 +11,30 @@
         {
             "date": "2022-12-23",
             "entries": "Hello Earth"
+        },
+        {
+            "date": "2022-12-01",
+            "entries": "First day of December"
+        },
+        {
+            "date": "2022-12-02",
+            "entries": "Second day of December"
+        },
+        {
+            "date": "2022-12-05",
+            "entries": "Fifth day of December"
+        },
+        {
+            "date": "2022-12-24",
+            "entries": "Christmas Eve"
+        },
+        {
+            "date": "2022-12-25",
+            "entries": "Christmas"
+        },
+        {
+            "date": "2022-12-31",
+            "entries": "New Years Eve"
         }
     ]
 }
