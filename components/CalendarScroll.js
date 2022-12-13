@@ -6,7 +6,7 @@ export default function CalendarScroll({selectedDate}) {
   return (
     <ScrollView style={styles.scrollview}>
       <Text> Scroll view area </Text>
-      {data.map((days) => days.date === selectedDate ? (<Text>{days.entries}</Text>) : (null))}
+      {data.map((days, idx) => days.date === selectedDate ? (days.entries.map((entry) => (<Text>{entry}</Text>))) : (null))}
     </ScrollView>
   );
 }

@@ -2,39 +2,42 @@
     "data": [
         {
             "date": "2022-12-15",
-            "entries": "Hello World"
+            "entries": [
+                "Hello World",
+                "Hello Everyone"
+            ]
         },
         {
             "date": "2022-12-16",
-            "entries": "Hello planet"
+            "entries":[ "Hello planet"]
         },
         {
             "date": "2022-12-23",
-            "entries": "Hello Earth"
+            "entries":[ "Hello Earth"]
         },
         {
             "date": "2022-12-01",
-            "entries": "First day of December"
+            "entries":[ "First day of December"]
         },
         {
             "date": "2022-12-02",
-            "entries": "Second day of December"
+            "entries":[ "Second day of December"]
         },
         {
             "date": "2022-12-05",
-            "entries": "Fifth day of December"
+            "entries":[ "Fifth day of December"]
         },
         {
             "date": "2022-12-24",
-            "entries": "Christmas Eve"
+            "entries":[ "Christmas Eve"]
         },
         {
             "date": "2022-12-25",
-            "entries": "Christmas"
+            "entries":[ "Christmas"]
         },
         {
             "date": "2022-12-31",
-            "entries": "New Years Eve"
+            "entries":[ "New Years Eve"]
         }
     ]
 }
