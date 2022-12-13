@@ -5,8 +5,10 @@ import RegisterScreen from "./components/RegisterScreen.js";
 import HomeScreen from "./components/HomeScreen.js";
 import CalendarScreen from "./components/CalendarScreen.js";
 import colors from "./colors.js";
+import data from "./sample.json";
 
 const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   return (
@@ -41,6 +43,5 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
-    // <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
   );
 }
