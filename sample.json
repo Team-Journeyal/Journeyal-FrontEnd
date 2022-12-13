@@ -1,15 +1,16 @@
-{"data": [
-        { "info": {
-                "date": "2022-12-15",
-                "entries": "Hello World"
-            }},
-        { "info": {
+{
+    "data": [
+        {
+            "date": "2022-12-15",
+            "entries": "Hello World"
+        },
+        {
             "date": "2022-12-16",
             "entries": "Hello planet"
-        }}, 
-        {"info": {
+        },
+        {
             "date": "2022-12-23",
             "entries": "Hello Earth"
-        }}
+        }
     ]
 }

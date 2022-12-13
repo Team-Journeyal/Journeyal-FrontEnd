@@ -7,8 +7,6 @@ import CalendarScroll from "./CalendarScroll";
 export default function CalendarScreen() {
   const [selectedDate, setSelectedDate] = useState("");
 
-  console.log(selectedDate)
-
   return (
     <View style={styles.background}>
       <StatusBar barStyle={"light-content"} />
