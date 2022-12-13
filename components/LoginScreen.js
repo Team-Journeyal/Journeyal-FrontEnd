@@ -10,25 +10,30 @@ import {
 import colors from "../colors.js";
 
 export default function LoginScreen({ navigation }) {
-
   return (
     <View style={styles.background}>
-          <StatusBar barStyle={"light-content"} />
-          <View style={styles.header}>
-            <Text style={styles.title}>Journeyal</Text>
-          </View>
-          <View style={styles.login}>
-            <TextInput placeholder="username" style={styles.inputs}></TextInput>
-            <TextInput
-              secureTextEntry={true}
-              placeholder="password"
-              style={styles.inputs}
-            ></TextInput>
-            <Pressable style={styles.button} onPress={() => navigation.navigate('Home')}>
-              <Text>Log In</Text>
-            </Pressable>
-            <Button title="Register" onPress={() => navigation.navigate('Register')}/>
-          </View>
+      <StatusBar barStyle={"light-content"} />
+      <View style={styles.header}>
+        <Text style={styles.title}>Journeyal</Text>
+      </View>
+      <View style={styles.login}>
+        <TextInput placeholder="username" style={styles.inputs}></TextInput>
+        <TextInput
+          secureTextEntry={true}
+          placeholder="password"
+          style={styles.inputs}
+        ></TextInput>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Text>Log In</Text>
+        </Pressable>
+        <Button
+          title="Register"
+          onPress={() => navigation.navigate("Register")}
+        />
+      </View>
     </View>
   );
 }
@@ -54,17 +59,19 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: "100%",
-    height: "10%",
+    height: "15%",
     backgroundColor: colors.dark,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   inputs: {
     borderWidth: 2,
     borderColor: colors.dark,
     borderRadius: 5,
     margin: 10,
-    width: 130,
+    width: 140,
+    height: 25,
+    padding: 3,
   },
   login: {
     height: 300,
