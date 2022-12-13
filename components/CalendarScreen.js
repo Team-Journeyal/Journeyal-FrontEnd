@@ -5,7 +5,7 @@ import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
 
 export default function CalendarScreen() {
-  const [date, setDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
   return (
     <View style={styles.background}>
@@ -19,17 +19,17 @@ export default function CalendarScreen() {
           selectedDayBackgroundColor: colors.bright,
         }}
         onDayPress={(day) => {
-          setDate(day.dateString);
+          setSelectedDate(day.dateString);
         }}
         markedDates={{
-          [date]: {
+          [selectedDate]: {
             selected: true,
             selectedColor: colors.bright,
           },
         }}
-        initialDate={date}
+        initialDate={selectedDate}
       />
-      <CalendarScroll />
+      <CalendarScroll selectedDate={selectedDate}/>
     </View>
   );
 }
