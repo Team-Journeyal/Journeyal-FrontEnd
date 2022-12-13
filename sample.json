@@ -5,39 +5,53 @@
             "entries": [
                 "Hello World",
                 "Hello Everyone"
-            ]
+            ],
+            "images":["https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300"]
         },
         {
             "date": "2022-12-16",
-            "entries":[ "Hello planet"]
+            "entries":[ "Hello planet"],
+            "images":["https://reactnative.dev/img/tiny_logo.png"]
         },
         {
             "date": "2022-12-23",
-            "entries":[ "Hello Earth"]
+            "entries":[ "Hello Earth"],
+            "images":["https://reactnative.dev/img/tiny_logo.png"]
         },
         {
             "date": "2022-12-01",
-            "entries":[ "First day of December"]
+            "entries":[ "First day of December"],
+            "images":["https://picsum.photos/200"]
         },
         {
             "date": "2022-12-02",
-            "entries":[ "Second day of December"]
+            "entries":[ "Second day of December"],
+            "images":["https://picsum.photos/id/237/200/300"]
         },
         {
             "date": "2022-12-05",
-            "entries":[ "Fifth day of December"]
+            "entries":[ "Fifth day of December"],
+            "images":["https://picsum.photos/seed/picsum/200/300"]
         },
         {
             "date": "2022-12-24",
-            "entries":[ "Christmas Eve"]
+            "entries":[ "Christmas Eve"],
+            "images":[null]
         },
         {
             "date": "2022-12-25",
-            "entries":[ "Christmas"]
+            "entries":[ "Christmas"],
+            "images":[null]
         },
         {
             "date": "2022-12-31",
-            "entries":[ "New Years Eve"]
+            "entries":[ "New Years Eve"],
+            "images":[null]
+        }, 
+        {
+            "date": "2022-12-14",
+            "entries":[ null ],
+            "images":["https://picsum.photos/200/300", "https://picsum.photos/200", "https://picsum.photos/200/300"]
         }
     ]
 }
