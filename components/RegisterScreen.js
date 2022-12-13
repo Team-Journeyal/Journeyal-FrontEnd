@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import colors from "../colors";
 
 export default function RegisterScreen() {
@@ -50,7 +44,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: "100%",
-    height: "20%",
+    height: "15%",
     backgroundColor: colors.dark,
     alignItems: "center",
     justifyContent: "flex-end",
@@ -60,7 +54,9 @@ const styles = StyleSheet.create({
     borderColor: colors.dark,
     borderRadius: 5,
     margin: 10,
-    width: 130,
+    width: 140,
+    height: 25,
+    padding: 3,
   },
   register: {
     height: 300,
