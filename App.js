@@ -1,4 +1,5 @@
 import { Button } from "react-native";
+import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./components/LoginScreen.js";
@@ -11,6 +12,8 @@ import colors from "./colors.js";
 const Stack = createNativeStackNavigator();
 
 export default function App({ navigation }) {
+  const [pizza, setPizza] = useState("pepperoni");
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -27,7 +30,9 @@ export default function App({ navigation }) {
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
           }}
-        />
+        >
+          {/* {(props) => <HomeScreen pizza={pizza} />} */}
+        </Stack.Screen>
         <Stack.Screen
           name="Register"
           component={RegisterScreen}

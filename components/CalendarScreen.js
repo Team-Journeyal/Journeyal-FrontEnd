@@ -29,7 +29,7 @@ export default function CalendarScreen() {
         }}
         initialDate={selectedDate}
       />
-      <CalendarScroll selectedDate={selectedDate}/>
+      <CalendarScroll selectedDate={selectedDate} />
     </View>
   );
 }

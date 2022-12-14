@@ -2,9 +2,9 @@ import { View, TextInput, Text, StyleSheet, Pressable } from "react-native";
 import { useState } from "react";
 import colors from "../colors";
 
-export default function NewEntryScreen({ selectedDate }) {
+export default function NewEntryScreen({}) {
   const [addEntry, setAddEntry] = useState(null);
-  const [addImage, setAddImage] = useState(null);
+  const [addSchedule, setAddSchedule] = useState(null);
 
   //   let newJson = {
   //     datefield: `${selectedDate}`,
@@ -19,16 +19,18 @@ export default function NewEntryScreen({ selectedDate }) {
   return (
     <View style={styles.background}>
       <TextInput
+        multiline={true}
         style={styles.schedule}
         placeholder="New Schedule Event"
-        value={addEntry}
-        onChange={(e) => setAddEntry(e.target.value)}
+        value={addSchedule}
+        onChangeText={setAddSchedule}
       ></TextInput>
       <TextInput
+        multiline={true}
         style={styles.journal}
         placeholder="New Journal Entry"
-        value={addImage}
-        onChange={(e) => setAddImage(e.target.value)}
+        value={addEntry}
+        onChangeText={setAddEntry}
       ></TextInput>
       <Pressable
         style={styles.submit}
@@ -37,6 +39,7 @@ export default function NewEntryScreen({ selectedDate }) {
         <Text> Submit </Text>
       </Pressable>
       {console.log(addEntry)}
+      {console.log(addSchedule)}
     </View>
   );
 }
@@ -52,16 +55,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 3,
     width: "85%",
-    height: "40%",
+    height: "60%",
     margin: 3,
     padding: 3,
     backgroundColor: colors.white,
+    textAlign: "",
   },
   schedule: {
     borderWidth: 1,
     borderRadius: 3,
     width: "85%",
-    height: "40%",
+    height: "20%",
     margin: 3,
     padding: 3,
     backgroundColor: colors.white,
