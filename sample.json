@@ -52,6 +52,11 @@
             "date": "2022-12-14",
             "entries":[ null ],
             "images":["https://picsum.photos/200/300", "https://picsum.photos/200", "https://picsum.photos/200/300"]
+        },
+        {
+            "date": "2022-12-13",
+            "entries": ["Dear Diary, today I built a journal entry."],
+            "images": [null]
         }
     ]
 }
