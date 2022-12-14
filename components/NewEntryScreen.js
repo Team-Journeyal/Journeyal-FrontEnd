@@ -1,24 +1,28 @@
 import { View, TextInput, Text, StyleSheet, Pressable } from "react-native";
 import { useState } from "react";
 import colors from "../colors";
+import { data } from "../sample.json";
 
-export default function NewEntryScreen({}) {
+export default function NewEntryScreen({ route }) {
   const [addEntry, setAddEntry] = useState(null);
   const [addSchedule, setAddSchedule] = useState(null);
+  const [addImage, setAddImage] = useState(null);
 
-  //   let newJson = {
-  //     datefield: `${selectedDate}`,
-  //     entries: `${addEntry}`,
-  //     images: `${addImage}`,
-  //   };
-
-  //   const handleSubmit = () => {
-  //     data.push(newJson);
-  //   };
-
+  let newJson = {
+    date: "2022-12-11",
+    entries: [`${addEntry}`],
+    images: [`${addImage}`],
+  };
+  const handleSubmit = () => {
+    data.push(newJson);
+    console.log(newJson);
+    console.log(data);
+  };
+  console.log(route.params.paramkey);
   return (
     <View style={styles.background}>
       <TextInput
+        autoCorrect={false}
         multiline={true}
         style={styles.schedule}
         placeholder="New Schedule Event"
@@ -26,20 +30,16 @@ export default function NewEntryScreen({}) {
         onChangeText={setAddSchedule}
       ></TextInput>
       <TextInput
+        autoCorrect={false}
         multiline={true}
         style={styles.journal}
         placeholder="New Journal Entry"
         value={addEntry}
         onChangeText={setAddEntry}
       ></TextInput>
-      <Pressable
-        style={styles.submit}
-        //   onPress={handleSubmit}
-      >
+      <Pressable style={styles.submit} onPress={handleSubmit}>
         <Text> Submit </Text>
       </Pressable>
-      {console.log(addEntry)}
-      {console.log(addSchedule)}
     </View>
   );
 }

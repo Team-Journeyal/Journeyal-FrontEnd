@@ -4,7 +4,7 @@ import { Calendar } from "react-native-calendars";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
 
-export default function CalendarScreen() {
+export default function CalendarScreen({}) {
   const [selectedDate, setSelectedDate] = useState("");
 
   return (

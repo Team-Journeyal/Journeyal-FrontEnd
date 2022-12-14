@@ -30,9 +30,7 @@ export default function App({ navigation }) {
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
           }}
-        >
-          {/* {(props) => <HomeScreen pizza={pizza} />} */}
-        </Stack.Screen>
+        />
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
@@ -48,7 +46,7 @@ export default function App({ navigation }) {
               <Button
                 title="+"
                 color={"white"}
-                onPress={() => navigation.navigate("Add")}
+                onPress={() => navigation.navigate("Add", { paramkey: pizza })}
               />
             ),
           })}
