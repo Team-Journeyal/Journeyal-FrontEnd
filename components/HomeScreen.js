@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, StatusBar } from "react-native";
+import { View, Text, StyleSheet, Pressable} from "react-native";
 import colors from "../colors";
 
 export default function HomeScreen({ navigation }) {

@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Pressable,
   Button,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
@@ -15,6 +17,7 @@ export default function NewEntryScreen({ route, navigation }) {
   const [addEntry, setAddEntry] = useState([]);
   const [addSchedule, setAddSchedule] = useState([]);
   const [addImage, setAddImage] = useState(null);
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -40,8 +43,8 @@ export default function NewEntryScreen({ route, navigation }) {
   console.log(route.params.paramkey);
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.background}>
-      <Button title="Add an image" onPress={pickImage} />
       <TextInput
         autoCorrect={false}
         multiline={true}
@@ -50,6 +53,7 @@ export default function NewEntryScreen({ route, navigation }) {
         value={addSchedule}
         onChangeText={setAddSchedule}
       ></TextInput>
+      <Button title="Add an image" onPress={pickImage} />
       <TextInput
         autoCorrect={false}
         multiline={true}
@@ -62,6 +66,7 @@ export default function NewEntryScreen({ route, navigation }) {
         <Text> Submit </Text>
       </Pressable>
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -69,14 +74,12 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: colors.background,
-    justifyContent: "center",
     alignItems: "center",
   },
   journal: {
     borderWidth: 1,
     borderRadius: 3,
-    width: "85%",
-    height: "60%",
+    width: "80%",
     margin: 3,
     padding: 3,
     backgroundColor: colors.white,
@@ -85,9 +88,9 @@ const styles = StyleSheet.create({
   schedule: {
     borderWidth: 1,
     borderRadius: 3,
-    width: "85%",
-    height: "20%",
+    width: "80%",
     margin: 3,
+    marginTop: 50,
     padding: 3,
     backgroundColor: colors.white,
   },
@@ -97,6 +100,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 50,
     backgroundColor: colors.bright,
+    marginTop: 30,
     justifyContent: "center",
     alignItems: "center",
   },
