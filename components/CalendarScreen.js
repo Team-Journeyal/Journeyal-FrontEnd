@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { View, StyleSheet, StatusBar, Button } from "react-native";
+import { useState, useEffect } from "react";
+import { View, StyleSheet, StatusBar, Button, Alert } from "react-native";
 import { Calendar } from "react-native-calendars";
+import { ReloadInstructions } from "react-native/Libraries/NewAppScreen";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
 
@@ -10,6 +11,8 @@ export default function CalendarScreen({ navigation}) {
     current.getMonth() + 1
   }-${current.getDate()}`;
   const [selectedDate, setSelectedDate] = useState(currentDate);
+  const [refresh, setRefresh] =useState(false)
+
 
   return (
     <View style={styles.background}>
@@ -17,7 +20,8 @@ export default function CalendarScreen({ navigation}) {
       <Button
         title="new entry"
         color={"black"}
-        onPress={() => navigation.navigate("Add", { paramkey: selectedDate })}
+        onPress={() => navigation.navigate("Add", 
+        { selectedDate: selectedDate, setRefresh: setRefresh, refresh: refresh })}
       />
       <Calendar
         style={{

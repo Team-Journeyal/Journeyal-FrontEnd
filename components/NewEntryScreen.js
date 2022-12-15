@@ -30,17 +30,16 @@ export default function NewEntryScreen({ route, navigation }) {
   };
 
   let newJson = {
-    date: `${route.params.paramkey}`,
+    date: `${route.params.selectedDate}`,
     entries: [`${addEntry}`],
     images: [`${addImage}`],
   };
+
   const handleSubmit = () => {
     data.push(newJson);
-    console.log(addImage);
     navigation.navigate("Calendar");
+    route.params.setRefresh(!route.params.refresh)
   };
-
-  console.log(route.params.paramkey);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
