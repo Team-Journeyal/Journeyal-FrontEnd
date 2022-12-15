@@ -1,11 +1,30 @@
-import { View, TextInput, Text, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  Pressable,
+  Button,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import colors from "../colors";
+import { data } from "../sample.json";
 
 export default function NewEntryScreen({ route, navigation }) {
   const [addEntry, setAddEntry] = useState(null);
   const [addSchedule, setAddSchedule] = useState(null);
   const [addImage, setAddImage] = useState(null);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+    });
+    if (result) {
+      setAddImage(result.uri);
+    }
+  };
 
   let newJson = {
     date: `${route.params.paramkey}`,
@@ -14,6 +33,7 @@ export default function NewEntryScreen({ route, navigation }) {
   };
   const handleSubmit = () => {
     data.push(newJson);
+    console.log(addImage);
     navigation.navigate("Calendar");
   };
 
@@ -37,6 +57,7 @@ export default function NewEntryScreen({ route, navigation }) {
         value={addEntry}
         onChangeText={setAddEntry}
       ></TextInput>
+      <Button title="Add an image" onPress={pickImage} />
       <Pressable style={styles.submit} onPress={handleSubmit}>
         <Text> Submit </Text>
       </Pressable>
