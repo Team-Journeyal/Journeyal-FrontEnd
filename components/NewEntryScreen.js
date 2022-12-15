@@ -14,9 +14,9 @@ import colors from "../colors";
 import { data } from "../sample.json";
 
 export default function NewEntryScreen({ route, navigation }) {
+  const [addEvent, setAddEvent] = useState([]);
   const [addEntry, setAddEntry] = useState([]);
-  const [addSchedule, setAddSchedule] = useState([]);
-  const [addImage, setAddImage] = useState(null);
+  const [addImage, setAddImage] = useState([]);
 
 
   const pickImage = async () => {
@@ -31,6 +31,7 @@ export default function NewEntryScreen({ route, navigation }) {
 
   let newJson = {
     date: `${route.params.selectedDate}`,
+    events: [`${addEvent}`],
     entries: [`${addEntry}`],
     images: [`${addImage}`],
   };
@@ -49,8 +50,8 @@ export default function NewEntryScreen({ route, navigation }) {
         multiline={true}
         style={styles.schedule}
         placeholder="New Schedule Event"
-        value={addSchedule}
-        onChangeText={setAddSchedule}
+        value={addEvent}
+        onChangeText={setAddEvent}
       ></TextInput>
       <Button title="Add an image" onPress={pickImage} />
       <TextInput

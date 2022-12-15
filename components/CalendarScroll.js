@@ -5,6 +5,11 @@ import {data} from "../sample.json"
 export default function CalendarScroll({selectedDate}) {
   return (
     <ScrollView style={styles.scrollview}>
+
+    {data.map((days) => days.date === selectedDate &&
+        (days.events.map((event, idx) => (
+          <Text key={idx}>~{event}</Text>))))}
+
       {data.map((days) => days.date === selectedDate &&
         (days.entries.map((entry, idx) => (
           <Text key={idx}>{entry}</Text>))))}
