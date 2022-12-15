@@ -1,24 +1,24 @@
 import { View, TextInput, Text, StyleSheet, Pressable } from "react-native";
 import { useState } from "react";
 import colors from "../colors";
-import { data } from "../sample.json";
 
-export default function NewEntryScreen({ route }) {
+export default function NewEntryScreen({ route, navigation }) {
   const [addEntry, setAddEntry] = useState(null);
   const [addSchedule, setAddSchedule] = useState(null);
   const [addImage, setAddImage] = useState(null);
 
   let newJson = {
-    date: "2022-12-11",
+    date: `${route.params.paramkey}`,
     entries: [`${addEntry}`],
     images: [`${addImage}`],
   };
   const handleSubmit = () => {
     data.push(newJson);
-    console.log(newJson);
-    console.log(data);
+    navigation.navigate("Calendar");
   };
+
   console.log(route.params.paramkey);
+
   return (
     <View style={styles.background}>
       <TextInput
