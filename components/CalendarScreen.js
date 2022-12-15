@@ -5,7 +5,11 @@ import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
 
 export default function CalendarScreen({ navigation }) {
-  const [selectedDate, setSelectedDate] = useState();
+  const current = new Date();
+  const currentDate = `${current.getFullYear()}-${
+    current.getMonth() + 1
+  }-${current.getDate()}`;
+  const [selectedDate, setSelectedDate] = useState(currentDate);
 
   return (
     <View style={styles.background}>
