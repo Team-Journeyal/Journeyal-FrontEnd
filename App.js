@@ -13,8 +13,7 @@ import colors from "./colors.js";
 LogBox.ignoreAllLogs();
 const Stack = createNativeStackNavigator();
 
-export default function App({ navigation }) {
-  const [pizza, setPizza] = useState("pepperoni");
+export default function App() {
 
   return (
     <NavigationContainer>
@@ -48,7 +47,7 @@ export default function App({ navigation }) {
               <Button
                 title="+"
                 color={"white"}
-                onPress={() => navigation.navigate("Add", { paramkey: pizza })}
+                onPress={() => navigation.navigate("Add")}
               />
             ),
           })}

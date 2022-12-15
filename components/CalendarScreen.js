@@ -4,7 +4,7 @@ import { Calendar } from "react-native-calendars";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
 
-export default function CalendarScreen({ navigation }) {
+export default function CalendarScreen({ navigation}) {
   const current = new Date();
   const currentDate = `${current.getFullYear()}-${
     current.getMonth() + 1
