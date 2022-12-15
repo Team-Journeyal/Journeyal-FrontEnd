@@ -1,42 +1,66 @@
-import { View, TextInput, Text, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  Pressable,
+  Button,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import colors from "../colors";
+import { data } from "../sample.json";
 
-export default function NewEntryScreen({ selectedDate }) {
+export default function NewEntryScreen({ route, navigation }) {
   const [addEntry, setAddEntry] = useState(null);
+  const [addSchedule, setAddSchedule] = useState(null);
   const [addImage, setAddImage] = useState(null);
 
-  //   let newJson = {
-  //     datefield: `${selectedDate}`,
-  //     entries: `${addEntry}`,
-  //     images: `${addImage}`,
-  //   };
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+    });
+    if (result) {
+      setAddImage(result.uri);
+    }
+  };
 
-  //   const handleSubmit = () => {
-  //     data.push(newJson);
-  //   };
+  let newJson = {
+    date: `${route.params.paramkey}`,
+    entries: [`${addEntry}`],
+    images: [`${addImage}`],
+  };
+  const handleSubmit = () => {
+    data.push(newJson);
+    console.log(addImage);
+    navigation.navigate("Calendar");
+  };
+
+  console.log(route.params.paramkey);
 
   return (
     <View style={styles.background}>
       <TextInput
+        autoCorrect={false}
+        multiline={true}
         style={styles.schedule}
         placeholder="New Schedule Event"
-        value={addEntry}
-        onChange={(e) => setAddEntry(e.target.value)}
+        value={addSchedule}
+        onChangeText={setAddSchedule}
       ></TextInput>
       <TextInput
+        autoCorrect={false}
+        multiline={true}
         style={styles.journal}
         placeholder="New Journal Entry"
-        value={addImage}
-        onChange={(e) => setAddImage(e.target.value)}
+        value={addEntry}
+        onChangeText={setAddEntry}
       ></TextInput>
-      <Pressable
-        style={styles.submit}
-        //   onPress={handleSubmit}
-      >
+      <Button title="Add an image" onPress={pickImage} />
+      <Pressable style={styles.submit} onPress={handleSubmit}>
         <Text> Submit </Text>
       </Pressable>
-      {console.log(addEntry)}
     </View>
   );
 }
@@ -52,16 +76,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 3,
     width: "85%",
-    height: "40%",
+    height: "60%",
     margin: 3,
     padding: 3,
     backgroundColor: colors.white,
+    textAlign: "",
   },
   schedule: {
     borderWidth: 1,
     borderRadius: 3,
     width: "85%",
-    height: "40%",
+    height: "20%",
     margin: 3,
     padding: 3,
     backgroundColor: colors.white,

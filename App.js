@@ -1,6 +1,8 @@
 import { Button } from "react-native";
+import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { LogBox } from "react-native";
 import LoginScreen from "./components/LoginScreen.js";
 import RegisterScreen from "./components/RegisterScreen.js";
 import HomeScreen from "./components/HomeScreen.js";
@@ -8,9 +10,12 @@ import CalendarScreen from "./components/CalendarScreen.js";
 import NewEntryScreen from "./components/NewEntryScreen.js";
 import colors from "./colors.js";
 
+LogBox.ignoreAllLogs();
 const Stack = createNativeStackNavigator();
 
 export default function App({ navigation }) {
+  const [pizza, setPizza] = useState("pepperoni");
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -43,7 +48,7 @@ export default function App({ navigation }) {
               <Button
                 title="+"
                 color={"white"}
-                onPress={() => navigation.navigate("Add")}
+                onPress={() => navigation.navigate("Add", { paramkey: pizza })}
               />
             ),
           })}
