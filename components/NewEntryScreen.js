@@ -12,8 +12,8 @@ import colors from "../colors";
 import { data } from "../sample.json";
 
 export default function NewEntryScreen({ route, navigation }) {
-  const [addEntry, setAddEntry] = useState(null);
-  const [addSchedule, setAddSchedule] = useState(null);
+  const [addEntry, setAddEntry] = useState([]);
+  const [addSchedule, setAddSchedule] = useState([]);
   const [addImage, setAddImage] = useState(null);
 
   const pickImage = async () => {
@@ -41,6 +41,7 @@ export default function NewEntryScreen({ route, navigation }) {
 
   return (
     <View style={styles.background}>
+      <Button title="Add an image" onPress={pickImage} />
       <TextInput
         autoCorrect={false}
         multiline={true}
@@ -57,7 +58,6 @@ export default function NewEntryScreen({ route, navigation }) {
         value={addEntry}
         onChangeText={setAddEntry}
       ></TextInput>
-      <Button title="Add an image" onPress={pickImage} />
       <Pressable style={styles.submit} onPress={handleSubmit}>
         <Text> Submit </Text>
       </Pressable>
