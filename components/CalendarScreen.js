@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { View, StyleSheet, StatusBar, Button, Alert } from "react-native";
 import { Calendar } from "react-native-calendars";
-import { ReloadInstructions } from "react-native/Libraries/NewAppScreen";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
 
@@ -12,7 +11,6 @@ export default function CalendarScreen({ navigation}) {
   }-${current.getDate()}`;
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] =useState(false)
-
 
   return (
     <View style={styles.background}>
@@ -34,6 +32,7 @@ export default function CalendarScreen({ navigation}) {
         onDayPress={(day) => {
           setSelectedDate(day.dateString);
         }}
+        markingType={"multi-dot"}
         markedDates={{
           [selectedDate]: {
             selected: true,
