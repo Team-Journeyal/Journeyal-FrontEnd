@@ -6,6 +6,7 @@ import {
   Pressable,
   Button,
   Keyboard,
+  Image,
   TouchableWithoutFeedback
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -53,7 +54,6 @@ export default function NewEntryScreen({ route, navigation }) {
         value={addEvent}
         onChangeText={setAddEvent}
       ></TextInput>
-      <Button title="Add an image" onPress={pickImage} />
       <TextInput
         autoCorrect={false}
         multiline={true}
@@ -62,6 +62,13 @@ export default function NewEntryScreen({ route, navigation }) {
         value={addEntry}
         onChangeText={setAddEntry}
       ></TextInput>
+      <Button title="Add an image" onPress={pickImage} />
+      {addImage && (
+        <Image 
+          resizeMode="contain"
+          style={styles.image}
+          source={{uri: `${addImage}`}}/>
+      )}
       <Pressable style={styles.submit} onPress={handleSubmit}>
         <Text> Submit </Text>
       </Pressable>
@@ -75,6 +82,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     alignItems: "center",
+  },
+  image: {
+    width: "100%",
+    height: 200,
   },
   journal: {
     borderWidth: 1,

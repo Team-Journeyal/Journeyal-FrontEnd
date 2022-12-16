@@ -7,16 +7,21 @@ export default function CalendarScroll({selectedDate}) {
     <ScrollView style={styles.scrollview}>
 
     {data.map((days) => days.date === selectedDate &&
-        (days.events.map((event, idx) => (
-          <Text key={idx}>~{event}</Text>))))}
+        (days.events.map((event, idx) => 
+          event !== "" ? 
+          <Text key={idx}>~{event}</Text> : null)))}
 
       {data.map((days) => days.date === selectedDate &&
-        (days.entries.map((entry, idx) => (
-          <Text key={idx}>{entry}</Text>))))}
+        (days.entries.map((entry, idx) => 
+          entry !== "" ?
+          <Text key={idx}>{entry}</Text> : null)))}
 
       {data.map((days) => days.date === selectedDate &&
         (days.images.map((img, idx) => (
-          <View key={idx} style={styles.imageContainer}><Image resizeMode='contain' style={styles.imageStyle} source={{uri: `${img}`}}/></View>))))}
+          img !== "" && (
+          <View key={idx} style={styles.imageContainer}>
+            <Image resizeMode='contain' style={styles.imageStyle} source={{uri: `${img}`}}/>
+            </View>)))))}
 
     </ScrollView>
   );
