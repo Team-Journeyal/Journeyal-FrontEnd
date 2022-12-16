@@ -14,6 +14,13 @@ LogBox.ignoreAllLogs();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [token, setToken] = useState(null);
+  const [username, setUsername] = useState(null);
+
+  const setAuth = (token, username) => {
+    setToken(token);
+    setUsername(username);
+  };
 
   return (
     <NavigationContainer>
@@ -21,6 +28,7 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
+          initialParams={{ setAuth: setAuth }}
           options={{ headerShown: false }}
         />
         <Stack.Screen

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   View,
   Text,
@@ -8,8 +9,25 @@ import {
   StatusBar,
 } from "react-native";
 import colors from "../colors.js";
+import { requestLogin } from "./Requests.js";
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ navigation, route }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    requestLogin(username, password).then((response) => {
+      const token = response.data.auth_token;
+      console.log(token);
+      route.params.setAuth(token, username);
+      {
+        token && navigation.navigate("Home");
+      }
+    });
+  };
+  console.log(`username: ${username}, password: ${password}`);
+
   return (
     <View style={styles.background}>
       <StatusBar barStyle={"light-content"} />
@@ -17,16 +35,20 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.title}>Journeyal</Text>
       </View>
       <View style={styles.login}>
-        <TextInput placeholder="username" style={styles.inputs}></TextInput>
         <TextInput
-          secureTextEntry={true}
-          placeholder="password"
+          value={username}
+          placeholder="username"
+          onChangeText={setUsername}
           style={styles.inputs}
         ></TextInput>
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("Home")}
-        >
+        <TextInput
+          value={password}
+          secureTextEntry={true}
+          placeholder="password"
+          onChangeText={setPassword}
+          style={styles.inputs}
+        ></TextInput>
+        <Pressable style={styles.button} onPress={handleSubmit}>
           <Text>Log In</Text>
         </Pressable>
         <Button
