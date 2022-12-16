@@ -34,6 +34,7 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
+          initialParams={{ token: token }}
           options={{
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },

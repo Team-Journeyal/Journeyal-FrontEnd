@@ -9,3 +9,12 @@ export const requestLogin = (username, password) => {
   });
   return response;
 };
+
+export const requestCalendars = (token) => {
+  const url = "https://journeyal-webservice.onrender.com/calendar/";
+
+  const response = axios.get(url, {
+    headers: { Authorization: `Token ${token}` },
+  });
+  return response;
+};

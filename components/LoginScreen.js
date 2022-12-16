@@ -19,14 +19,12 @@ export default function LoginScreen({ navigation, route }) {
     event.preventDefault();
     requestLogin(username, password).then((response) => {
       const token = response.data.auth_token;
-      console.log(token);
       route.params.setAuth(token, username);
       {
-        token && navigation.navigate("Home");
+        token && navigation.navigate("Home", { username: username });
       }
     });
   };
-  console.log(`username: ${username}, password: ${password}`);
 
   return (
     <View style={styles.background}>
