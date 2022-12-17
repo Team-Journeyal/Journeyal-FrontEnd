@@ -28,7 +28,6 @@ export default function LoginScreen({ navigation, route }) {
       })
       .catch(function (error) {
         setInvalid(true);
-        throw error;
       });
   };
 
