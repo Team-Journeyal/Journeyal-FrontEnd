@@ -64,7 +64,10 @@ export default function LoginScreen({ navigation, route }) {
         </Pressable>
         <Button
           title="Register"
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => {
+            navigation.navigate("Register");
+            setInvalid(false);
+          }}
         />
       </View>
     </View>
