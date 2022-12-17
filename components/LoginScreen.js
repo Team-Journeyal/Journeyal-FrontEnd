@@ -67,6 +67,8 @@ export default function LoginScreen({ navigation, route }) {
           onPress={() => {
             navigation.navigate("Register");
             setInvalid(false);
+            setUsername("");
+            setPassword("");
           }}
         />
       </View>
