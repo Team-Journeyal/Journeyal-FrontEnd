@@ -16,15 +16,20 @@ export default function LoginScreen({ navigation, route }) {
   const [password, setPassword] = useState("");
   const [invalid, setInvalid] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    requestLogin(username, password).then((response) => {
-      const token = response.data.auth_token;
-      route.params.setAuth(token, username);
-      {
-        token && navigation.navigate("Home", { username: username });
-      }
-    });
+    requestLogin(username, password)
+      .then((response) => {
+        const token = response.data.auth_token;
+        route.params.setAuth(token, username);
+        {
+          token && navigation.navigate("Home", { username: username });
+        }
+      })
+      .catch(function (error) {
+        setInvalid(true);
+        throw error;
+      });
   };
 
   return (
