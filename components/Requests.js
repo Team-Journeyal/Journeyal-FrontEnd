@@ -28,3 +28,12 @@ export const requestNewUser = (username, password) => {
   });
   return response;
 };
+
+export const requestNewCalendar = (token, name) => {
+  const url = "https://journeyal-webservice.onrender.com/calendar/";
+
+  const response = axios.post(url, { 
+    name: name},
+    {headers: { Authorization: `Token ${token}`}})
+  return response
+}
