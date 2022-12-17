@@ -16,7 +16,7 @@ export default function LoginScreen({ navigation, route }) {
   const [password, setPassword] = useState("");
   const [invalid, setInvalid] = useState(false);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     requestLogin(username, password)
       .then((response) => {
@@ -26,7 +26,7 @@ export default function LoginScreen({ navigation, route }) {
           token && navigation.navigate("Home", { username: username });
         }
       })
-      .catch(function (error) {
+      .catch(function () {
         setInvalid(true);
       });
   };
