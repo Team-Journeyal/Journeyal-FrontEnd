@@ -14,16 +14,21 @@ import { requestLogin } from "./Requests.js";
 export default function LoginScreen({ navigation, route }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [invalid, setInvalid] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    requestLogin(username, password).then((response) => {
-      const token = response.data.auth_token;
-      route.params.setAuth(token, username);
-      {
-        token && navigation.navigate("Home", { username: username });
-      }
-    });
+    requestLogin(username, password)
+      .then((response) => {
+        const token = response.data.auth_token;
+        route.params.setAuth(token, username);
+        {
+          token && navigation.navigate("Home", { username: username });
+        }
+      })
+      .catch(function (error) {
+        setInvalid(true);
+      });
   };
 
   return (
@@ -33,13 +38,20 @@ export default function LoginScreen({ navigation, route }) {
         <Text style={styles.title}>Journeyal</Text>
       </View>
       <View style={styles.login}>
+        {invalid === true ? (
+          <Text>Please enter a valid username or password</Text>
+        ) : null}
         <TextInput
+          autoCorrect={false}
+          autoCapitalize="none"
           value={username}
           placeholder="username"
           onChangeText={setUsername}
           style={styles.inputs}
         ></TextInput>
         <TextInput
+          autoCorrect={false}
+          autoCapitalize="none"
           value={password}
           secureTextEntry={true}
           placeholder="password"
@@ -51,7 +63,12 @@ export default function LoginScreen({ navigation, route }) {
         </Pressable>
         <Button
           title="Register"
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => {
+            navigation.navigate("Register");
+            setInvalid(false);
+            setUsername("");
+            setPassword("");
+          }}
         />
       </View>
     </View>

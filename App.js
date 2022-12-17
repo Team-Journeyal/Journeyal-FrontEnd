@@ -45,6 +45,7 @@ export default function App() {
           name="Register"
           component={RegisterScreen}
           options={{ headerTransparent: true }}
+          initialParams={{ setAuth: setAuth }}
         />
         <Stack.Screen
           name="Calendar"

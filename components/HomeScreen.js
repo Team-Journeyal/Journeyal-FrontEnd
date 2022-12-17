@@ -15,8 +15,9 @@ export default function HomeScreen({ navigation, route }) {
   return (
     <View style={styles.background}>
       <Text>Hello, {route.params.username}</Text>
-      {calendars.map((clndr) => (
+      {calendars.map((clndr, idx) => (
         <Pressable
+          key={idx}
           style={styles.button}
           onPress={() => navigation.navigate("Calendar")}
         >
