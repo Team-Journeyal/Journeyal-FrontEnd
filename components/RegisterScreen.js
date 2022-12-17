@@ -1,7 +1,25 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { requestNewUser, requestLogin } from "./Requests";
+import { useState } from "react";
 import colors from "../colors";
 
-export default function RegisterScreen() {
+export default function RegisterScreen({ navigation, route }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    requestNewUser(username, password).then(
+      (response) =>
+        response.data.id &&
+        requestLogin(username, password).then((response) => {
+          const token = response.data.auth_token;
+          route.params.setAuth(token, username);
+          navigation.navigate("Home", { username: username });
+        })
+    );
+  };
+
   return (
     <View style={styles.background}>
       <View style={styles.header}>
@@ -9,13 +27,24 @@ export default function RegisterScreen() {
       </View>
       <View style={styles.register}>
         <Text>Register for Journeyal</Text>
-        <TextInput placeholder="username" style={styles.inputs}></TextInput>
         <TextInput
+          autoCorrect={false}
+          autoCapitalize="none"
+          placeholder="username"
+          value={username}
+          onChangeText={setUsername}
+          style={styles.inputs}
+        ></TextInput>
+        <TextInput
+          autoCorrect={false}
+          autoCapitalize="none"
+          value={password}
+          onChangeText={setPassword}
           secureTextEntry={true}
           placeholder="password"
           style={styles.inputs}
         ></TextInput>
-        <Pressable style={styles.button}>
+        <Pressable onPress={handleSubmit} style={styles.button}>
           <Text>Register</Text>
         </Pressable>
       </View>
