@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, StyleSheet, StatusBar, Button, Alert } from "react-native";
+import { View, StyleSheet, StatusBar, Button } from "react-native";
 import { Calendar } from "react-native-calendars";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
