@@ -8,6 +8,7 @@ import RegisterScreen from "./components/RegisterScreen.js";
 import HomeScreen from "./components/HomeScreen.js";
 import CalendarScreen from "./components/CalendarScreen.js";
 import NewEntryScreen from "./components/NewEntryScreen.js";
+import SearchScreen from "./components/SearchScreen.js";
 import colors from "./colors.js";
 
 LogBox.ignoreAllLogs();
@@ -21,7 +22,7 @@ export default function App() {
     current.getMonth() + 1
   }-${current.getDate()}`;
   const [selectedDate, setSelectedDate] = useState(currentDate);
-  const [refresh, setRefresh] =useState(false)
+  const [refresh, setRefresh] = useState(false);
 
   const setAuth = (token, username) => {
     setToken(token);
@@ -56,23 +57,53 @@ export default function App() {
         <Stack.Screen
           name="Calendar"
           component={CalendarScreen}
-          initialParams={{ setSelectedDate: setSelectedDate, selectedDate: selectedDate }}
+          initialParams={{
+            setSelectedDate: setSelectedDate,
+            selectedDate: selectedDate,
+          }}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
             headerRight: () => (
-              <Button
-                title="+"
-                color={"white"}
-                onPress={() => navigation.navigate("Add", 
-                {setSelectedDate: setSelectedDate, selectedDate: selectedDate, setRefresh: setRefresh, refresh: refresh})}
-              />
+              <>
+                <Button
+                  title="🔎"
+                  onPress={() =>
+                    navigation.navigate("Search", {
+                      setSelectedDate: setSelectedDate,
+                      selectedDate: selectedDate,
+                      setRefresh: setRefresh,
+                      refresh: refresh,
+                    })
+                  }
+                />
+                <Button
+                  title="+"
+                  color={"white"}
+                  onPress={() =>
+                    navigation.navigate("Add", {
+                      setSelectedDate: setSelectedDate,
+                      selectedDate: selectedDate,
+                      setRefresh: setRefresh,
+                      refresh: refresh,
+                    })
+                  }
+                />
+              </>
             ),
           })}
         />
         <Stack.Screen
           name="Add"
           component={NewEntryScreen}
+          options={{
+            headerStyle: { backgroundColor: colors.dark },
+            headerTitleStyle: { color: colors.white },
+          }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
           options={{
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
