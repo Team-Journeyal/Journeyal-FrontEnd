@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, StyleSheet, StatusBar, Button } from "react-native";
+import { View, StyleSheet, StatusBar, Text, Button } from "react-native";
 import { Calendar } from "react-native-calendars";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
@@ -10,6 +10,7 @@ export default function CalendarScreen({ route }) {
   return (
     <View style={styles.background}>
       <StatusBar barStyle={"light-content"} />
+      <Text style={{fontSize: 100}}>{route.params.calendarId}</Text>
       <Calendar
         style={{
           backgroundColor: colors.light,
