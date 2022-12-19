@@ -4,23 +4,12 @@ import { Calendar } from "react-native-calendars";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
 
-export default function CalendarScreen({ navigation}) {
-  const current = new Date();
-  const currentDate = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
-  const [selectedDate, setSelectedDate] = useState(currentDate);
-  const [refresh, setRefresh] =useState(false)
+export default function CalendarScreen({ route }) {
+  const [selectedCalendarDate, setSelectedCalendarDate] = useState(route.params.selectedDate)
 
   return (
     <View style={styles.background}>
       <StatusBar barStyle={"light-content"} />
-      <Button
-        title="new entry"
-        color={"black"}
-        onPress={() => navigation.navigate("Add", 
-        { selectedDate: selectedDate, setRefresh: setRefresh, refresh: refresh })}
-      />
       <Calendar
         style={{
           backgroundColor: colors.light,
@@ -30,18 +19,18 @@ export default function CalendarScreen({ navigation}) {
           selectedDayBackgroundColor: colors.bright,
         }}
         onDayPress={(day) => {
-          setSelectedDate(day.dateString);
+          {route.params.setSelectedDate(day.dateString), setSelectedCalendarDate(day.dateString)}
         }}
         markingType={"multi-dot"}
         markedDates={{
-          [selectedDate]: {
+          [selectedCalendarDate]: {
             selected: true,
             selectedColor: colors.bright,
           },
         }}
-        initialDate={selectedDate}
+        initialDate={selectedCalendarDate}
       />
-      <CalendarScroll selectedDate={selectedDate} />
+      <CalendarScroll selectedDate={selectedCalendarDate} />
     </View>
   );
 }
