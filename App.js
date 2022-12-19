@@ -16,6 +16,12 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState(null);
+  const current = new Date();
+  const currentDate = `${current.getFullYear()}-${
+    current.getMonth() + 1
+  }-${current.getDate()}`;
+  const [selectedDate, setSelectedDate] = useState(currentDate);
+  const [refresh, setRefresh] =useState(false)
 
   const setAuth = (token, username) => {
     setToken(token);
@@ -50,6 +56,7 @@ export default function App() {
         <Stack.Screen
           name="Calendar"
           component={CalendarScreen}
+          initialParams={{ setSelectedDate: setSelectedDate, selectedDate: selectedDate }}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
@@ -57,7 +64,8 @@ export default function App() {
               <Button
                 title="+"
                 color={"white"}
-                onPress={() => navigation.navigate("Add")}
+                onPress={() => navigation.navigate("Add", 
+                {setSelectedDate: setSelectedDate, selectedDate: selectedDate, setRefresh: setRefresh, refresh: refresh})}
               />
             ),
           })}
