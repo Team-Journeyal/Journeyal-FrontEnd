@@ -1,12 +1,13 @@
 import { View, ScrollView, Text, Image, StyleSheet, Pressable, TextInput } from "react-native";
 import { useState, useEffect } from "react";
 import colors from "../colors";
-import { requestCalendars, requestNewCalendar } from "./Requests";
+import { requestCalendars, requestNewCalendar, requestCalendarsEntries } from "./Requests";
 
 export default function HomeScreen({ navigation, route }) {
   const [calendars, setCalendars] = useState([]);
   const [calendarName, setCalendarName] = useState("")
   const [refresh, setRefresh] = useState(false)
+  const [calendarId, setCalendarId] = useState("")
 
   useEffect(() => {
     requestCalendars(route.params.token).then((response) =>
@@ -20,6 +21,16 @@ export default function HomeScreen({ navigation, route }) {
       setCalendarName("")
   }
 
+  const handleCalendarEntries = (clndr) => {
+    setCalendarId(clndr.id)
+    console.log(`in ${calendarId}`)
+
+    // .then(requestCalendarsEntries(route.params.token, calendarId))
+    
+    navigation.navigate("Calendar", {calendarId: calendarId})
+  }
+  console.log(`outside ${calendarId}`)
+
   return (
     <View style={styles.background}>
     <ScrollView style={{width: "100%"}}>
@@ -29,7 +40,7 @@ export default function HomeScreen({ navigation, route }) {
         <Pressable
           key={idx}
           style={styles.button}
-          onPress={() => navigation.navigate("Calendar")}
+          onPress={async () => {handleCalendarEntries(clndr)}}
         >
           <Image style= {styles.image} source={{uri: "https://picsum.photos/200/300"}}/>
           <Text style={styles.text}>{clndr.name}</Text>
