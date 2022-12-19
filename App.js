@@ -60,6 +60,7 @@ export default function App() {
           initialParams={{
             setSelectedDate: setSelectedDate,
             selectedDate: selectedDate,
+            token: token,
           }}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },

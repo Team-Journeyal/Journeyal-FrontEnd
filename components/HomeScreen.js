@@ -34,14 +34,8 @@ export default function HomeScreen({ navigation, route }) {
   };
 
   const handleCalendarEntries = (clndr) => {
-    setCalendarId(clndr.id);
-    console.log(`in ${clndr.id}`);
-
-    // .then(requestCalendarsEntries(route.params.token, calendarId))
-
     navigation.navigate("Calendar", { calendarId: clndr.id });
   };
-  console.log(`outside ${calendarId}`);
 
   return (
     <View style={styles.background}>

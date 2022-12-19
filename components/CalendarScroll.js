@@ -1,28 +1,42 @@
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import colors from "../colors";
-import {data} from "../sample.json"
 
-export default function CalendarScroll({selectedDate}) {
+export default function CalendarScroll({ selectedDate, calendarEntries }) {
   return (
     <ScrollView style={styles.scrollview}>
+      {console.log(calendarEntries.journals)}
+      {calendarEntries.journals.map(
+        (days) =>
+          days.date === selectedDate &&
+          days.event.map((eventx, idx) =>
+            eventx !== "" ? <Text key={idx}>~{eventx}</Text> : null
+          )
+      )}
 
-    {data.map((days) => days.date === selectedDate &&
-        (days.events.map((event, idx) => 
-          event !== "" ? 
-          <Text key={idx}>~{event}</Text> : null)))}
+      {calendarEntries.journals.map(
+        (days) =>
+          days.date === selectedDate &&
+          days.entry.map((entryx, idx) =>
+            entryx !== "" ? <Text key={idx}>{entryx}</Text> : null
+          )
+      )}
 
-      {data.map((days) => days.date === selectedDate &&
-        (days.entries.map((entry, idx) => 
-          entry !== "" ?
-          <Text key={idx}>{entry}</Text> : null)))}
-
-      {data.map((days) => days.date === selectedDate &&
-        (days.images.map((img, idx) => (
-          img !== "" && (
-          <View key={idx} style={styles.imageContainer}>
-            <Image resizeMode='contain' style={styles.imageStyle} source={{uri: `${img}`}}/>
-            </View>)))))}
-
+      {/* {calendarEntries.map(
+        (days) =>
+          days.date === selectedDate &&
+          days.images.map(
+            (img, idx) =>
+              img !== "" && (
+                <View key={idx} style={styles.imageContainer}>
+                  <Image
+                    resizeMode="contain"
+                    style={styles.imageStyle}
+                    source={{ uri: `${img}` }}
+                  />
+                </View>
+              )
+          )
+      )} */}
     </ScrollView>
   );
 }
@@ -35,9 +49,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageStyle: {
-    
     width: 300,
     height: 200,
     margin: 3,
-  }
+  },
 });
