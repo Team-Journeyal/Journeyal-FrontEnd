@@ -76,14 +76,10 @@ export const requestCalendarsEntries = (token, calendarId) => {
   return response
 }
 
-export const requestAddEntry = (token, date, calendar, entry, event) => {
+export const requestAddEntry = (token, newJson) => {
   const url = "https://journeyal-webservice.onrender.com/journal/"
 
-  const response = axios.post(url, {
-    date: date,
-    calendar: calendar,
-    entry: entry,
-    event: event},
+  const response = axios.post(url, newJson,
     {headers: { Authorization: `Token ${token}` }})
   return response
 };

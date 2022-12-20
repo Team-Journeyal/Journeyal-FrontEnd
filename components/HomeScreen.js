@@ -19,7 +19,7 @@ export default function HomeScreen({ navigation, route }) {
   const [calendars, setCalendars] = useState([]);
   const [calendarName, setCalendarName] = useState("");
   const [refresh, setRefresh] = useState(false);
-  const [calendarId, setCalendarId] = useState("");
+
 
   useEffect(() => {
     requestCalendars(route.params.token).then((response) =>
@@ -35,6 +35,7 @@ export default function HomeScreen({ navigation, route }) {
 
   const handleCalendarEntries = (clndr) => {
     navigation.navigate("Calendar", { calendarId: clndr.id });
+    route.params.setCalendarId(clndr.id)
   };
 
   return (

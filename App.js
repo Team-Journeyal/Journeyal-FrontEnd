@@ -23,6 +23,7 @@ export default function App() {
   }-${current.getDate()}`;
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] = useState(false);
+  const [calendarId, setCalendarId] = useState("");
 
   const setAuth = (token, username) => {
     setToken(token);
@@ -41,7 +42,7 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          initialParams={{ token: token }}
+          initialParams={{ token: token, setCalendarId: setCalendarId }}
           options={{
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
@@ -61,6 +62,7 @@ export default function App() {
             setSelectedDate: setSelectedDate,
             selectedDate: selectedDate,
             token: token,
+            refresh: refresh,
           }}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
@@ -87,6 +89,8 @@ export default function App() {
                       selectedDate: selectedDate,
                       setRefresh: setRefresh,
                       refresh: refresh,
+                      token: token,
+                      calendarId: calendarId,
                     })
                   }
                 />

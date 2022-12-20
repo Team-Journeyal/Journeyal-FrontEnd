@@ -13,6 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import colors from "../colors";
 import { data } from "../sample.json";
+import { requestAddEntry } from "./Requests";
 
 export default function NewEntryScreen({ route, navigation }) {
   const [addEvent, setAddEvent] = useState([]);
@@ -31,16 +32,17 @@ export default function NewEntryScreen({ route, navigation }) {
   };
 
   let newJson = {
-    date: `${route.params.selectedDate}`,
-    events: [`${addEvent}`],
-    entries: [`${addEntry}`],
-    images: [`${addImage}`],
+    "calendar": `${route.params.calendarId}`,
+    "date": `${route.params.selectedDate}`,
+    "event": `${addEvent}`,
+    "entry": `${addEntry}`,
   };
 
   const handleSubmit = () => {
-    data.push(newJson);
-    navigation.navigate("Calendar");
+    requestAddEntry(route.params.token, newJson)
+    navigation.navigate("Calendar", {calendarId: route.params.calendarId});
     route.params.setRefresh(!route.params.refresh)
+    console.log(route.params.refresh)
   };
 
   return (

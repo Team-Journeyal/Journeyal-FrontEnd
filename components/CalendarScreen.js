@@ -11,11 +11,14 @@ export default function CalendarScreen({ route }) {
   );
   const [calendarEntries, setCalendarEntries] = useState([]);
 
+
   useEffect(() => {
+    console.log(route.params.calendarId)
+    console.log(route.params.token)
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
       (response) => setCalendarEntries(response.data)
     );
-  }, []);
+  }, [route.params.refresh]);
 
   return (
     <View style={styles.background}>
