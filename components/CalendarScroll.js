@@ -1,24 +1,26 @@
+import { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import colors from "../colors";
 
 export default function CalendarScroll({ selectedDate, calendarEntries }) {
   return (
     <ScrollView style={styles.scrollview}>
-      {console.log(calendarEntries.journals)}
-      {calendarEntries.journals.map(
-        (days) =>
-          days.date === selectedDate &&
-          days.event.map((eventx, idx) =>
-            eventx !== "" ? <Text key={idx}>~{eventx}</Text> : null
-          )
-      )}
+      {calendarEntries.journals === undefined ? (
+        <View></View>
+      ) : (
+        <View>
+          {calendarEntries.journals.map((days) =>
+            days.date === selectedDate && days.event !== "" ? (
+              <Text>~{days.event}</Text>
+            ) : null
+          )}
 
-      {calendarEntries.journals.map(
-        (days) =>
-          days.date === selectedDate &&
-          days.entry.map((entryx, idx) =>
-            entryx !== "" ? <Text key={idx}>{entryx}</Text> : null
-          )
+          {calendarEntries.journals.map((days) =>
+            days.date === selectedDate && days.entry !== "" ? (
+              <Text>{days.entry}</Text>
+            ) : null
+          )}
+        </View>
       )}
 
       {/* {calendarEntries.map(

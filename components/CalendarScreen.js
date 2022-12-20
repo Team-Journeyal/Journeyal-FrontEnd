@@ -20,7 +20,6 @@ export default function CalendarScreen({ route }) {
   return (
     <View style={styles.background}>
       <StatusBar barStyle={"light-content"} />
-      <Text style={{ fontSize: 100 }}>{route.params.calendarId}</Text>
       <Calendar
         style={{
           backgroundColor: colors.light,
