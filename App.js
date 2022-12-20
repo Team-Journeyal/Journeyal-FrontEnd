@@ -29,7 +29,7 @@ export default function App() {
     setToken(token);
     setUsername(username);
   };
-
+  
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -62,7 +62,6 @@ export default function App() {
             setSelectedDate: setSelectedDate,
             selectedDate: selectedDate,
             token: token,
-            refresh: refresh,
           }}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
@@ -83,7 +82,8 @@ export default function App() {
                 <Button
                   title="+"
                   color={"white"}
-                  onPress={() =>
+                  onPress={
+                    (() =>
                     navigation.navigate("Add", {
                       setSelectedDate: setSelectedDate,
                       selectedDate: selectedDate,
@@ -91,7 +91,7 @@ export default function App() {
                       refresh: refresh,
                       token: token,
                       calendarId: calendarId,
-                    })
+                    }))
                   }
                 />
               </>

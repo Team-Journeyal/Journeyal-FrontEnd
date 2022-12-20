@@ -19,6 +19,7 @@ export default function NewEntryScreen({ route, navigation }) {
   const [addEvent, setAddEvent] = useState([]);
   const [addEntry, setAddEntry] = useState([]);
   const [addImage, setAddImage] = useState([]);
+  const [addTag, setAddTag] = useState([])
 
 
   const pickImage = async () => {
@@ -32,17 +33,17 @@ export default function NewEntryScreen({ route, navigation }) {
   };
 
   let newJson = {
-    "calendar": `${route.params.calendarId}`,
-    "date": `${route.params.selectedDate}`,
-    "event": `${addEvent}`,
-    "entry": `${addEntry}`,
+    calendar: `${route.params.calendarId}`,
+    date: `${route.params.selectedDate}`,
+    event: `${addEvent}`,
+    entry: `${addEntry}`,
+    tags: `${addTag}`,
   };
 
   const handleSubmit = () => {
     requestAddEntry(route.params.token, newJson)
-    navigation.navigate("Calendar", {calendarId: route.params.calendarId});
+    navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
     route.params.setRefresh(!route.params.refresh)
-    console.log(route.params.refresh)
   };
 
   return (

@@ -11,7 +11,6 @@ export default function CalendarScreen({ route }) {
   );
   const [calendarEntries, setCalendarEntries] = useState([]);
 
-
   useEffect(() => {
     console.log(route.params.calendarId)
     console.log(route.params.token)
