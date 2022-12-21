@@ -83,3 +83,11 @@ export const requestAddEntry = (token, newJson) => {
     {headers: { Authorization: `Token ${token}` }})
   return response
 };
+
+export const requestTagSearch = (token, tag) => {
+  const url = `https://journeyal-webservice.onrender.com/journal/?search=${tag}`
+
+  const response = axios.get(url, {
+    headers: { Authorization: `Token ${token}` }})
+  return response
+}

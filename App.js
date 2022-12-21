@@ -76,6 +76,8 @@ export default function App() {
                       selectedDate: selectedDate,
                       setRefresh: setRefresh,
                       refresh: refresh,
+                      token: token,
+                      calendarId: calendarId,
                     })
                   }
                 />

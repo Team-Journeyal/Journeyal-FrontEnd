@@ -1,29 +1,43 @@
-import { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, TextInput, StyleSheet, Pressable, ScrollView } from "react-native";
+import SearchScroll from "./SearchScroll";
 import colors from "../colors";
+import { requestCalendarsEntries, requestTagSearch } from "./Requests";
 
-export default function SearchScreen() {
+export default function SearchScreen({route}) {
   const [searchString, setSearchString] = useState("");
+  const [results, setResults] = useState([])
+
+  // useEffect(() => {
+  //   requestCalendarsEntries(route.params.token, route.params.calendarId).then((response)=>
+  //   setResults(response.data.journals))
+  // }, [])
+
+  // const tags = results.map((entries) => 
+  //   entries.tags)
+
+  const handleSubmit = () => {
+    requestTagSearch(route.params.token, searchString)
+      .then((response) => setResults(response.data))
+  }
+  console.log(results)
 
   return (
     <View style={styles.background}>
-      <TextInput
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={searchString}
-        onChangeText={setSearchString}
-        placeholder="Look for a memory"
-        style={styles.input}
-      ></TextInput>
-      <Pressable style={styles.search}>
-        <Text>Search</Text>
-      </Pressable>
+    <TextInput autoCapitalize="none" autoCorrect={false} onChangeText={setSearchString} value={searchString} style={styles.input}/>
+    <Pressable onPress={handleSubmit} style={styles.search}>
+      <Text>Search</Text>
+    </Pressable>
+      <SearchScroll results={results}/>
+      {results.map((cal) => <><Text>calendar: {cal.calendar}/{cal.date}</Text>
+      <Text>{cal.entry}</Text></>)}
+
     </View>
   );
 }
 const styles = StyleSheet.create({
   background: {
-    flex: 1,
+    flex:1,
     backgroundColor: colors.background,
     justifyContent: "flex-start",
     alignItems: "center",
