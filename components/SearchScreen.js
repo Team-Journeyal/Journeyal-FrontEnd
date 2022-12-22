@@ -20,7 +20,6 @@ export default function SearchScreen({route}) {
     requestTagSearch(route.params.token, searchString)
       .then((response) => setResults(response.data))
   }
-  console.log(results)
 
   return (
     <View style={styles.background}>
@@ -28,10 +27,9 @@ export default function SearchScreen({route}) {
     <Pressable onPress={handleSubmit} style={styles.search}>
       <Text>Search</Text>
     </Pressable>
-      <SearchScroll results={results}/>
-      {results.map((cal) => <><Text>calendar: {cal.calendar}/{cal.date}</Text>
-      <Text>{cal.entry}</Text></>)}
-
+      <SearchScroll 
+      results={results}
+      calendarId={route.params.calendarId}/>
     </View>
   );
 }
