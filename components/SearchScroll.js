@@ -5,15 +5,16 @@ export default function SearchScroll({results, calendarId}) {
     return (
         <ScrollView style={styles.container}>
             <View>
-                {console.log(calendarId)}
-                {console.log(results)}
                 {results.map((things) => 
                 <>
                 {calendarId === things.calendar &&
                 <View style={styles.resultBox}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.date}>{things.date}</Text>
-                    <Text>{things.event}</Text>
-                    <Text>{things.entry}</Text>
+                    {things.tags && <Text>🏷{things.tags}</Text>}
+                    </View>
+                    {things.event && <Text>~{things.event}</Text>}
+                    {things.entry && <Text>{things.entry}</Text>}
                 </View>}
                 </>
                 )}

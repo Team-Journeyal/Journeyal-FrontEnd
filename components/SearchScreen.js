@@ -6,7 +6,8 @@ import { requestCalendarsEntries, requestTagSearch } from "./Requests";
 
 export default function SearchScreen({route}) {
   const [searchString, setSearchString] = useState("");
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState([''])
+  const [noResults, setNoResults] = useState('')
 
   // useEffect(() => {
   //   requestCalendarsEntries(route.params.token, route.params.calendarId).then((response)=>
@@ -18,8 +19,12 @@ export default function SearchScreen({route}) {
 
   const handleSubmit = () => {
     requestTagSearch(route.params.token, searchString)
-      .then((response) => setResults(response.data))
-  }
+      .then((response) => setResults(response.data))    
+    }
+
+let calId = results.map((cal) => {
+  return cal.calendar
+})
 
   return (
     <View style={styles.background}>
@@ -27,9 +32,10 @@ export default function SearchScreen({route}) {
     <Pressable onPress={handleSubmit} style={styles.search}>
       <Text>Search</Text>
     </Pressable>
-      <SearchScroll 
+    {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{margin: 20}}>No results</Text>) : (<SearchScroll 
       results={results}
-      calendarId={route.params.calendarId}/>
+      calendarId={route.params.calendarId}/>)}
+
     </View>
   );
 }
