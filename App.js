@@ -29,7 +29,8 @@ export default function App() {
     setToken(token);
     setUsername(username);
   };
-  
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -42,12 +43,14 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          initialParams={{ token: token, setCalendarId: setCalendarId }}
-          options={{
+          initialParams={{ token: token, setCalendarId: setCalendarId}}
+          options={({
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
-          }}
+          
+          })
+        }
         />
         <Stack.Screen
           name="Register"
