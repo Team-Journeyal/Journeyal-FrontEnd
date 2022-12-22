@@ -37,10 +37,11 @@ export default function NewEntryScreen({ route, navigation }) {
     date: `${route.params.selectedDate}`,
     event: `${addEvent}`,
     entry: `${addEntry}`,
-    tags: `${addTag}`,
+    tags: [`${addTag}`],
   };
 
   const handleSubmit = () => {
+    console.log(newJson)
     requestAddEntry(route.params.token, newJson)
     navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
     route.params.setRefresh(!route.params.refresh)
@@ -72,6 +73,15 @@ export default function NewEntryScreen({ route, navigation }) {
           style={styles.image}
           source={{uri: `${addImage}`}}/>
       )}
+      <TextInput
+          autoCorrect={false}
+          autoCapitalize="none"
+          multiline={true}
+          style={styles.journal}
+          placeholder="Add a tag to your post"
+          value={addTag}
+          onChangeText={setAddTag}
+          ></TextInput>
       <Pressable style={styles.submit} onPress={handleSubmit}>
         <Text> Submit </Text>
       </Pressable>

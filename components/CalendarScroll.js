@@ -10,13 +10,13 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
       ) : (
         <View>
           {calendarEntries.journals.map((days) =>
-            days.date === selectedDate && days.event !== "" ? (
+            days.date === selectedDate && days.event !== "" && days.event !== null ? (
               <Text>~{days.event}</Text>
             ) : null
           )}
 
           {calendarEntries.journals.map((days) =>
-            days.date === selectedDate && days.entry !== "" ? (
+            days.date === selectedDate && days.entry !== "" && days.entry !== null? (
               <Text>{days.entry}</Text>
             ) : null
           )}
