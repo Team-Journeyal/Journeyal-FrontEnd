@@ -59,7 +59,7 @@ export default function HomeScreen({ navigation, route }) {
               <Text style={styles.text}>{clndr.name}</Text>
             </Pressable>
             <>
-              {settings === true ? ( <>
+              {route.params.settings === true ? ( <>
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
               <Pressable style={{borderWidth: 2}}><Text>Edit</Text></Pressable>
               <Pressable style={{borderWidth: 2}}><Text>Delete</Text></Pressable>

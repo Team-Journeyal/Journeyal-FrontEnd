@@ -24,12 +24,12 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] = useState(false);
   const [calendarId, setCalendarId] = useState("");
+  const [settings, setSettings] = useState(true)
 
   const setAuth = (token, username) => {
     setToken(token);
     setUsername(username);
   };
-
 
   return (
     <NavigationContainer>
@@ -43,11 +43,19 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          initialParams={{ token: token, setCalendarId: setCalendarId}}
-          options={({
+          initialParams={{ token: token, setCalendarId: setCalendarId, settings: !settings}}
+          options={({ navigation }) => ({
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
+            headerRight: () => (
+              <>
+              <Button
+                title="⚙️"
+                onPress={() => {setSettings(!settings), navigation.setParams({settings: settings})}}
+                />
+              </>
+            )
           
           })
         }
