@@ -7,6 +7,7 @@ import {
   Pressable,
   Button,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import colors from "../colors.js";
 import { requestLogin } from "./Requests.js";
@@ -41,6 +42,7 @@ export default function LoginScreen({ navigation, route }) {
         {invalid === true ? (
           <Text>Please enter a valid username or password</Text>
         ) : null}
+        <ActivityIndicator/>
         <TextInput
           autoCorrect={false}
           autoCapitalize="none"
