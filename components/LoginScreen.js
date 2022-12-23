@@ -16,9 +16,12 @@ export default function LoginScreen({ navigation, route }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [invalid, setInvalid] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true)
+    setInvalid(false)
     requestLogin(username, password)
       .then((response) => {
         const token = response.data.auth_token;
@@ -27,6 +30,7 @@ export default function LoginScreen({ navigation, route }) {
       })
       .catch(function () {
         setInvalid(true);
+        setLoading(false)
       });
   };
 
@@ -40,7 +44,7 @@ export default function LoginScreen({ navigation, route }) {
         {invalid === true ? (
           <Text>Please enter a valid username or password</Text>
         ) : null}
-        <ActivityIndicator/>
+        {loading && <ActivityIndicator/>}
         <TextInput
           autoCorrect={false}
           autoCapitalize="none"
