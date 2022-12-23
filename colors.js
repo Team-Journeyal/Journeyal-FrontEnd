@@ -4,4 +4,5 @@ export default {
   dark: "#081C15",
   bright: "#52B788",
   white: "#fff",
+  red: '#ba6363',
 };

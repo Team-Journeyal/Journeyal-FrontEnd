@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import colors from "../colors";
 import {
   requestCalendars,
+  requestDeleteCalendar,
   requestNewCalendar,
 } from "./Requests";
 
@@ -37,6 +38,10 @@ export default function HomeScreen({ navigation, route }) {
     route.params.setCalendarId(clndr.id)
   };
 
+  const handleCalendarDelete = () => {
+    requestDeleteCalendar(route.params.token, clnd.id);
+    setRefresh(!refresh);
+  }
 
   return (
     <View style={styles.background}>
@@ -60,9 +65,9 @@ export default function HomeScreen({ navigation, route }) {
             </Pressable>
             <>
               {route.params.settings === true ? ( <>
-            <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-              <Pressable style={{borderWidth: 2}}><Text>Edit</Text></Pressable>
-              <Pressable style={{borderWidth: 2}}><Text>Delete</Text></Pressable>
+            <View style={styles.settings}>
+              <Pressable style={styles.edit}><Text>Edit</Text></Pressable>
+              <Pressable onPress={handleCalendarDelete} style={styles.delete}><Text>Delete</Text></Pressable>
             </View></>)
           
             : (null)}
@@ -106,6 +111,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 50,
   },
+  delete: {
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 80,
+    height: 20,
+    backgroundColor: colors.red,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: colors.white,
+  },
+  edit: {
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 80,
+    height: 20,
+    backgroundColor: colors.bright,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   image: {
     height: "80%",
     width: "90%",
@@ -120,6 +144,10 @@ const styles = StyleSheet.create({
     width: 140,
     height: 25,
     padding: 3,
+  },
+  settings: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   submitBox: {
     alignItems: "center",
