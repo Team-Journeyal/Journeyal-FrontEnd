@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   TextInput,
+  Alert
 } from "react-native";
 import { useState, useEffect } from "react";
 import colors from "../colors";
@@ -44,15 +45,29 @@ export default function HomeScreen({ navigation, route }) {
     setRefresh(!refresh);
   }
 
+  const handleDeleteAlert = (clndr) => {
+    console.log(clndr.id)
+    Alert.alert(
+      'Delete',
+      'Are you sure?',
+      [{
+        text: 'Yes',
+        onPress: () => handleCalendarDelete(clndr)
+      }, {
+        text: 'Cancel',
+        style: 'cancel'
+      }]
+    )
+  }
+console.log(refresh)
   return (
     <View style={styles.background}>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
           <Text>Hello, {route.params.username}</Text>
           {calendars.map((clndr, idx) => (
-            <View>
+            <View key={idx}>
             <Pressable
-              key={idx}
               style={styles.button}
               onPress={() => {
                 handleCalendarEntries(clndr);
@@ -68,7 +83,7 @@ export default function HomeScreen({ navigation, route }) {
               {route.params.settings === true ? ( <>
             <View style={styles.settings}>
               <Pressable style={styles.edit}><Text>Edit</Text></Pressable>
-              <Pressable onPress={() => {handleCalendarDelete(clndr)}} style={styles.delete}><Text>Delete</Text></Pressable>
+              <Pressable onPress={() => {handleDeleteAlert(clndr)}} style={styles.delete}><Text>Delete</Text></Pressable>
             </View></>)
           
             : (null)}
