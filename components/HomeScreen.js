@@ -12,7 +12,6 @@ import colors from "../colors";
 import {
   requestCalendars,
   requestNewCalendar,
-  requestCalendarsEntries,
 } from "./Requests";
 
 export default function HomeScreen({ navigation, route }) {
@@ -38,12 +37,14 @@ export default function HomeScreen({ navigation, route }) {
     route.params.setCalendarId(clndr.id)
   };
 
+
   return (
     <View style={styles.background}>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
           <Text>Hello, {route.params.username}</Text>
           {calendars.map((clndr, idx) => (
+            <View>
             <Pressable
               key={idx}
               style={styles.button}
@@ -57,6 +58,16 @@ export default function HomeScreen({ navigation, route }) {
               />
               <Text style={styles.text}>{clndr.name}</Text>
             </Pressable>
+            <>
+              {route.params.settings === true ? ( <>
+            <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+              <Pressable style={{borderWidth: 2}}><Text>Edit</Text></Pressable>
+              <Pressable style={{borderWidth: 2}}><Text>Delete</Text></Pressable>
+            </View></>)
+          
+            : (null)}
+            </>
+            </View>
           ))}
           <View style={styles.submitBox}>
             <Pressable style={styles.button} onPress={handleSubmit}>

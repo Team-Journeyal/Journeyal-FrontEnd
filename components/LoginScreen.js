@@ -23,9 +23,7 @@ export default function LoginScreen({ navigation, route }) {
       .then((response) => {
         const token = response.data.auth_token;
         route.params.setAuth(token, username);
-        {
-          token && navigation.navigate("Home", { username: username });
-        }
+        {token && navigation.navigate("Home", { username: username });}
       })
       .catch(function () {
         setInvalid(true);
