@@ -38,8 +38,9 @@ export default function HomeScreen({ navigation, route }) {
     route.params.setCalendarId(clndr.id)
   };
 
-  const handleCalendarDelete = () => {
-    requestDeleteCalendar(route.params.token, clnd.id);
+  const handleCalendarDelete = (clndr) => {
+    requestDeleteCalendar(route.params.token, clndr.id);
+    console.log(clndr.id)
     setRefresh(!refresh);
   }
 
@@ -67,7 +68,7 @@ export default function HomeScreen({ navigation, route }) {
               {route.params.settings === true ? ( <>
             <View style={styles.settings}>
               <Pressable style={styles.edit}><Text>Edit</Text></Pressable>
-              <Pressable onPress={handleCalendarDelete} style={styles.delete}><Text>Delete</Text></Pressable>
+              <Pressable onPress={() => {handleCalendarDelete(clndr)}} style={styles.delete}><Text>Delete</Text></Pressable>
             </View></>)
           
             : (null)}
