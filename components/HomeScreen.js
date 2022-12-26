@@ -8,18 +8,19 @@ import {
   TextInput,
   Alert
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import colors from "../colors";
 import {
   requestCalendars,
   requestDeleteCalendar,
   requestNewCalendar,
+  requestEditCalendar
 } from "./Requests";
 
 export default function HomeScreen({ navigation, route }) {
   const [calendars, setCalendars] = useState([]);
   const [calendarName, setCalendarName] = useState("");
-  const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(true);
 
 
   useEffect(() => {
@@ -36,13 +37,27 @@ export default function HomeScreen({ navigation, route }) {
 
   const handleCalendarEntries = (clndr) => {
     navigation.navigate("Calendar", { calendarId: clndr.id });
-    route.params.setCalendarId(clndr.id)
+    route.params.setCalendarId(clndr.id);
+    setRefresh(!refresh);
+
   };
 
   const handleCalendarDelete = (clndr) => {
     requestDeleteCalendar(route.params.token, clndr.id);
-    console.log(clndr.id)
     setRefresh(!refresh);
+  }
+
+  const handleCalendarEdit = (calx, clndr) => {
+    requestEditCalendar(route.params.token, calx,clndr.id),
+    setRefresh(!refresh);
+  }
+
+  const handleRenameAlert = (clndr) => {
+    Alert.prompt(
+      'Rename',
+      `${clndr.name}`,
+      (calx) => handleCalendarEdit(calx, clndr)
+    )
   }
 
   const handleDeleteAlert = (clndr) => {
@@ -59,7 +74,7 @@ export default function HomeScreen({ navigation, route }) {
       }]
     )
   }
-console.log(refresh)
+console.log(`refresh ${refresh}`)
   return (
     <View style={styles.background}>
       <ScrollView style={{ width: "100%" }}>
@@ -82,7 +97,7 @@ console.log(refresh)
             <>
               {route.params.settings === true ? ( <>
             <View style={styles.settings}>
-              <Pressable style={styles.edit}><Text>Edit</Text></Pressable>
+              <Pressable onPress={() => {handleRenameAlert(clndr)}} style={styles.edit}><Text>Edit</Text></Pressable>
               <Pressable onPress={() => {handleDeleteAlert(clndr)}} style={styles.delete}><Text>Delete</Text></Pressable>
             </View></>)
           
@@ -90,6 +105,7 @@ console.log(refresh)
             </>
             </View>
           ))}
+          {route.params.settings === true ? (
           <View style={styles.submitBox}>
             <Pressable style={styles.button} onPress={handleSubmit}>
               <Text>Add calendar</Text>
@@ -103,6 +119,7 @@ console.log(refresh)
               style={styles.inputs}
             />
           </View>
+          ) : null}
         </View>
       </ScrollView>
     </View>
@@ -125,7 +142,8 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 25,
+
   },
   delete: {
     borderWidth: 1,
@@ -164,6 +182,7 @@ const styles = StyleSheet.create({
   settings: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+    marginBottom:  10,
   },
   submitBox: {
     alignItems: "center",
