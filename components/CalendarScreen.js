@@ -30,6 +30,10 @@ export default function CalendarScreen({ route }) {
           calendarBackground: colors.light,
           selectedDayBackgroundColor: colors.bright,
         }}
+        onMonthChange={day => {
+            route.params.setSelectedDate(day.dateString),
+              setSelectedCalendarDate(day.dateString);
+          }}
         onDayPress={(day) => {
           {
             route.params.setSelectedDate(day.dateString),

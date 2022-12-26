@@ -47,16 +47,16 @@ export default function HomeScreen({ navigation, route }) {
     setRefresh(!refresh);
   }
 
-  const handleCalendarEdit = (calx, clndr) => {
-    requestEditCalendar(route.params.token, calx,clndr.id),
-    setRefresh(!refresh);
+  const handleCalendarEdit = (calname, clndr) => {
+    requestEditCalendar(route.params.token, calname, clndr.id),
+      setRefresh(!refresh);
   }
 
   const handleRenameAlert = (clndr) => {
     Alert.prompt(
       'Rename',
       `${clndr.name}`,
-      (calx) => handleCalendarEdit(calx, clndr)
+      (calname) => handleCalendarEdit(calname, clndr)
     )
   }
 
@@ -74,51 +74,52 @@ export default function HomeScreen({ navigation, route }) {
       }]
     )
   }
-console.log(`refresh ${refresh}`)
+  console.log(`refresh ${refresh}`)
   return (
     <View style={styles.background}>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
+
           <Text>Hello, {route.params.username}</Text>
           {calendars.map((clndr, idx) => (
             <View key={idx}>
-            <Pressable
-              style={styles.button}
-              onPress={() => {
-                handleCalendarEntries(clndr);
-              }}
-            >
-              <Image
-                style={styles.image}
-                source={{ uri: "https://picsum.photos/200/300" }}
-              />
-              <Text style={styles.text}>{clndr.name}</Text>
-            </Pressable>
-            <>
-              {route.params.settings === true ? ( <>
-            <View style={styles.settings}>
-              <Pressable onPress={() => {handleRenameAlert(clndr)}} style={styles.edit}><Text>Edit</Text></Pressable>
-              <Pressable onPress={() => {handleDeleteAlert(clndr)}} style={styles.delete}><Text>Delete</Text></Pressable>
-            </View></>)
-          
-            : (null)}
-            </>
+              <Pressable
+                style={styles.button}
+                onPress={() => {
+                  handleCalendarEntries(clndr);
+                }}
+              >
+                <Image
+                  style={styles.image}
+                  source={{ uri: "https://picsum.photos/200/300" }}
+                />
+                <Text style={styles.text}>{clndr.name}</Text>
+              </Pressable>
+              <>
+                {route.params.settings === true ? (<>
+                  <View style={styles.settings}>
+                    <Pressable onPress={() => { handleRenameAlert(clndr) }} style={styles.edit}><Text>Edit</Text></Pressable>
+                    <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text>Delete</Text></Pressable>
+                  </View></>)
+
+                  : (null)}
+              </>
             </View>
           ))}
           {route.params.settings === true ? (
-          <View style={styles.submitBox}>
-            <Pressable style={styles.button} onPress={handleSubmit}>
-              <Text>Add calendar</Text>
-            </Pressable>
-            <TextInput
-              autoCorrect={false}
-              autoCapitalize="none"
-              value={calendarName}
-              placeholder="New Calendar"
-              onChangeText={setCalendarName}
-              style={styles.inputs}
-            />
-          </View>
+            <View style={styles.submitBox}>
+              <TextInput
+                autoCorrect={false}
+                autoCapitalize="none"
+                value={calendarName}
+                placeholder="New Calendar"
+                onChangeText={setCalendarName}
+                style={styles.inputs}
+              />
+              <Pressable style={styles.newButton} onPress={handleSubmit}>
+                <Text>Add calendar</Text>
+              </Pressable>
+            </View>
           ) : null}
         </View>
       </ScrollView>
@@ -175,19 +176,30 @@ const styles = StyleSheet.create({
     borderColor: colors.dark,
     borderRadius: 5,
     margin: 10,
-    width: 140,
+    width: 200,
     height: 25,
     padding: 3,
+    textAlign: "center",
+  },
+  newButton: {
+    width: 350,
+    height: 50,
+    backgroundColor: colors.bright,
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 10,
+    padding: 10,
   },
   settings: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginBottom:  10,
+    marginBottom: 10,
   },
   submitBox: {
     alignItems: "center",
     borderWidth: 2,
     borderColor: colors.dark,
+    marginBottom: 20,
   },
   text: {
     color: colors.white,
