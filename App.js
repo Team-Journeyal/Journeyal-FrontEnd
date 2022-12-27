@@ -33,7 +33,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{gestureEnabled: false}}>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -52,7 +52,7 @@ export default function App() {
               <>
               <Button
                 title="⚙️"
-                onPress={() => {setSettings(!settings), navigation.setParams({settings: settings})}}
+                onPress={() => {setSettings(!settings), navigation.setParams({settings: settings, setSettings: setSettings})}}
                 />
               </>
             )
