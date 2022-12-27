@@ -6,9 +6,12 @@ import {
   StyleSheet,
   Pressable,
   TextInput,
-  Alert
+  Alert, 
+  Modal,
+  Button,
 } from "react-native";
 import { useState, useEffect } from "react";
+import * as ImagePicker from "expo-image-picker";
 import colors from "../colors";
 import {
   requestCalendars,
@@ -19,27 +22,48 @@ import {
 
 export default function HomeScreen({ navigation, route }) {
   const [calendars, setCalendars] = useState([]);
-  const [calendarName, setCalendarName] = useState("");
   const [refresh, setRefresh] = useState(true);
-
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [calendarName, setCalendarName] = useState('');
+  const [addImage, setAddImage] = useState([]);
+  
+  
   useEffect(() => {
     requestCalendars(route.params.token).then((response) =>
-      setCalendars(response.data)
+    setCalendars(response.data)
     );
   }, [refresh]);
+  
 
+
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+    });
+    if (result) {
+      setAddImage(result.uri);
+    }
+  };
+
+  
   const handleSubmit = () => {
-    requestNewCalendar(route.params.token, calendarName)
-    .then((res) => (res && setRefresh(!refresh)))
-    setCalendarName("");
+    let formData = new FormData();
+    formData.append('name', calendarName)
+    formData.append('cal_image', {uri: addImage, name: 'my_photo.jpg', type: 'image/jpg'})
+    requestNewCalendar(route.params.token, formData)
+    .then((res) => (res && setRefresh(!refresh), console.log(res)))
+    .catch(function(error) {
+      console.log(error)
+      console.log(formData)
+    })
   };
 
   const handleCalendarEntries = (clndr) => {
     navigation.navigate("Calendar", { calendarId: clndr.id });
     route.params.setCalendarId(clndr.id);
     setRefresh(!refresh);
-
   };
 
   const handleCalendarDelete = (clndr) => {
@@ -75,38 +99,24 @@ export default function HomeScreen({ navigation, route }) {
     )
   }
 
+
   console.log(refresh)
   return (
     <View style={styles.background}>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
           <Text>Hello, {route.params.username}</Text>
-          {calendars.map((clndr, idx) => (
-            <View key={idx}>
-              <Pressable
-                style={styles.button}
-                onPress={() => {
-                  handleCalendarEntries(clndr);
-                }}
-              >
-                <Image
-                  style={styles.image}
-                  source={{ uri: "https://picsum.photos/200/300" }}
-                />
-                <Text style={styles.text}>{clndr.name}</Text>
-              </Pressable>
-              <>
-                {route.params.settings === true ? (<>
-                  <View style={styles.settings}>
-                    <Pressable onPress={() => { handleRenameAlert(clndr) }} style={styles.edit}><Text>Edit</Text></Pressable>
-                    <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text>Delete</Text></Pressable>
-                  </View></>)
-                  : (null)}
-              </>
-            </View>
-          ))}
-          {route.params.settings === true ? (
-            <View style={styles.submitBox}>
+
+
+          <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {Alert.alert("Modal closed"); setModalVisible(!modalVisible)}}
+          >
+            <View style={styles.modalBox}>
+              <View style={styles.modalThing}>
+                <Text>Create a new calendar</Text>
               <TextInput
                 autoCorrect={false}
                 autoCapitalize="none"
@@ -115,11 +125,49 @@ export default function HomeScreen({ navigation, route }) {
                 onChangeText={setCalendarName}
                 style={styles.inputs}
               />
-              <Pressable style={styles.newButton} onPress={handleSubmit}>
-                <Text>Add calendar</Text>
+              <Button title="Add an image" onPress={pickImage} />
+              {addImage && (
+              <Image 
+              resizeMode="contain"
+              style={styles.modalImage}
+              source={{uri: `${addImage}`}}/>
+              )}
+              <Pressable onPress={() => {handleSubmit(); setModalVisible(!modalVisible)}} style={styles.modalButton}>
+                <Text>Submit</Text>
+                </Pressable>
+              </View>
+              </View>
+              </Modal>
+          
+          
+          <Pressable style={styles.add} onPress={() => setModalVisible(!modalVisible)}><Text>Add Calendar</Text></Pressable>
+          
+          {calendars.map((clndr, idx) => (
+            <View key={idx}>
+              <Pressable
+                style={styles.button}
+                onPress={() => {
+                  handleCalendarEntries(clndr);
+                }}
+              >
+
+                <Image
+                  style={styles.image}
+                  source={{ uri: clndr.cal_image}}
+                />
+                <Text style={styles.text}>{clndr.name}</Text>
               </Pressable>
+              <View style={styles.settingsBox}>
+                {route.params.settings === true ? (<>
+                  <View style={styles.settings}>
+                    <Pressable onPress={() => { handleRenameAlert(clndr) }} style={styles.edit}><Text>Edit</Text></Pressable>
+                    <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text>Delete</Text></Pressable>
+                  </View></>)
+                  : (null)}
+              </View>
             </View>
-          ) : null}
+          ))}
+
         </View>
       </ScrollView>
     </View>
@@ -127,6 +175,50 @@ export default function HomeScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  modalBox: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalThing: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalButton: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2, 
+    backgroundColor: "green"
+  },
+  modalImage: {
+    height: 100,
+    width: 100,
+  },
+  add: {
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 180,
+    height: 50,
+    backgroundColor: "gold",
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  addBox: {
+    alignItems: "center",
+    marginTop: 50,
+  },
   background: {
     flex: 1,
     backgroundColor: colors.background,
@@ -192,13 +284,11 @@ const styles = StyleSheet.create({
   settings: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginBottom: 10,
+
   },
-  submitBox: {
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: colors.dark,
-    marginBottom: 20,
+  settingsBox: {
+    height: 30,
+    justifyContent: "center",
   },
   text: {
     color: colors.white,
