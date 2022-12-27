@@ -34,12 +34,13 @@ export const requestCalendars = (token) => {
   return response
 };
 
-export const requestNewCalendar = (token, name) => {
+export const requestNewCalendar = (token, formData) => {
   const url = "https://journeyal-webservice.onrender.com/calendar/";
 
-  const response = axios.post(url, { 
-    name: name},
-    {headers: { Authorization: `Token ${token}` }})
+  const response = axios.post(url, formData,
+    {headers: {
+      'content-type': 'multipart/form-data',
+      Authorization: `Token ${token}`}})
   return response
 };
 
