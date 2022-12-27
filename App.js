@@ -52,7 +52,7 @@ export default function App() {
               <>
               <Button
                 title="⚙️"
-                onPress={() => {setSettings(!settings), navigation.setParams({settings: settings})}}
+                onPress={() => {setSettings(!settings), navigation.setParams({settings: settings, setSettings: setSettings})}}
                 />
               </>
             )

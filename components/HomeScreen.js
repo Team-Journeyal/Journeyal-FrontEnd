@@ -8,7 +8,7 @@ import {
   TextInput,
   Alert
 } from "react-native";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import colors from "../colors";
 import {
   requestCalendars,
@@ -27,11 +27,11 @@ export default function HomeScreen({ navigation, route }) {
     requestCalendars(route.params.token).then((response) =>
       setCalendars(response.data)
     );
-  }, [route.params.token, refresh]);
+  }, [refresh]);
 
   const handleSubmit = () => {
-    requestNewCalendar(route.params.token, calendarName);
-    setRefresh(!refresh);
+    requestNewCalendar(route.params.token, calendarName)
+    .then((res) => (res && setRefresh(!refresh)))
     setCalendarName("");
   };
 
@@ -43,13 +43,13 @@ export default function HomeScreen({ navigation, route }) {
   };
 
   const handleCalendarDelete = (clndr) => {
-    requestDeleteCalendar(route.params.token, clndr.id);
-    setRefresh(!refresh);
+    requestDeleteCalendar(route.params.token, clndr.id)
+    .then((res) => (res && setRefresh(!refresh)))
   }
 
   const handleCalendarEdit = (calname, clndr) => {
-    requestEditCalendar(route.params.token, calname, clndr.id),
-      setRefresh(!refresh);
+    requestEditCalendar(route.params.token, calname, clndr.id)
+    .then((res) => (res && setRefresh(!refresh)))
   }
 
   const handleRenameAlert = (clndr) => {
@@ -74,12 +74,12 @@ export default function HomeScreen({ navigation, route }) {
       }]
     )
   }
-  console.log(`refresh ${refresh}`)
+
+  console.log(refresh)
   return (
     <View style={styles.background}>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
-
           <Text>Hello, {route.params.username}</Text>
           {calendars.map((clndr, idx) => (
             <View key={idx}>
@@ -101,7 +101,6 @@ export default function HomeScreen({ navigation, route }) {
                     <Pressable onPress={() => { handleRenameAlert(clndr) }} style={styles.edit}><Text>Edit</Text></Pressable>
                     <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text>Delete</Text></Pressable>
                   </View></>)
-
                   : (null)}
               </>
             </View>
