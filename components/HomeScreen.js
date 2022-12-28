@@ -6,9 +6,10 @@ import {
   StyleSheet,
   Pressable,
   TextInput,
-  Alert, 
+  Alert,
   Modal,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -26,14 +27,17 @@ export default function HomeScreen({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [calendarName, setCalendarName] = useState('');
   const [addImage, setAddImage] = useState([]);
-  
-  
+  const [editVisisble, setEditVisible] = useState(false)
+  const [calId, setCalId] = useState()
+  const [modalOpacity, setModalOpacity] = useState(1)
+
+
   useEffect(() => {
     requestCalendars(route.params.token).then((response) =>
-    setCalendars(response.data)
+      setCalendars(response.data)
     );
   }, [refresh]);
-  
+
 
 
 
@@ -47,17 +51,15 @@ export default function HomeScreen({ navigation, route }) {
     }
   };
 
-  
+
   const handleSubmit = () => {
     let formData = new FormData();
     formData.append('name', calendarName)
-    formData.append('cal_image', {uri: addImage, name: 'my_photo.jpg', type: 'image/jpg'})
+    formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
     requestNewCalendar(route.params.token, formData)
-    .then((res) => (res && setRefresh(!refresh), console.log(res)))
-    .catch(function(error) {
-      console.log(error)
-      console.log(formData)
-    })
+      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName(''), setModalOpacity(1)))
+      .catch(function (error) {
+      })
   };
 
   const handleCalendarEntries = (clndr) => {
@@ -68,20 +70,15 @@ export default function HomeScreen({ navigation, route }) {
 
   const handleCalendarDelete = (clndr) => {
     requestDeleteCalendar(route.params.token, clndr.id)
-    .then((res) => (res && setRefresh(!refresh)))
+      .then((res) => (res && setRefresh(!refresh)))
   }
 
-  const handleCalendarEdit = (calname, clndr) => {
-    requestEditCalendar(route.params.token, calname, clndr.id)
-    .then((res) => (res && setRefresh(!refresh)))
-  }
-
-  const handleRenameAlert = (clndr) => {
-    Alert.prompt(
-      'Rename',
-      `${clndr.name}`,
-      (calname) => handleCalendarEdit(calname, clndr)
-    )
+  const handleCalendarEdit = () => {
+    let formData = new FormData();
+    formData.append('name', calendarName)
+    formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
+    requestEditCalendar(route.params.token, formData, calId)
+      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName(''), setModalOpacity(1)))
   }
 
   const handleDeleteAlert = (clndr) => {
@@ -99,49 +96,87 @@ export default function HomeScreen({ navigation, route }) {
     )
   }
 
-
-  console.log(refresh)
   return (
-    <View style={styles.background}>
+    <View style={[styles.background, {opacity: modalOpacity}]}>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
-          <Text style={styles.font}>Hello, {route.params.username}</Text>
+          <Text>Hello, {route.params.username}</Text>
 
 
           <Modal
-          animationType="none"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {Alert.alert("Modal closed"); setModalVisible(!modalVisible)}}
-          >
-            <View style={styles.modalBox}>
-              <View style={styles.modalThing}>
-                <Text style={styles.font}>Create a new calendar</Text>
-              <TextInput
-                autoCorrect={false}
-                autoCapitalize="none"
-                value={calendarName}
-                placeholder="New Calendar"
-                onChangeText={setCalendarName}
-                style={styles.inputs}
-              />
-              <Button title="Add an image" onPress={pickImage} />
-              {addImage && (
-              <Image 
-              resizeMode="contain"
-              style={styles.modalImage}
-              source={{uri: `${addImage}`}}/>
-              )}
-              <Pressable onPress={() => {handleSubmit(); setModalVisible(!modalVisible)}} style={styles.modalButton}>
-                <Text style={styles.font}>Submit</Text>
-                </Pressable>
-              </View>
-              </View>
-              </Modal>
-          
-          
-          <Pressable style={styles.add} onPress={() => setModalVisible(!modalVisible)}><Text style={styles.font}>Add Calendar</Text></Pressable>
-          
+            animationType="none"
+            transparent={true}
+            visible={modalVisible}>
+            <TouchableOpacity  style={styles.modalBox} onPress={() => {setModalVisible(false), setModalOpacity(1)}}>
+              <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
+                <Text>Create a new calendar</Text>
+                <TextInput
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  value={calendarName}
+                  placeholder="New Calendar"
+                  onChangeText={setCalendarName}
+                  style={styles.inputs}
+                />
+                <Button title="Add an image" onPress={pickImage} />
+                {addImage && (
+                  <Image
+                    resizeMode="contain"
+                    style={styles.modalImage}
+                    source={{ uri: `${addImage}` }} />
+                )}
+                <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Pressable onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={styles.modalButton}>
+                    <Text>Submit</Text>
+                  </Pressable>
+                  <Pressable onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1)}} style={styles.modalButton}>
+                    <Text>Cancel</Text>
+                  </Pressable>
+                </View>
+              </TouchableOpacity>
+            </TouchableOpacity>
+          </Modal>
+
+          <Modal
+            animationType="none"
+            transparent={true}
+            visible={editVisisble}>
+            <TouchableOpacity  style={styles.modalBox} onPress={() => {setEditVisible(false), setModalOpacity(1)}}>
+              <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
+                <Text>Edit/Rename your calendar</Text>
+                <TextInput
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  value={calendarName}
+                  defaultValue={calendarName}
+                  onChangeText={setCalendarName}
+                  style={styles.inputs}
+                />
+                <Button title="Add an image" onPress={pickImage} />
+                {addImage && (
+                  <Image
+                    resizeMode="contain"
+                    defaultSource={addImage}
+                    style={styles.modalImage}
+                    source={{ uri: `${addImage}` }} />
+                )}
+                <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
+                  <Pressable onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} style={styles.modalButton}>
+                    <Text>Submit</Text>
+                  </Pressable>
+                  <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalendarName(''), setAddImage([]), setModalOpacity(1)}} style={styles.modalButton}>
+                    <Text>Cancel</Text>
+                  </Pressable>
+                </View>
+              </TouchableOpacity>
+            </TouchableOpacity>
+          </Modal>
+
+
+
+
+          <Pressable style={styles.add} onPress={() => {setModalVisible(!modalVisible), setModalOpacity(.4)}}><Text>Add Calendar</Text></Pressable>
+
           {calendars.map((clndr, idx) => (
             <View key={idx}>
               <Pressable
@@ -153,21 +188,21 @@ export default function HomeScreen({ navigation, route }) {
 
                 <Image
                   style={styles.image}
-                  source={{ uri: clndr.cal_image}}
+                  source={{ uri: clndr.cal_image }}
                 />
                 <Text style={styles.text}>{clndr.name}</Text>
               </Pressable>
               <View style={styles.settingsBox}>
                 {route.params.settings === true ? (<>
                   <View style={styles.settings}>
-                    <Pressable onPress={() => { handleRenameAlert(clndr) }} style={styles.edit}><Text style={styles.font}>Edit</Text></Pressable>
-                    <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text style={styles.font}>Delete</Text></Pressable>
+                    <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalId(clndr.id), setCalendarName(clndr.name), setAddImage(clndr.cal_image), setModalOpacity(.4)}} style={styles.edit}><Text>Edit</Text></Pressable>
+                    <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text>Delete</Text></Pressable>
                   </View></>)
                   : (null)}
               </View>
             </View>
           ))}
-
+{console.log(calendarName)}
         </View>
       </ScrollView>
     </View>
@@ -179,7 +214,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
   modalThing: {
     margin: 20,
@@ -199,7 +234,7 @@ const styles = StyleSheet.create({
   modalButton: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2, 
+    elevation: 2,
     backgroundColor: "green"
   },
   modalImage: {
@@ -235,6 +270,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     marginTop: 25,
+
   },
   delete: {
     borderWidth: 1,
@@ -245,7 +281,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     color: colors.white,
-    fontFamily: 'timbra'
   },
   edit: {
     borderWidth: 1,
@@ -254,12 +289,7 @@ const styles = StyleSheet.create({
     height: 20,
     backgroundColor: colors.bright,
     justifyContent: 'center',
-    alignItems: 'center',
-    fontFamily: 'timbra',
-  },
-  font:{
-    fontSize: 20,
-    fontFamily: 'timbra'
+    alignItems: 'center'
   },
   image: {
     height: "80%",
@@ -276,7 +306,6 @@ const styles = StyleSheet.create({
     height: 25,
     padding: 3,
     textAlign: "center",
-    fontFamily: 'timbra'
   },
   newButton: {
     width: 350,
@@ -298,8 +327,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.white,
-    marginTop: 5,
-    fontSize: 20,
-    fontFamily: 'lexie',
+    margin: 5,
   },
 });

@@ -42,9 +42,9 @@ export default function LoginScreen({ navigation, route }) {
       </View>
       <View style={styles.login}>
         {invalid === true ? (
-          <Text style={{fontFamily: 'timbra', fontSize: 22, textAlign: 'center'}}>Please enter a valid username or password</Text>
+          <Text>Please enter a valid username or password</Text>
         ) : null}
-        {loading && <ActivityIndicator/>}
+        <View  style={{height: 20}}>{loading && <ActivityIndicator/>}</View>
         <TextInput
           autoCorrect={false}
           autoCapitalize="none"
@@ -63,16 +63,17 @@ export default function LoginScreen({ navigation, route }) {
           style={styles.inputs}
         ></TextInput>
         <Pressable style={styles.button} onPress={handleSubmit}>
-          <Text style={{fontFamily: 'timbra', fontSize: 20}}>Log In</Text>
+          <Text>Log In</Text>
         </Pressable>
-        <Pressable style= {{marginTop: 15}}
+        <Button
+          title="Register"
           onPress={() => {
             navigation.navigate("Register");
             setInvalid(false);
             setUsername("");
             setPassword("");
           }}
-        ><Text style={{fontFamily: 'timbra', fontSize: 25, color: 'royalblue'}}>Register</Text></Pressable>
+        />
       </View>
     </View>
   );
@@ -109,11 +110,9 @@ const styles = StyleSheet.create({
     borderColor: colors.dark,
     borderRadius: 5,
     margin: 10,
-    width: 180,
-    height: 35,
+    width: 140,
+    height: 25,
     padding: 3,
-    fontSize: 30,
-    fontFamily: 'timbra'
   },
   login: {
     height: 300,
@@ -128,6 +127,5 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     color: colors.white,
-    fontFamily: 'marker',
   },
 });
