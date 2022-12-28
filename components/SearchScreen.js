@@ -30,7 +30,7 @@ let calId = results.map((cal) => {
     <View style={styles.background}>
     <TextInput autoCapitalize="none" autoCorrect={false} onChangeText={setSearchString} value={searchString} style={styles.input}/>
     <Pressable onPress={handleSubmit} style={styles.search}>
-      <Text>Search</Text>
+      <Text style={{fontFamily: 'timbra', fontSize: 20}}>Search</Text>
     </Pressable>
     {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{margin: 20}}>No results</Text>) : (<SearchScroll 
       results={results}
@@ -52,9 +52,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
     width: "80%",
-    height: 30,
+    height: 40,
     padding: 3,
     backgroundColor: colors.white,
+    fontSize: 30,
+    fontFamily: 'lexie'
   },
   search: {
     backgroundColor: colors.bright,

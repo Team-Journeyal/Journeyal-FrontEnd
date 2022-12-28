@@ -11,10 +11,10 @@ export default function SearchScroll({results, calendarId}) {
                 <View style={styles.resultBox}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.date}>{things.date}</Text>
-                    {things.tags && <Text>🏷{things.tags}</Text>}
+                    {things.tags && <Text style={styles.font}>🏷{things.tags}</Text>}
                     </View>
-                    {things.event && <Text>~{things.event}</Text>}
-                    {things.entry && <Text>{things.entry}</Text>}
+                    {things.event && <Text style={styles.font}>~{things.event}</Text>}
+                    {things.entry && <Text style={styles.font}>{things.entry}</Text>}
                 </View>}
                 </>
                 )}
@@ -41,5 +41,9 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 2,
         backgroundColor: colors.white
-    }
+    },
+    font: {
+        fontFamily: 'lexie',
+        fontSize: 20,
+      },
 })
