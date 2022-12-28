@@ -28,7 +28,7 @@ export default function DayScreen({ route }) {
         </ScrollView>
 
 
-    );
+    )
 }
 
 const styles = StyleSheet.create({

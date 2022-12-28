@@ -33,6 +33,7 @@ let calId = results.map((cal) => {
       <Text>Search</Text>
     </Pressable>
     {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{margin: 20}}>No results</Text>) : (<SearchScroll 
+      setSelectedDate={route.params.setSelectedDate}
       results={results}
       calendarId={route.params.calendarId}/>)}
 

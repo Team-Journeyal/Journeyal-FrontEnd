@@ -18,7 +18,7 @@ export default function CalendarScreen({ navigation, route }) {
       (response) => setCalendarEntries(response.data)
     );
   }, [route.params.refresh]);
-
+console.log(route.params.selectedDate)
   return (
     <View style={styles.background}>
       <StatusBar barStyle={"light-content"} />
@@ -31,12 +31,12 @@ export default function CalendarScreen({ navigation, route }) {
           selectedDayBackgroundColor: colors.bright,
         }}
         onMonthChange={day => {
-            route.params.setSelectedDate(day.dateString),
+            // route.params.setSelectedDate(day.dateString),
               setSelectedCalendarDate(day.dateString);
           }}
         onDayPress={(day) => {
           {
-            route.params.setSelectedDate(day.dateString),
+            // route.params.setSelectedDate(day.dateString),
               setSelectedCalendarDate(day.dateString);
           }
         }}
@@ -49,7 +49,7 @@ export default function CalendarScreen({ navigation, route }) {
         }}
         initialDate={selectedCalendarDate}
       />
-      <Button title='Day Screen' onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries})}/>
+      <Button title={`Selected date: ${selectedCalendarDate}`} color={colors.white} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries})}/>
       <CalendarScroll
         selectedDate={selectedCalendarDate}
         calendarEntries={calendarEntries}
@@ -61,5 +61,7 @@ export default function CalendarScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    backgroundColor: colors.dark,
+    color: colors.white,
   },
 });
