@@ -11,13 +11,13 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
         <View>
           {calendarEntries.journals.map((days) =>
             days.date === selectedDate && days.event !== "" && days.event !== null ? (
-              <Text>~{days.event}</Text>
+              <Text style={styles.font}>~{days.event}</Text>
             ) : null
           )}
 
           {calendarEntries.journals.map((days) =>
             days.date === selectedDate && days.entry !== "" && days.entry !== null? (
-              <Text>{days.entry}</Text>
+              <Text style={styles.font}>{days.entry}</Text>
             ) : null
           )}
         </View>
@@ -46,6 +46,11 @@ const styles = StyleSheet.create({
   scrollview: {
     width: "100%",
     backgroundColor: colors.light,
+
+  },
+  font: {
+    fontFamily: 'lexie',
+    fontSize: 20,
   },
   imageContainer: {
     alignItems: "center",

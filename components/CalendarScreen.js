@@ -29,6 +29,9 @@ export default function CalendarScreen({ route }) {
         theme={{
           calendarBackground: colors.light,
           selectedDayBackgroundColor: colors.bright,
+          textDayFontFamily: 'marker',
+          textMonthFontFamily: 'marker',
+          textDayHeaderFontFamily: 'marker',
         }}
         onMonthChange={day => {
             route.params.setSelectedDate(day.dateString),
