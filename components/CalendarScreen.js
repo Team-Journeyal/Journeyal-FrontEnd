@@ -5,7 +5,7 @@ import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
 import { requestCalendarsEntries } from "./Requests";
 
-export default function CalendarScreen({ route }) {
+export default function CalendarScreen({ navigation, route }) {
   const [selectedCalendarDate, setSelectedCalendarDate] = useState(
     route.params.selectedDate
   );
@@ -49,6 +49,7 @@ export default function CalendarScreen({ route }) {
         }}
         initialDate={selectedCalendarDate}
       />
+      <Button title='Day Screen' onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries})}/>
       <CalendarScroll
         selectedDate={selectedCalendarDate}
         calendarEntries={calendarEntries}

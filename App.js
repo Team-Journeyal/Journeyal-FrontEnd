@@ -9,6 +9,7 @@ import HomeScreen from "./components/HomeScreen.js";
 import CalendarScreen from "./components/CalendarScreen.js";
 import NewEntryScreen from "./components/NewEntryScreen.js";
 import SearchScreen from "./components/SearchScreen.js";
+import DayScreen from "./components/DayScreen.js";
 import colors from "./colors.js";
 
 LogBox.ignoreAllLogs();
@@ -18,9 +19,8 @@ export default function App() {
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState(null);
   const current = new Date();
-  const currentDate = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
+  const currentDate = `${current.getFullYear()}-${current.getMonth() + 1
+    }-${current.getDate()}`;
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] = useState(false);
   const [calendarId, setCalendarId] = useState("");
@@ -33,7 +33,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{gestureEnabled: false}}>
+      <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -43,22 +43,22 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          initialParams={{ token: token, setCalendarId: setCalendarId, settings: !settings}}
+          initialParams={{ token: token, setCalendarId: setCalendarId, settings: !settings }}
           options={({ navigation }) => ({
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
             headerRight: () => (
               <>
-              <Button
-                title="⚙️"
-                onPress={() => {setSettings(!settings), navigation.setParams({settings: settings, setSettings: setSettings})}}
+                <Button
+                  title="⚙️"
+                  onPress={() => { setSettings(!settings), navigation.setParams({ settings: settings, setSettings: setSettings }) }}
                 />
               </>
             )
-          
+
           })
-        }
+          }
         />
         <Stack.Screen
           name="Register"
@@ -97,14 +97,14 @@ export default function App() {
                   color={"white"}
                   onPress={
                     (() =>
-                    navigation.navigate("Add", {
-                      setSelectedDate: setSelectedDate,
-                      selectedDate: selectedDate,
-                      setRefresh: setRefresh,
-                      refresh: refresh,
-                      token: token,
-                      calendarId: calendarId,
-                    }))
+                      navigation.navigate("Add", {
+                        setSelectedDate: setSelectedDate,
+                        selectedDate: selectedDate,
+                        setRefresh: setRefresh,
+                        refresh: refresh,
+                        token: token,
+                        calendarId: calendarId,
+                      }))
                   }
                 />
               </>
@@ -122,6 +122,14 @@ export default function App() {
         <Stack.Screen
           name="Search"
           component={SearchScreen}
+          options={{
+            headerStyle: { backgroundColor: colors.dark },
+            headerTitleStyle: { color: colors.white },
+          }}
+        />
+        <Stack.Screen
+          name="Day"
+          component={DayScreen}
           options={{
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
