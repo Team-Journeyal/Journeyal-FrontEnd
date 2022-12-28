@@ -56,10 +56,8 @@ export default function HomeScreen({ navigation, route }) {
     formData.append('name', calendarName)
     formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
     requestNewCalendar(route.params.token, formData)
-      .then((res) => (res && setRefresh(!refresh), console.log(res)))
+      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName('')))
       .catch(function (error) {
-        console.log(error)
-        console.log(formData)
       })
   };
 
@@ -78,7 +76,6 @@ export default function HomeScreen({ navigation, route }) {
     let formData = new FormData();
     formData.append('name', calendarName)
     formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
-    console.log(formData)
     requestEditCalendar(route.params.token, formData, calId)
       .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName('')))
   }
@@ -151,7 +148,7 @@ export default function HomeScreen({ navigation, route }) {
                   autoCorrect={false}
                   autoCapitalize="none"
                   value={calendarName}
-                  placeholder="Rename"
+                  defaultValue={calendarName}
                   onChangeText={setCalendarName}
                   style={styles.inputs}
                 />
@@ -159,6 +156,7 @@ export default function HomeScreen({ navigation, route }) {
                 {addImage && (
                   <Image
                     resizeMode="contain"
+                    defaultSource={addImage}
                     style={styles.modalImage}
                     source={{ uri: `${addImage}` }} />
                 )}
@@ -197,14 +195,14 @@ export default function HomeScreen({ navigation, route }) {
               <View style={styles.settingsBox}>
                 {route.params.settings === true ? (<>
                   <View style={styles.settings}>
-                    <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalId(clndr.id)}} style={styles.edit}><Text>Edit</Text></Pressable>
+                    <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalId(clndr.id), setCalendarName(clndr.name), setAddImage(clndr.cal_image)}} style={styles.edit}><Text>Edit</Text></Pressable>
                     <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text>Delete</Text></Pressable>
                   </View></>)
                   : (null)}
               </View>
             </View>
           ))}
-{console.log(calId)}
+{console.log(calendarName)}
         </View>
       </ScrollView>
     </View>
