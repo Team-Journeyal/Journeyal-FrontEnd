@@ -29,6 +29,7 @@ export default function HomeScreen({ navigation, route }) {
   const [addImage, setAddImage] = useState([]);
   const [editVisisble, setEditVisible] = useState(false)
   const [calId, setCalId] = useState()
+  const [modalOpacity, setModalOpacity] = useState(1)
 
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export default function HomeScreen({ navigation, route }) {
     formData.append('name', calendarName)
     formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
     requestNewCalendar(route.params.token, formData)
-      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName('')))
+      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName(''), setModalOpacity(1)))
       .catch(function (error) {
       })
   };
@@ -77,7 +78,7 @@ export default function HomeScreen({ navigation, route }) {
     formData.append('name', calendarName)
     formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
     requestEditCalendar(route.params.token, formData, calId)
-      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName('')))
+      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName(''), setModalOpacity(1)))
   }
 
   const handleDeleteAlert = (clndr) => {
@@ -96,7 +97,7 @@ export default function HomeScreen({ navigation, route }) {
   }
 
   return (
-    <View style={styles.background}>
+    <View style={[styles.background, {opacity: modalOpacity}]}>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
           <Text>Hello, {route.params.username}</Text>
@@ -105,10 +106,9 @@ export default function HomeScreen({ navigation, route }) {
           <Modal
             animationType="none"
             transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => { Alert.alert("Modal closed"); setModalVisible(!modalVisible) }}>
-            <View style={styles.modalBox}>
-              <View style={styles.modalThing}>
+            visible={modalVisible}>
+            <TouchableOpacity  style={styles.modalBox} onPress={() => {setModalVisible(false), setModalOpacity(1)}}>
+              <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
                 <Text>Create a new calendar</Text>
                 <TextInput
                   autoCorrect={false}
@@ -129,20 +129,20 @@ export default function HomeScreen({ navigation, route }) {
                   <Pressable onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={styles.modalButton}>
                     <Text>Submit</Text>
                   </Pressable>
-                  <Pressable onPress={() => { setModalVisible(!modalVisible) }} style={styles.modalButton}>
+                  <Pressable onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1)}} style={styles.modalButton}>
                     <Text>Cancel</Text>
                   </Pressable>
                 </View>
-              </View>
-            </View>
+              </TouchableOpacity>
+            </TouchableOpacity>
           </Modal>
 
           <Modal
             animationType="none"
             transparent={true}
             visible={editVisisble}>
-            <View style={styles.modalBox}>
-              <View style={styles.modalThing}>
+            <TouchableOpacity  style={styles.modalBox} onPress={() => {setEditVisible(false), setModalOpacity(1)}}>
+              <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
                 <Text>Edit/Rename your calendar</Text>
                 <TextInput
                   autoCorrect={false}
@@ -160,22 +160,22 @@ export default function HomeScreen({ navigation, route }) {
                     style={styles.modalImage}
                     source={{ uri: `${addImage}` }} />
                 )}
-                <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
                   <Pressable onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} style={styles.modalButton}>
                     <Text>Submit</Text>
                   </Pressable>
-                  <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalendarName(''), setAddImage([])}} style={styles.modalButton}>
+                  <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalendarName(''), setAddImage([]), setModalOpacity(1)}} style={styles.modalButton}>
                     <Text>Cancel</Text>
                   </Pressable>
                 </View>
-              </View>
-            </View>
+              </TouchableOpacity>
+            </TouchableOpacity>
           </Modal>
 
 
 
 
-          <Pressable style={styles.add} onPress={() => setModalVisible(!modalVisible)}><Text>Add Calendar</Text></Pressable>
+          <Pressable style={styles.add} onPress={() => {setModalVisible(!modalVisible), setModalOpacity(.4)}}><Text>Add Calendar</Text></Pressable>
 
           {calendars.map((clndr, idx) => (
             <View key={idx}>
@@ -195,7 +195,7 @@ export default function HomeScreen({ navigation, route }) {
               <View style={styles.settingsBox}>
                 {route.params.settings === true ? (<>
                   <View style={styles.settings}>
-                    <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalId(clndr.id), setCalendarName(clndr.name), setAddImage(clndr.cal_image)}} style={styles.edit}><Text>Edit</Text></Pressable>
+                    <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalId(clndr.id), setCalendarName(clndr.name), setAddImage(clndr.cal_image), setModalOpacity(.4)}} style={styles.edit}><Text>Edit</Text></Pressable>
                     <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text>Delete</Text></Pressable>
                   </View></>)
                   : (null)}
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
   modalThing: {
     margin: 20,
