@@ -1,8 +1,8 @@
-import { ScrollView, View, Text, StyleSheet, Pressable, Button } from "react-native"
+import { ScrollView, View, Text, StyleSheet, Pressable } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import colors from "../colors"
 
-export default function SearchScroll({results, calendarId, setSelectedDate}) {
+export default function SearchScroll({results, calendarId}) {
     const navigation = useNavigation(); 
 
     return (
@@ -11,7 +11,7 @@ export default function SearchScroll({results, calendarId, setSelectedDate}) {
                 {results.map((things) => 
                 <>
                 {calendarId === things.calendar &&
-                <Pressable onPress={() => {setSelectedDate(things.date), navigation.navigate("Calendar"), console.log(things.date)}} style={styles.resultBox}>
+                <Pressable onPress={() => {navigation.navigate("Tagged", {taggedDate: things.date, results: results})}} style={styles.resultBox}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.date}>{things.date}</Text>
                     {things.tags && <Text>🏷{things.tags}</Text>}

@@ -10,6 +10,7 @@ import CalendarScreen from "./components/CalendarScreen.js";
 import NewEntryScreen from "./components/NewEntryScreen.js";
 import SearchScreen from "./components/SearchScreen.js";
 import DayScreen from "./components/DayScreen.js";
+import TaggedScreen from "./components/TaggedScreen.js";
 import colors from "./colors.js";
 
 LogBox.ignoreAllLogs();
@@ -133,6 +134,14 @@ export default function App() {
           options={{
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white },
+          }}
+        />
+          <Stack.Screen
+          name="Tagged"
+          component={TaggedScreen}
+          options={{
+            headerStyle: { backgroundColor: colors.dark },
+            headerTitleStyle: { color: colors.dark },
           }}
         />
       </Stack.Navigator>
