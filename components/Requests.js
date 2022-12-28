@@ -44,12 +44,13 @@ export const requestNewCalendar = (token, formData) => {
   return response
 };
 
-export const requestEditCalendar = (token, name, id) => {
-  const url = `https://journeyal-webservice.onrender.com/calendar/${id}/`
+export const requestEditCalendar = (token, formData, calId) => {
+  const url = `https://journeyal-webservice.onrender.com/calendar/${calId}/`
 
-  const response = axios.patch(url, {
-    name: name}, 
-    {headers: { Authorization: `Token ${token}` }})
+  const response = axios.patch(url, formData, 
+    {headers: {
+      'content-type': 'multipart/form-data',
+      Authorization: `Token ${token}` }})
   return response
 };
 

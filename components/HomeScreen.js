@@ -6,9 +6,10 @@ import {
   StyleSheet,
   Pressable,
   TextInput,
-  Alert, 
+  Alert,
   Modal,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -26,14 +27,16 @@ export default function HomeScreen({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [calendarName, setCalendarName] = useState('');
   const [addImage, setAddImage] = useState([]);
-  
-  
+  const [editVisisble, setEditVisible] = useState(false)
+  const [calId, setCalId] = useState()
+
+
   useEffect(() => {
     requestCalendars(route.params.token).then((response) =>
-    setCalendars(response.data)
+      setCalendars(response.data)
     );
   }, [refresh]);
-  
+
 
 
 
@@ -47,17 +50,17 @@ export default function HomeScreen({ navigation, route }) {
     }
   };
 
-  
+
   const handleSubmit = () => {
     let formData = new FormData();
     formData.append('name', calendarName)
-    formData.append('cal_image', {uri: addImage, name: 'my_photo.jpg', type: 'image/jpg'})
+    formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
     requestNewCalendar(route.params.token, formData)
-    .then((res) => (res && setRefresh(!refresh), console.log(res)))
-    .catch(function(error) {
-      console.log(error)
-      console.log(formData)
-    })
+      .then((res) => (res && setRefresh(!refresh), console.log(res)))
+      .catch(function (error) {
+        console.log(error)
+        console.log(formData)
+      })
   };
 
   const handleCalendarEntries = (clndr) => {
@@ -68,20 +71,16 @@ export default function HomeScreen({ navigation, route }) {
 
   const handleCalendarDelete = (clndr) => {
     requestDeleteCalendar(route.params.token, clndr.id)
-    .then((res) => (res && setRefresh(!refresh)))
+      .then((res) => (res && setRefresh(!refresh)))
   }
 
-  const handleCalendarEdit = (calname, clndr) => {
-    requestEditCalendar(route.params.token, calname, clndr.id)
-    .then((res) => (res && setRefresh(!refresh)))
-  }
-
-  const handleRenameAlert = (clndr) => {
-    Alert.prompt(
-      'Rename',
-      `${clndr.name}`,
-      (calname) => handleCalendarEdit(calname, clndr)
-    )
+  const handleCalendarEdit = () => {
+    let formData = new FormData();
+    formData.append('name', calendarName)
+    formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
+    console.log(formData)
+    requestEditCalendar(route.params.token, formData, calId)
+      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName('')))
   }
 
   const handleDeleteAlert = (clndr) => {
@@ -99,8 +98,6 @@ export default function HomeScreen({ navigation, route }) {
     )
   }
 
-
-  console.log(refresh)
   return (
     <View style={styles.background}>
       <ScrollView style={{ width: "100%" }}>
@@ -109,39 +106,79 @@ export default function HomeScreen({ navigation, route }) {
 
 
           <Modal
-          animationType="none"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {Alert.alert("Modal closed"); setModalVisible(!modalVisible)}}
-          >
+            animationType="none"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => { Alert.alert("Modal closed"); setModalVisible(!modalVisible) }}>
             <View style={styles.modalBox}>
               <View style={styles.modalThing}>
                 <Text>Create a new calendar</Text>
-              <TextInput
-                autoCorrect={false}
-                autoCapitalize="none"
-                value={calendarName}
-                placeholder="New Calendar"
-                onChangeText={setCalendarName}
-                style={styles.inputs}
-              />
-              <Button title="Add an image" onPress={pickImage} />
-              {addImage && (
-              <Image 
-              resizeMode="contain"
-              style={styles.modalImage}
-              source={{uri: `${addImage}`}}/>
-              )}
-              <Pressable onPress={() => {handleSubmit(); setModalVisible(!modalVisible)}} style={styles.modalButton}>
-                <Text>Submit</Text>
-                </Pressable>
+                <TextInput
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  value={calendarName}
+                  placeholder="New Calendar"
+                  onChangeText={setCalendarName}
+                  style={styles.inputs}
+                />
+                <Button title="Add an image" onPress={pickImage} />
+                {addImage && (
+                  <Image
+                    resizeMode="contain"
+                    style={styles.modalImage}
+                    source={{ uri: `${addImage}` }} />
+                )}
+                <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Pressable onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={styles.modalButton}>
+                    <Text>Submit</Text>
+                  </Pressable>
+                  <Pressable onPress={() => { setModalVisible(!modalVisible) }} style={styles.modalButton}>
+                    <Text>Cancel</Text>
+                  </Pressable>
+                </View>
               </View>
+            </View>
+          </Modal>
+
+          <Modal
+            animationType="none"
+            transparent={true}
+            visible={editVisisble}>
+            <View style={styles.modalBox}>
+              <View style={styles.modalThing}>
+                <Text>Edit/Rename your calendar</Text>
+                <TextInput
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  value={calendarName}
+                  placeholder="Rename"
+                  onChangeText={setCalendarName}
+                  style={styles.inputs}
+                />
+                <Button title="Add an image" onPress={pickImage} />
+                {addImage && (
+                  <Image
+                    resizeMode="contain"
+                    style={styles.modalImage}
+                    source={{ uri: `${addImage}` }} />
+                )}
+                <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Pressable onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} style={styles.modalButton}>
+                    <Text>Submit</Text>
+                  </Pressable>
+                  <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalendarName(''), setAddImage([])}} style={styles.modalButton}>
+                    <Text>Cancel</Text>
+                  </Pressable>
+                </View>
               </View>
-              </Modal>
-          
-          
+            </View>
+          </Modal>
+
+
+
+
           <Pressable style={styles.add} onPress={() => setModalVisible(!modalVisible)}><Text>Add Calendar</Text></Pressable>
-          
+
           {calendars.map((clndr, idx) => (
             <View key={idx}>
               <Pressable
@@ -153,21 +190,21 @@ export default function HomeScreen({ navigation, route }) {
 
                 <Image
                   style={styles.image}
-                  source={{ uri: clndr.cal_image}}
+                  source={{ uri: clndr.cal_image }}
                 />
                 <Text style={styles.text}>{clndr.name}</Text>
               </Pressable>
               <View style={styles.settingsBox}>
                 {route.params.settings === true ? (<>
                   <View style={styles.settings}>
-                    <Pressable onPress={() => { handleRenameAlert(clndr) }} style={styles.edit}><Text>Edit</Text></Pressable>
+                    <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalId(clndr.id)}} style={styles.edit}><Text>Edit</Text></Pressable>
                     <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text>Delete</Text></Pressable>
                   </View></>)
                   : (null)}
               </View>
             </View>
           ))}
-
+{console.log(calId)}
         </View>
       </ScrollView>
     </View>
@@ -199,7 +236,7 @@ const styles = StyleSheet.create({
   modalButton: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2, 
+    elevation: 2,
     backgroundColor: "green"
   },
   modalImage: {
