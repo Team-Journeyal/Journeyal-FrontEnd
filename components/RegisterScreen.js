@@ -26,7 +26,7 @@ export default function RegisterScreen({ navigation, route }) {
         <Text style={styles.title}>Journeyal</Text>
       </View>
       <View style={styles.register}>
-        <Text style={{fontFamily: 'timbra', fontSize: 30}}>Register for Journeyal</Text>
+        <Text>Register for Journeyal</Text>
         <TextInput
           autoCorrect={false}
           autoCapitalize="none"
@@ -45,7 +45,7 @@ export default function RegisterScreen({ navigation, route }) {
           style={styles.inputs}
         ></TextInput>
         <Pressable onPress={handleSubmit} style={styles.button}>
-          <Text style={{fontFamily: 'timbra', fontSize: '20'}}>Register</Text>
+          <Text>Register</Text>
         </Pressable>
       </View>
     </View>
@@ -83,11 +83,9 @@ const styles = StyleSheet.create({
     borderColor: colors.dark,
     borderRadius: 5,
     margin: 10,
-    width: 180,
-    height: 35,
+    width: 140,
+    height: 25,
     padding: 3,
-    fontSize: 30,
-    fontFamily: 'timbra'
   },
   register: {
     height: 300,
@@ -101,7 +99,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 40,
-    fontFamily: 'marker',
     color: colors.white,
   },
 });

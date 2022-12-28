@@ -83,7 +83,7 @@ export default function NewEntryScreen({ route, navigation }) {
           onChangeText={setAddTag}
           ></TextInput>
       <Pressable style={styles.submit} onPress={handleSubmit}>
-        <Text style={styles.font}> Submit </Text>
+        <Text> Submit </Text>
       </Pressable>
     </View>
     </TouchableWithoutFeedback>
@@ -95,9 +95,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     alignItems: "center",
-  },
-  font: {
-    fontFamily: 'timbra'
   },
   image: {
     width: "100%",
@@ -111,7 +108,6 @@ const styles = StyleSheet.create({
     padding: 3,
     backgroundColor: colors.white,
     textAlign: "",
-    fontFamily: 'lexie'
   },
   schedule: {
     borderWidth: 1,
@@ -121,7 +117,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
     padding: 3,
     backgroundColor: colors.white,
-    fontFamily: 'lexie'
   },
   submit: {
     borderWidth: 1,
