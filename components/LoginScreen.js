@@ -44,7 +44,7 @@ export default function LoginScreen({ navigation, route }) {
         {invalid === true ? (
           <Text>Please enter a valid username or password</Text>
         ) : null}
-        {loading && <ActivityIndicator/>}
+        <View  style={{height: 20}}>{loading && <ActivityIndicator/>}</View>
         <TextInput
           autoCorrect={false}
           autoCapitalize="none"
