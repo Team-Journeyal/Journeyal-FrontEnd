@@ -83,7 +83,7 @@ export default function NewEntryScreen({ route, navigation }) {
           onChangeText={setAddTag}
           ></TextInput>
       <Pressable style={styles.submit} onPress={handleSubmit}>
-        <Text> Submit </Text>
+        <Text style={styles.font}> Submit </Text>
       </Pressable>
     </View>
     </TouchableWithoutFeedback>
@@ -100,23 +100,32 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 200,
   },
+  font: {
+    fontFamily: 'timbra',
+    fontSize: 35,
+  },
   journal: {
     borderWidth: 1,
     borderRadius: 3,
+    height: 35,
     width: "80%",
     margin: 3,
     padding: 3,
     backgroundColor: colors.white,
-    textAlign: "",
+    fontFamily: 'lexie',
+    fontSize: 25,
   },
   schedule: {
     borderWidth: 1,
     borderRadius: 3,
+    height: 35,
     width: "80%",
     margin: 3,
     marginTop: 50,
     padding: 3,
     backgroundColor: colors.white,
+    fontFamily: 'lexie', 
+    fontSize: 25,
   },
   submit: {
     borderWidth: 1,

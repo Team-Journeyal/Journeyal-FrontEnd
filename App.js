@@ -3,6 +3,7 @@ import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LogBox } from "react-native";
+import { useFonts } from 'expo-font';
 import LoginScreen from "./components/LoginScreen.js";
 import RegisterScreen from "./components/RegisterScreen.js";
 import HomeScreen from "./components/HomeScreen.js";
@@ -26,6 +27,15 @@ export default function App() {
   const [refresh, setRefresh] = useState(false);
   const [calendarId, setCalendarId] = useState("");
   const [settings, setSettings] = useState(true)
+  const [loaded] = useFonts({
+    marker: require('./assets/fonts/PermanentMarker.ttf'),
+    lexie: require('./assets/fonts/LovelexieHandwritten.ttf'),
+    timbra: require('./assets/fonts/Timbra_Sans_Bold.otf')
+  })
+
+  if(!loaded) {
+    return null;
+  }
 
   const setAuth = (token, username) => {
     setToken(token);
@@ -48,7 +58,7 @@ export default function App() {
           options={({ navigation }) => ({
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
             headerRight: () => (
               <>
                 <Button
@@ -64,7 +74,7 @@ export default function App() {
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
-          options={{ headerTransparent: true }}
+          options={{ headerTransparent: true,  fontFamily: 'marker', fontSize: 30, headerTitleStyle: {color: colors.dark} }}
           initialParams={{ setAuth: setAuth }}
         />
         <Stack.Screen
@@ -77,7 +87,7 @@ export default function App() {
           }}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white },
+            headerTitleStyle: { color: colors.white,  fontFamily: 'marker', fontSize: 30 },
             headerRight: () => (
               <>
                 <Button
@@ -117,7 +127,7 @@ export default function App() {
           component={NewEntryScreen}
           options={{
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
           }}
         />
         <Stack.Screen
@@ -125,7 +135,7 @@ export default function App() {
           component={SearchScreen}
           options={{
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
           }}
         />
         <Stack.Screen
@@ -133,7 +143,7 @@ export default function App() {
           component={DayScreen}
           options={{
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
           }}
         />
           <Stack.Screen

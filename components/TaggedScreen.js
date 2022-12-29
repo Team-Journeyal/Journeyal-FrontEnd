@@ -7,19 +7,19 @@ export default function TaggedScreen({ route }) {
 
     return (
         <ScrollView style={styles.scrollview}>
-                <View>
-                    {tagged.map((days) =>
-                        days.date === route.params.taggedDate && days.event !== "" && days.event !== null ? (
-                            <Text>~{days.event}</Text>
-                        ) : null
-                    )}
+            <View>
+                {tagged.map((days) =>
+                    days.date === route.params.taggedDate && days.event !== "" && days.event !== null ? (
+                        <Text style={styles.font}>~{days.event}</Text>
+                    ) : null
+                )}
 
-                    {tagged.map((days) =>
-                        days.date === route.params.taggedDate && days.entry !== "" && days.entry !== null ? (
-                            <Text>{days.entry}</Text>
-                        ) : null
-                    )}
-                </View>
+                {tagged.map((days) =>
+                    days.date === route.params.taggedDate && days.entry !== "" && days.entry !== null ? (
+                        <Text style={styles.font}>{days.entry}</Text>
+                    ) : null
+                )}
+            </View>
         </ScrollView>
 
     )
@@ -27,15 +27,19 @@ export default function TaggedScreen({ route }) {
 
 const styles = StyleSheet.create({
     scrollview: {
-      width: "100%",
-      backgroundColor: colors.light,
+        width: "100%",
+        backgroundColor: colors.light,
+    },
+    font: {
+        fontFamily: 'lexie',
+        fontSize: 35,
     },
     imageContainer: {
-      alignItems: "center",
+        alignItems: "center",
     },
     imageStyle: {
-      width: 300,
-      height: 200,
-      margin: 3,
+        width: 300,
+        height: 200,
+        margin: 3,
     },
-  });
+});

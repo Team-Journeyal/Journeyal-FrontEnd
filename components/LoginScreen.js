@@ -26,7 +26,7 @@ export default function LoginScreen({ navigation, route }) {
       .then((response) => {
         const token = response.data.auth_token;
         route.params.setAuth(token, username);
-        {token && navigation.navigate("Home", { username: username });}
+        { token && navigation.navigate("Home", { username: username }); }
       })
       .catch(function () {
         setInvalid(true);
@@ -42,9 +42,9 @@ export default function LoginScreen({ navigation, route }) {
       </View>
       <View style={styles.login}>
         {invalid === true ? (
-          <Text>Please enter a valid username or password</Text>
+          <Text style={styles.errorFont}>Please enter a valid username or password</Text>
         ) : null}
-        <View  style={{height: 20}}>{loading && <ActivityIndicator/>}</View>
+        <View style={{ height: 30 }}>{loading && <ActivityIndicator />}</View>
         <TextInput
           autoCorrect={false}
           autoCapitalize="none"
@@ -63,17 +63,16 @@ export default function LoginScreen({ navigation, route }) {
           style={styles.inputs}
         ></TextInput>
         <Pressable style={styles.button} onPress={handleSubmit}>
-          <Text>Log In</Text>
+          <Text style={styles.loginFont}>Log In</Text>
         </Pressable>
-        <Button
-          title="Register"
+        <Pressable 
           onPress={() => {
-            navigation.navigate("Register");
-            setInvalid(false);
-            setUsername("");
-            setPassword("");
-          }}
-        />
+          navigation.navigate("Register");
+          setInvalid(false);
+          setUsername("");
+          setPassword("")}}>
+            <Text style={styles.registerFont}>Register</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -96,6 +95,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  errorFont: {
+    fontFamily: 'timbra',
+    fontSize: 22,
+    textAlign: 'center'
+  },
   header: {
     position: "absolute",
     top: 0,
@@ -110,9 +114,11 @@ const styles = StyleSheet.create({
     borderColor: colors.dark,
     borderRadius: 5,
     margin: 10,
-    width: 140,
-    height: 25,
+    width: 180,
+    height: 35,
     padding: 3,
+    fontFamily: 'timbra',
+    fontSize: 30,
   },
   login: {
     height: 300,
@@ -124,8 +130,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  loginFont: {
+    fontFamily: 'timbra',
+    fontSize: 20
+  },
+  registerFont: {
+    fontFamily: 'timbra', 
+    fontSize: 25, 
+    color: 'royalblue',
+    marginTop: 15,
+  },
   title: {
     fontSize: 40,
     color: colors.white,
+    fontFamily: 'marker'
   },
 });

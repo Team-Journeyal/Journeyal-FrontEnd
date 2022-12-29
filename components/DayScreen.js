@@ -14,13 +14,13 @@ export default function DayScreen({ route }) {
                 <View>
                     {todaysEntry.journals.map((days) =>
                         days.date === today && days.event !== "" && days.event !== null ? (
-                            <Text>~{days.event}</Text>
+                            <Text style={styles.font}>~{days.event}</Text>
                         ) : null
                     )}
 
                     {todaysEntry.journals.map((days) =>
                         days.date === today && days.entry !== "" && days.entry !== null ? (
-                            <Text>{days.entry}</Text>
+                            <Text style={styles.font}>{days.entry}</Text>
                         ) : null
                     )}
                 </View>
@@ -33,15 +33,20 @@ export default function DayScreen({ route }) {
 
 const styles = StyleSheet.create({
     scrollview: {
-      width: "100%",
-      backgroundColor: colors.light,
+        width: "100%",
+        backgroundColor: colors.light,
+        padding: 5,
+    },
+    font: {
+        fontFamily: 'lexie',
+        fontSize: 35,
     },
     imageContainer: {
-      alignItems: "center",
+        alignItems: "center",
     },
     imageStyle: {
-      width: 300,
-      height: 200,
-      margin: 3,
+        width: 300,
+        height: 200,
+        margin: 3,
     },
-  });
+});
