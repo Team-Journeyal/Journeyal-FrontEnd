@@ -31,12 +31,12 @@ console.log(route.params.selectedDate)
           selectedDayBackgroundColor: colors.bright,
         }}
         onMonthChange={day => {
-            // route.params.setSelectedDate(day.dateString),
+            route.params.setSelectedDate(day.dateString),
               setSelectedCalendarDate(day.dateString);
           }}
         onDayPress={(day) => {
           {
-            // route.params.setSelectedDate(day.dateString),
+            route.params.setSelectedDate(day.dateString),
               setSelectedCalendarDate(day.dateString);
           }
         }}
