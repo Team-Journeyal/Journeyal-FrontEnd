@@ -26,7 +26,8 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] = useState(false);
   const [calendarId, setCalendarId] = useState("");
-  const [settings, setSettings] = useState(true)
+  const [settings, setSettings] = useState(true);
+  const [editDay, setEditDay] =useState(true);
   const [loaded] = useFonts({
     marker: require('./assets/fonts/PermanentMarker.ttf'),
     lexie: require('./assets/fonts/LovelexieHandwritten.ttf'),
@@ -142,10 +143,12 @@ export default function App() {
         <Stack.Screen
           name="Day"
           component={DayScreen}
-          options={{
+          initialParams={{ editDay: !editDay }}
+          options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
-          }}
+          })
+          }
         />
           <Stack.Screen
           name="Tagged"
