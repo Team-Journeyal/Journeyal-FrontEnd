@@ -3,12 +3,15 @@ import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LogBox } from "react-native";
+import { useFonts } from 'expo-font';
 import LoginScreen from "./components/LoginScreen.js";
 import RegisterScreen from "./components/RegisterScreen.js";
 import HomeScreen from "./components/HomeScreen.js";
 import CalendarScreen from "./components/CalendarScreen.js";
 import NewEntryScreen from "./components/NewEntryScreen.js";
 import SearchScreen from "./components/SearchScreen.js";
+import DayScreen from "./components/DayScreen.js";
+import TaggedScreen from "./components/TaggedScreen.js";
 import colors from "./colors.js";
 
 LogBox.ignoreAllLogs();
@@ -18,13 +21,21 @@ export default function App() {
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState(null);
   const current = new Date();
-  const currentDate = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
+  const currentDate = `${current.getFullYear()}-${current.getMonth() + 1
+    }-${current.getDate()}`;
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] = useState(false);
   const [calendarId, setCalendarId] = useState("");
   const [settings, setSettings] = useState(true)
+  const [loaded] = useFonts({
+    marker: require('./assets/fonts/PermanentMarker.ttf'),
+    lexie: require('./assets/fonts/LovelexieHandwritten.ttf'),
+    timbra: require('./assets/fonts/Timbra_Sans_Bold.otf')
+  })
+
+  if(!loaded) {
+    return null;
+  }
 
   const setAuth = (token, username) => {
     setToken(token);
@@ -33,7 +44,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{gestureEnabled: false}}>
+      <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -43,27 +54,27 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          initialParams={{ token: token, setCalendarId: setCalendarId, settings: !settings}}
+          initialParams={{ token: token, setCalendarId: setCalendarId, settings: !settings }}
           options={({ navigation }) => ({
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
             headerRight: () => (
               <>
-              <Button
-                title="⚙️"
-                onPress={() => {setSettings(!settings), navigation.setParams({settings: settings, setSettings: setSettings})}}
+                <Button
+                  title="⚙️"
+                  onPress={() => { setSettings(!settings), navigation.setParams({ settings: settings, setSettings: setSettings }) }}
                 />
               </>
             )
-          
+
           })
-        }
+          }
         />
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
-          options={{ headerTransparent: true }}
+          options={{ headerTransparent: true,  fontFamily: 'marker', fontSize: 30, headerTitleStyle: {color: colors.dark} }}
           initialParams={{ setAuth: setAuth }}
         />
         <Stack.Screen
@@ -76,7 +87,7 @@ export default function App() {
           }}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white },
+            headerTitleStyle: { color: colors.white,  fontFamily: 'marker', fontSize: 30 },
             headerRight: () => (
               <>
                 <Button
@@ -97,14 +108,14 @@ export default function App() {
                   color={"white"}
                   onPress={
                     (() =>
-                    navigation.navigate("Add", {
-                      setSelectedDate: setSelectedDate,
-                      selectedDate: selectedDate,
-                      setRefresh: setRefresh,
-                      refresh: refresh,
-                      token: token,
-                      calendarId: calendarId,
-                    }))
+                      navigation.navigate("Add", {
+                        setSelectedDate: setSelectedDate,
+                        selectedDate: selectedDate,
+                        setRefresh: setRefresh,
+                        refresh: refresh,
+                        token: token,
+                        calendarId: calendarId,
+                      }))
                   }
                 />
               </>
@@ -116,7 +127,7 @@ export default function App() {
           component={NewEntryScreen}
           options={{
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
           }}
         />
         <Stack.Screen
@@ -124,7 +135,23 @@ export default function App() {
           component={SearchScreen}
           options={{
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
+          }}
+        />
+        <Stack.Screen
+          name="Day"
+          component={DayScreen}
+          options={{
+            headerStyle: { backgroundColor: colors.dark },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
+          }}
+        />
+          <Stack.Screen
+          name="Tagged"
+          component={TaggedScreen}
+          options={{
+            headerStyle: { backgroundColor: colors.dark },
+            headerTitleStyle: { color: colors.dark },
           }}
         />
       </Stack.Navigator>

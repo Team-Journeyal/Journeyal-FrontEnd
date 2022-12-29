@@ -30,9 +30,10 @@ let calId = results.map((cal) => {
     <View style={styles.background}>
     <TextInput autoCapitalize="none" autoCorrect={false} onChangeText={setSearchString} value={searchString} style={styles.input}/>
     <Pressable onPress={handleSubmit} style={styles.search}>
-      <Text>Search</Text>
+      <Text style={styles.font}>Search</Text>
     </Pressable>
     {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{margin: 20}}>No results</Text>) : (<SearchScroll 
+      setSelectedDate={route.params.setSelectedDate}
       results={results}
       calendarId={route.params.calendarId}/>)}
 
@@ -46,24 +47,30 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
+  font: {
+    fontFamily: 'timbra',
+    fontSize: 25,
+  },
   input: {
     borderWidth: 2,
     borderColor: colors.dark,
     borderRadius: 5,
     margin: 10,
     width: "80%",
-    height: 30,
+    height: 35,
     padding: 3,
     backgroundColor: colors.white,
+    fontFamily: 'lexie',
+    fontSize: 25,
   },
   search: {
     backgroundColor: colors.bright,
-    borderWidth: 2,
     borderColor: colors.dark,
     borderRadius: 5,
     height: 40,
     width: 60,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 10,
   },
 });

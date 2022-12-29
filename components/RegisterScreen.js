@@ -26,7 +26,7 @@ export default function RegisterScreen({ navigation, route }) {
         <Text style={styles.title}>Journeyal</Text>
       </View>
       <View style={styles.register}>
-        <Text>Register for Journeyal</Text>
+        <Text style={styles.msgFont}>Register for Journeyal</Text>
         <TextInput
           autoCorrect={false}
           autoCapitalize="none"
@@ -45,7 +45,7 @@ export default function RegisterScreen({ navigation, route }) {
           style={styles.inputs}
         ></TextInput>
         <Pressable onPress={handleSubmit} style={styles.button}>
-          <Text>Register</Text>
+          <Text style={styles.registerFont}>Register</Text>
         </Pressable>
       </View>
     </View>
@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: colors.bright,
-    borderWidth: 2,
     borderColor: colors.dark,
     borderRadius: 5,
     height: 40,
@@ -83,9 +82,16 @@ const styles = StyleSheet.create({
     borderColor: colors.dark,
     borderRadius: 5,
     margin: 10,
-    width: 140,
-    height: 25,
+    width: 180,
+    height: 35,
     padding: 3,
+    fontFamily: 'timbra',
+    fontSize: 30,
+  },
+  msgFont: {
+    fontFamily: 'timbra',
+    fontSize: 22,
+    textAlign: 'center'
   },
   register: {
     height: 300,
@@ -97,8 +103,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  registerFont: {
+    fontFamily: 'timbra',
+    fontSize: 20
+  },
   title: {
     fontSize: 40,
     color: colors.white,
+    fontFamily: 'marker'
   },
 });
