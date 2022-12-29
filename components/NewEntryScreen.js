@@ -50,6 +50,7 @@ export default function NewEntryScreen({ route, navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.background}>
+      <Text style={styles.font}>{route.params.selectedDate}</Text>
       <TextInput
         autoCorrect={false}
         multiline={true}
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     margin: 3,
     padding: 3,
     backgroundColor: colors.white,
-    fontFamily: 'lexie',
+    fontFamily: 'patrick',
     fontSize: 25,
   },
   schedule: {
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     padding: 3,
     backgroundColor: colors.white,
-    fontFamily: 'lexie', 
+    fontFamily: 'patrick', 
     fontSize: 25,
   },
   submit: {

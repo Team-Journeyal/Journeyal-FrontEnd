@@ -5,9 +5,10 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
-  Button,
   StatusBar,
   ActivityIndicator,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native";
 import colors from "../colors.js";
 import { requestLogin } from "./Requests.js";
@@ -35,6 +36,7 @@ export default function LoginScreen({ navigation, route }) {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.background}>
       <StatusBar barStyle={"light-content"} />
       <View style={styles.header}>
@@ -75,6 +77,7 @@ export default function LoginScreen({ navigation, route }) {
         </Pressable>
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 

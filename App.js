@@ -30,7 +30,8 @@ export default function App() {
   const [loaded] = useFonts({
     marker: require('./assets/fonts/PermanentMarker.ttf'),
     lexie: require('./assets/fonts/LovelexieHandwritten.ttf'),
-    timbra: require('./assets/fonts/Timbra_Sans_Bold.otf')
+    timbra: require('./assets/fonts/Timbra_Sans_Bold.otf'),
+    patrick: require('./assets/fonts/PatrickHand-Regular.ttf')
   })
 
   if(!loaded) {
@@ -150,8 +151,9 @@ export default function App() {
           name="Tagged"
           component={TaggedScreen}
           options={{
+            title: "Day",
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.dark },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
           }}
         />
       </Stack.Navigator>

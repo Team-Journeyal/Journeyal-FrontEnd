@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     font: {
-        fontFamily: 'lexie',
-        fontSize: 35,
+        fontFamily: 'patrick',
+        fontSize: 25,
     },
     imageContainer: {
         alignItems: "center",

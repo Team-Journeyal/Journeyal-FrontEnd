@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import colors from "../colors";
 
@@ -44,7 +43,7 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
 }
 const styles = StyleSheet.create({
   font: {
-    fontFamily: 'lexie',
+    fontFamily: 'patrick',
     fontSize: 25,
   },
   scrollview: {

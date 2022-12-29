@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     height: 30,
     padding: 3,
     textAlign: "center",
-    fontFamily: 'lexie',
+    fontFamily: 'patrick',
     fontSize: 20,
   },
   newButton: {
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.white,
-    fontFamily: 'lexie',
+    fontFamily: 'patrick',
     fontSize: 30,
     marginTop: 10,
   },
