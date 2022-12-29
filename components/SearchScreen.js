@@ -65,12 +65,12 @@ const styles = StyleSheet.create({
   },
   search: {
     backgroundColor: colors.bright,
-    borderWidth: 2,
     borderColor: colors.dark,
     borderRadius: 5,
     height: 40,
     width: 60,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 10,
   },
 });

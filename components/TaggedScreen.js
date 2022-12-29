@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     scrollview: {
         width: "100%",
         backgroundColor: colors.light,
+        padding: 5,
     },
     font: {
         fontFamily: 'lexie',

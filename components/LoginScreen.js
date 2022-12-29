@@ -65,7 +65,7 @@ export default function LoginScreen({ navigation, route }) {
         <Pressable style={styles.button} onPress={handleSubmit}>
           <Text style={styles.loginFont}>Log In</Text>
         </Pressable>
-        <Pressable 
+        <Pressable
           onPress={() => {
           navigation.navigate("Register");
           setInvalid(false);
@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
+
     backgroundColor: colors.bright,
-    borderWidth: 2,
     borderColor: colors.dark,
     borderRadius: 5,
     height: 40,

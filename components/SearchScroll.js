@@ -31,7 +31,8 @@ export default function SearchScroll({results, calendarId}) {
 
 const styles = StyleSheet.create({
     container: {
-        width: "90%",
+        width: "95%",
+        borderTopWidth: 1,
     },
     date: {
         fontWeight: "bold",

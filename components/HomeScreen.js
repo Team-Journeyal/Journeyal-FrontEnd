@@ -246,7 +246,6 @@ const styles = StyleSheet.create({
     width: 100,
   },
   add: {
-    borderWidth: 1,
     borderRadius: 5,
     width: 180,
     height: 50,
@@ -277,7 +276,6 @@ const styles = StyleSheet.create({
 
   },
   delete: {
-    borderWidth: 1,
     borderRadius: 5,
     width: 80,
     height: 20,
@@ -287,7 +285,6 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   edit: {
-    borderWidth: 1,
     borderRadius: 5,
     width: 80,
     height: 20,
@@ -347,7 +344,7 @@ const styles = StyleSheet.create({
   },
   userFont: {
     fontFamily: 'timbra',
-    fontSize: 30,
+    fontSize: 35,
     marginBottom: 10,
   }
 });
