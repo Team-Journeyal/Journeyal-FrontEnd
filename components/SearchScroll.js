@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         marginBottom: 2,
     },
     font:{
-        fontFamily: 'lexie',
+        fontFamily: 'patrick',
         fontSize: 18,
     },
     resultBox: {

@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     height: 35,
     padding: 3,
     backgroundColor: colors.white,
-    fontFamily: 'lexie',
+    fontFamily: 'patrick',
     fontSize: 25,
   },
   search: {
