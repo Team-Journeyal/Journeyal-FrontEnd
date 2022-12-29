@@ -37,11 +37,11 @@ export default function NewEntryScreen({ route, navigation }) {
     date: `${route.params.selectedDate}`,
     event: `${addEvent}`,
     entry: `${addEntry}`,
-    tags: [`${addTag}`],
+    tags: addTag.length === 0 ? ([]): ([`${addTag}`]),
   };
 
   const handleSubmit = () => {
-    console.log(newJson)
+    console.log(addTag.length)
     requestAddEntry(route.params.token, newJson)
     navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
     route.params.setRefresh(!route.params.refresh)

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     },
     resultBox: {
         width: "100%",
-        height: 100,
+        height: 113,
         marginTop: 10, 
         padding: 10,
         borderWidth: 2,
