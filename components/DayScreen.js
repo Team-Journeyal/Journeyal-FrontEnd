@@ -9,6 +9,7 @@ export default function DayScreen({ route }) {
     const [editJournal, setEditJournal] = useState([]);
     const [modalOpacity, setModalOpacity] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
+    const [imgVisible, setImgVisible] = useState(false);
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [calendarEntries, setCalendarEntries] = useState([]);
     const [editingEvent, setEditingEvent] = useState(false);
@@ -19,10 +20,9 @@ export default function DayScreen({ route }) {
     const [editImage, setEditImage] = useState([]);
     const [editId, setEditId] = useState([])
     const [refresh, setRefresh] = useState(false)
+    const [zoom, setZoom] = useState([])
 
     useEffect(() => {
-        console.log(route.params.calendarId)
-        console.log(route.params.token)
         requestCalendarsEntries(route.params.token, route.params.calendarId).then(
             (response) => setCalendarEntries(response.data)
         );
@@ -44,96 +44,112 @@ export default function DayScreen({ route }) {
     //     tags: editTags.length === 0 ? ([]): ([`${editTags}`]),
     //   };
 
-      const handleEventEdit = () => {
+    const handleEventEdit = () => {
         requestEditEvent(route.params.token, editJournal, editId)
-        .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setModalOpacity(1), setEditingEvent(false), 
-        route.params.setRefreshCalendar(!route.params.refreshCalendar)))
-      }
+            .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setEditingEvent(false),
+                route.params.setRefreshCalendar(!route.params.refreshCalendar), setModalOpacity(1)))
+    }
 
-      const handleEntryEdit = () => {
+    const handleEntryEdit = () => {
         requestEditEntry(route.params.token, editJournal, editId)
-        .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setModalOpacity(1), setEditingEntry(false), 
-        route.params.setRefreshCalendar(!route.params.refreshCalendar)))
-      }
-
-      console.log(editingEvent)
+            .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setEditingEntry(false),
+                route.params.setRefreshCalendar(!route.params.refreshCalendar), setModalOpacity(1)))
+    }
 
     return (
-        <ScrollView style={styles.scrollview}>
-            {calendarEntries.journals === undefined ? (
-                <View style={{ position: 'absolute', left: 0, right: 0, top: 90 }}><ActivityIndicator color={colors.dark} size='large' /></View>
-            ) : (
-                <View>
-
-                    <Modal
-                        animationType="none"
-                        transparent={true}
-                        visible={modalVisible}>
-                        <TouchableOpacity style={styles.modalBox} onPress={() => { setModalVisible(false), setModalOpacity(1) }}>
-                            <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
-                                <Text>Edit Schedule/Journal</Text>
-                                <TextInput
-                                    autoCorrect={false}
-                                    autoCapitalize="none"
-                                    value={editJournal}
-                                    defaultValue={editJournal}
-                                    onChangeText={setEditJournal}
-                                    style={styles.inputs} />
-                                <View style={{ width: 250, flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 5 }}>
-                                    <Pressable onPress={() => { setModalVisible(!modalVisible); {editingEvent && (handleEventEdit(), setEditingEvent(false))}; {editingEntry && (handleEntryEdit(), setEditingEntry(false))} }} style={styles.modalButton}>
-                                        <Text style={styles.font}>Submit</Text>
-                                    </Pressable>
-                                    <Pressable onPress={() => { setModalVisible(!modalVisible), setEditJournal([]), setEditingEntry(false), setEditingEvent(false), setModalOpacity(1) }} style={styles.modalButton}>
-                                        <Text style={styles.font}>Cancel</Text>
-                                    </Pressable>
-                                </View>
-                            </TouchableOpacity>
-                        </TouchableOpacity>
-                    </Modal>
-
-                    <Text style={styles.dateFont}>{today}</Text>
-                    <View style={styles.eventContainer}>
-                        {calendarEntries.journals.map((days) =>
-                            days.date === today && days.event !== "" && days.event !== null ? (
-                                <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.event), setEditId(days.id), setEditingEvent(true), setModalVisible(!modalVisible) }}>
-                                    <View style={styles.events}><Text style={styles.font}>·{days.event}</Text></View>
-                                </Pressable>
-                            ) : null
-                        )}
-                    </View>
-
-                    <View style={styles.entryContainer}>
-                        {calendarEntries.journals.map((days) =>
-                            days.date === today && days.entry !== "" && days.entry !== null ? (
-                                <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.entry), setEditId(days.id), setEditingEntry(true), setModalVisible(!modalVisible) }}>
-                                    <View style={styles.events}><Text style={styles.font}>{days.entry}</Text></View>
-                                </Pressable>
-                            ) : null
-                        )}
-                    </View>
+        <View style={[styles.scrollview, { opacity: modalOpacity }]}>
+            <ScrollView>
+                {calendarEntries.journals === undefined ? (
+                    <View style={{ position: 'absolute', left: 0, right: 0, top: 90 }}><ActivityIndicator color={colors.dark} size='large' /></View>
+                ) : (
                     <View>
-                        {calendarEntries.journals.map((days) =>
-                            days.date === today &&
-                            days.journal_images.length !== 0 && (
-                                days.journal_images.map((img) =>
-                                    <View style={styles.imageContainer}>
-                                        <Image
-                                            resizeMode="contain"
-                                            style={styles.imageStyle}
-                                            source={{ uri: `${img.image}` }}
-                                        />
-                                    </View>
-                                ))
-                        )}
-                    </View>
 
-                </View>
-            )}
-        </ScrollView>
+                        <Modal
+                            animationType="none"
+                            transparent={true}
+                            visible={modalVisible}>
+                            <TouchableOpacity style={styles.modalBox} onPress={() => { setModalVisible(false), setModalOpacity(1) }}>
+                                <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
+                                    <Text>Edit Schedule/Journal</Text>
+                                    <TextInput
+                                        autoCorrect={false}
+                                        autoCapitalize="none"
+                                        value={editJournal}
+                                        defaultValue={editJournal}
+                                        onChangeText={setEditJournal}
+                                        style={styles.inputs} />
+                                    <View style={{ width: 250, flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 5 }}>
+                                        <Pressable onPress={() => { setModalVisible(!modalVisible); { editingEvent && (handleEventEdit(), setEditingEvent(false)) }; { editingEntry && (handleEntryEdit(), setEditingEntry(false)) } }} style={styles.modalButton}>
+                                            <Text style={styles.font}>Submit</Text>
+                                        </Pressable>
+                                        <Pressable onPress={() => { setModalVisible(!modalVisible), setEditJournal([]), setEditingEntry(false), setEditingEvent(false), setModalOpacity(1) }} style={[styles.modalButton, { backgroundColor: 'silver' }]}>
+                                            <Text style={styles.font}>Cancel</Text>
+                                        </Pressable>
+                                    </View>
+                                </TouchableOpacity>
+                            </TouchableOpacity>
+                        </Modal>
+
+                        <Modal
+                            animationType="none"
+                            transparent={true}
+                            visible={imgVisible}>
+                            <TouchableOpacity style={styles.modalBox} onPress={() => { setImgVisible(false), setModalOpacity(1) }}>
+                                <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
+                                    <Image resizeMode='contain' style={styles.img} source={{uri : zoom}}/>
+                                    </TouchableOpacity>
+                                </TouchableOpacity>
+                        </Modal>
+
+                        <Text style={styles.dateFont}>{today}</Text>
+                        <View style={styles.eventContainer}>
+                            {calendarEntries.journals.map((days) =>
+                                days.date === today && days.event !== "" && days.event !== null ? (
+                                    <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.event), setEditId(days.id), setEditingEvent(true), setModalVisible(!modalVisible), setModalOpacity(.3) }}>
+                                        <View style={styles.events}><Text style={styles.font}>·{days.event}</Text></View>
+                                    </Pressable>
+                                ) : null
+                            )}
+                        </View>
+
+                        <View style={styles.entryContainer}>
+                            {calendarEntries.journals.map((days) =>
+                                days.date === today && days.entry !== "" && days.entry !== null ? (
+                                    <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.entry), setEditId(days.id), setEditingEntry(true), setModalVisible(!modalVisible), setModalOpacity(.3) }}>
+                                        <View style={styles.events}><Text style={styles.font}>{days.entry}</Text></View>
+                                    </Pressable>
+                                ) : null
+                            )}
+                        </View>
+                        <View>
+                            {calendarEntries.journals.map((days) =>
+                                days.date === today &&
+                                days.journal_images.length !== 0 && (
+                                    days.journal_images.map((img) =>
+                                        <View style={styles.imageContainer}>
+                                            <Pressable onLongPress={() => {setZoom(img.image), setImgVisible(true), setModalOpacity(.3)}}>
+                                                <Image
+                                                    resizeMode="contain"
+                                                    style={styles.imageStyle}
+                                                    source={{ uri: `${img.image}` }}
+                                                /></Pressable>
+                                        </View>
+                                    ))
+                            )}
+                        </View>
+
+                    </View>
+                )}
+            </ScrollView>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
+    img: {
+        width: 300,
+        height: 300,
+    },
     events: {
         borderBottomWidth: 2.5,
         borderTopWidth: 1,
@@ -153,6 +169,7 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
     },
     scrollview: {
+        flex: 1,
         width: "100%",
         backgroundColor: colors.light,
         padding: 5,
@@ -190,13 +207,13 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         elevation: 2,
-        backgroundColor: "green"
+        backgroundColor: colors.bright
     },
     modalThing: {
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 35,
+        padding: 15,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {

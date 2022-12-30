@@ -123,7 +123,7 @@ export default function HomeScreen({ navigation, route }) {
                   <Pressable onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
                   </Pressable>
-                  <Pressable onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1)}} style={styles.modalButton}>
+                  <Pressable onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1)}} style={[styles.modalButton, {backgroundColor: 'silver'}]}>
                     <Text style={styles.font}>Cancel</Text>
                   </Pressable>
                 </View>
@@ -158,7 +158,7 @@ export default function HomeScreen({ navigation, route }) {
                   <Pressable onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
                   </Pressable>
-                  <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalendarName(''), setAddImage([]), setModalOpacity(1)}} style={styles.modalButton}>
+                  <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalendarName(''), setAddImage([]), setModalOpacity(1)}} style={[styles.modalButton, {backgroundColor: 'silver'}]}>
                     <Text style={styles.font}>Cancel</Text>
                   </Pressable>
                 </View>
@@ -229,14 +229,14 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   modalButton: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
     elevation: 2,
-    backgroundColor: "green"
+    backgroundColor: colors.bright,
   },
   modalImage: {
-    height: 100,
-    width: 100,
+    height: 200,
+    width: 200,
   },
   add: {
     borderRadius: 5,

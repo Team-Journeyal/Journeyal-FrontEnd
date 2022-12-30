@@ -3,7 +3,6 @@ import colors from "../colors";
 
 export default function CalendarScroll({ selectedDate, calendarEntries }) {
 
-console.log(calendarEntries.journals)
 
   return (
     <ScrollView style={styles.scrollview}>
