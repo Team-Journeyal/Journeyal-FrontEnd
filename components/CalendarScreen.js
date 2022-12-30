@@ -52,7 +52,7 @@ export default function CalendarScreen({ navigation, route }) {
         }}
         initialDate={selectedCalendarDate}
       />
-      <Button title={`Date Details: ${selectedCalendarDate}`} color={colors.white} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries})}/>
+      <Button title={`Date Details: ${selectedCalendarDate}`} color={colors.white} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, calendarId: route.params.calendarId})}/>
       <CalendarScroll
         selectedDate={selectedCalendarDate}
         calendarEntries={calendarEntries}

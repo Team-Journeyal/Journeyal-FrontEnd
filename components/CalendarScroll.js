@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator } from "react-native";
 import colors from "../colors";
 
 export default function CalendarScroll({ selectedDate, calendarEntries }) {
   return (
     <ScrollView style={styles.scrollview}>
       {calendarEntries.journals === undefined ? (
-        <View></View>
+        <ActivityIndicator/>
       ) : (
         <View>
 

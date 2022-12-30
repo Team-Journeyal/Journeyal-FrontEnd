@@ -1,19 +1,29 @@
-import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useState, useEffect } from 'react';
 import colors from '../colors';
+import { requestCalendarsEntries } from './Requests';
 
 export default function DayScreen({ route }) {
     const [today, setToday] = useState(route.params.selectedDate)
-    const [todaysEntry, setTodaysEntry] = useState(route.params.calendarEntries)
     const [editDay, setEditDay] = useState(false)
     const [editJournal, setEditJournal] = useState([])
     const [modalOpacity, setModalOpacity] = useState(1)
     const [modalVisible, setModalVisible] = useState(false)
+    const [calendarEntries, setCalendarEntries] = useState([])
+
+
+    useEffect(() => {
+        console.log(route.params.calendarId)
+        console.log(route.params.token)
+        requestCalendarsEntries(route.params.token, route.params.calendarId).then(
+          (response) => setCalendarEntries(response.data)
+        );
+      }, [route.params.refresh]);
 
     return (
         <ScrollView style={styles.scrollview}>
-            {todaysEntry.journals === undefined ? (
-                <View></View>
+            {calendarEntries.journals === undefined ? (
+                <ActivityIndicator/>
             ) : (
                 <View>
 
@@ -43,9 +53,9 @@ export default function DayScreen({ route }) {
                         </TouchableOpacity>
                     </Modal>
 
-
+                    <Text style={styles.dateFont}>{today}</Text>
                     <View style={styles.eventContainer}>
-                        {todaysEntry.journals.map((days) =>
+                        {calendarEntries.journals.map((days) =>
                             days.date === today && days.event !== "" && days.event !== null ? (
                                 <Pressable onLongPress={() => { setModalVisible(!modalVisible), setEditJournal(days.event) }}>
                                     <View style={styles.events}><Text style={styles.font}>·{days.event}</Text></View>
@@ -55,7 +65,7 @@ export default function DayScreen({ route }) {
                     </View>
 
                     <View style={styles.entryContainer}>
-                        {todaysEntry.journals.map((days) =>
+                        {calendarEntries.journals.map((days) =>
                             days.date === today && days.entry !== "" && days.entry !== null ? (
                                 <Pressable onLongPress={() => { setModalVisible(!modalVisible), setEditJournal(days.entry) }}>
                                 <View style={styles.events}><Text style={styles.font}>{days.entry}</Text></View>
@@ -102,6 +112,11 @@ const styles = StyleSheet.create({
     font: {
         fontFamily: 'patrick',
         fontSize: 25,
+    },
+    dateFont: {
+        fontFamily: 'patrick',
+        fontSize: 30,
+        textAlign: 'center',
     },
     imageContainer: {
         alignItems: "center",

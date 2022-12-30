@@ -36,10 +36,11 @@ let calId = results.map((cal) => {
       setSelectedDate={route.params.setSelectedDate}
       results={results}
       calendarId={route.params.calendarId}/>)}
-
     </View>
   );
 }
+
+
 const styles = StyleSheet.create({
   background: {
     flex:1,

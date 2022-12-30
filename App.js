@@ -143,21 +143,12 @@ export default function App() {
         <Stack.Screen
           name="Day"
           component={DayScreen}
-          initialParams={{ editDay: !editDay }}
+          initialParams={{ editDay: !editDay, token: token, }}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
           })
           }
-        />
-          <Stack.Screen
-          name="Tagged"
-          component={TaggedScreen}
-          options={{
-            title: "Day",
-            headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
-          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
