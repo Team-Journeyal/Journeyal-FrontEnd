@@ -27,19 +27,15 @@ export default function HomeScreen({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [calendarName, setCalendarName] = useState('');
   const [addImage, setAddImage] = useState([]);
-  const [editVisisble, setEditVisible] = useState(false)
-  const [calId, setCalId] = useState()
-  const [modalOpacity, setModalOpacity] = useState(1)
-
+  const [editVisisble, setEditVisible] = useState(false);
+  const [calId, setCalId] = useState();
+  const [modalOpacity, setModalOpacity] = useState(1);
 
   useEffect(() => {
     requestCalendars(route.params.token).then((response) =>
       setCalendars(response.data)
     );
   }, [refresh]);
-
-
-
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -50,7 +46,6 @@ export default function HomeScreen({ navigation, route }) {
       setAddImage(result.uri);
     }
   };
-
 
   const handleSubmit = () => {
     let formData = new FormData();
@@ -71,7 +66,7 @@ export default function HomeScreen({ navigation, route }) {
   const handleCalendarDelete = (clndr) => {
     requestDeleteCalendar(route.params.token, clndr.id)
       .then((res) => (res && setRefresh(!refresh)))
-  }
+  };
 
   const handleCalendarEdit = () => {
     let formData = new FormData();
@@ -79,10 +74,9 @@ export default function HomeScreen({ navigation, route }) {
     formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
     requestEditCalendar(route.params.token, formData, calId)
       .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName(''), setModalOpacity(1)))
-  }
+  };
 
   const handleDeleteAlert = (clndr) => {
-    console.log(clndr.id)
     Alert.alert(
       'Delete',
       'Are you sure?',
@@ -94,7 +88,7 @@ export default function HomeScreen({ navigation, route }) {
         style: 'cancel'
       }]
     )
-  }
+  };
 
   return (
     <View style={[styles.background, {opacity: modalOpacity}]}>
@@ -202,7 +196,6 @@ export default function HomeScreen({ navigation, route }) {
               </View>
             </View>
           ))}
-{console.log(calendarName)}
         </View>
       </ScrollView>
     </View>

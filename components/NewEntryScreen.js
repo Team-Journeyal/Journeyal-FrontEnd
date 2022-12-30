@@ -12,7 +12,6 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import colors from "../colors";
-import { data } from "../sample.json";
 import { requestAddEntry } from "./Requests";
 
 export default function NewEntryScreen({ route, navigation }) {
@@ -41,7 +40,6 @@ export default function NewEntryScreen({ route, navigation }) {
   };
 
   const handleSubmit = () => {
-    console.log(addTag.length)
     requestAddEntry(route.params.token, newJson)
     navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
     route.params.setRefresh(!route.params.refresh)

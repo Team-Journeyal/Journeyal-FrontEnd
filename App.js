@@ -29,7 +29,6 @@ export default function App() {
   const [editDay, setEditDay] =useState(true);
   const [loaded] = useFonts({
     marker: require('./assets/fonts/PermanentMarker.ttf'),
-    lexie: require('./assets/fonts/LovelexieHandwritten.ttf'),
     timbra: require('./assets/fonts/Timbra_Sans_Bold.otf'),
     patrick: require('./assets/fonts/PatrickHand-Regular.ttf')
   })
@@ -43,7 +42,6 @@ export default function App() {
     setUsername(username);
   };
 
-  console.log(token)
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ gestureEnabled: false }}>

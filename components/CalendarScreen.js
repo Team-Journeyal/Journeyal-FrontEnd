@@ -10,6 +10,7 @@ export default function CalendarScreen({ navigation, route }) {
     route.params.selectedDate
   );
   const [calendarEntries, setCalendarEntries] = useState([]);
+  const [refreshCalendar, setRefreshCalendar] = useState(false)
 
   useEffect(() => {
     console.log(route.params.calendarId)
@@ -17,7 +18,7 @@ export default function CalendarScreen({ navigation, route }) {
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
       (response) => setCalendarEntries(response.data)
     );
-  }, [route.params.refresh]);
+  }, [refreshCalendar]);
 
   return (
     <View style={styles.background}>
@@ -52,7 +53,7 @@ export default function CalendarScreen({ navigation, route }) {
         }}
         initialDate={selectedCalendarDate}
       />
-      <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, calendarId: route.params.calendarId})}>
+      <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId})}>
         <Text style={styles.font}>
           The Deetz
         </Text>
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: "50%",
-    height: '4%',
+    height: 28,
     borderRadius: 10,
     margin: 4,
     alignSelf: 'center'

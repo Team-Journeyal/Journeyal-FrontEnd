@@ -86,10 +86,28 @@ export const requestAddEntry = (token, formData) => {
   return response
 };
 
-export const requestEditEntry = (token, formData, entryId) => {
+export const requestEditJournal = (token, formData, entryId) => {
   const url = `https://journeyal-webservice.onrender.com/journal/${entryId}/`
 
-  const reponse = axios.patch(url, formData, 
+  const response = axios.patch(url, formData, 
+    {headers: { Authorization: `Token ${token}` }})
+  return response
+};
+
+export const requestEditEvent = (token, editEvent, entryId) => {
+  const url = `https://journeyal-webservice.onrender.com/journal/${entryId}/`
+
+  const response = axios.patch(url, {
+    event: editEvent}, 
+    {headers: { Authorization: `Token ${token}` }})
+  return response
+};
+
+export const requestEditEntry = (token, editEntry, entryId) => {
+  const url = `https://journeyal-webservice.onrender.com/journal/${entryId}/`
+
+  const response = axios.patch(url, {
+    entry: editEntry}, 
     {headers: { Authorization: `Token ${token}` }})
   return response
 };
