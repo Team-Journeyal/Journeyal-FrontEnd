@@ -1,4 +1,4 @@
-import { View, ScrollView, Text, StyleSheet, TextInput, Pressable } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import colors from '../colors';
 
@@ -6,7 +6,9 @@ export default function DayScreen({ route }) {
     const [today, setToday] = useState(route.params.selectedDate)
     const [todaysEntry, setTodaysEntry] = useState(route.params.calendarEntries)
     const [editDay, setEditDay] = useState(false)
-    const [editEvent, setEditEvent] = useState([])
+    const [editJournal, setEditJournal] = useState([])
+    const [modalOpacity, setModalOpacity] = useState(1)
+    const [modalVisible, setModalVisible] = useState(false)
 
     return (
         <ScrollView style={styles.scrollview}>
@@ -14,12 +16,39 @@ export default function DayScreen({ route }) {
                 <View></View>
             ) : (
                 <View>
+
+                    <Modal
+                        animationType="none"
+                        transparent={true}
+                        visible={modalVisible}>
+                        <TouchableOpacity style={styles.modalBox} onPress={() => { setModalVisible(false), setModalOpacity(1) }}>
+                            <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
+                                <Text>Edit Schedule/Journal</Text>
+                                <TextInput
+                                    autoCorrect={false}
+                                    autoCapitalize="none"
+                                    value={editJournal}
+                                    defaultValue={editJournal}
+                                    onChangeText={setEditJournal}
+                                    style={styles.inputs}/>
+                                <View style={{ width: 250, flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 5 }}>
+                                    <Pressable onPress={() => {setModalVisible(!modalVisible) }} style={styles.modalButton}>
+                                        <Text style={styles.font}>Submit</Text>
+                                    </Pressable>
+                                    <Pressable onPress={() => { setModalVisible(!modalVisible), setEditJournal([]), setModalOpacity(1) }} style={styles.modalButton}>
+                                        <Text style={styles.font}>Cancel</Text>
+                                    </Pressable>
+                                </View>
+                            </TouchableOpacity>
+                        </TouchableOpacity>
+                    </Modal>
+
+
                     <View style={styles.eventContainer}>
                         {todaysEntry.journals.map((days) =>
                             days.date === today && days.event !== "" && days.event !== null ? (
-                                <Pressable onLongPress={() => setEditDay(!editDay)}>
-                                    {editDay ? (<TextInput defaultValue={days.event} style={styles.inputFont} />)
-                                        : (<View style={styles.events}><Text style={styles.font}>·{days.event}</Text></View>)}
+                                <Pressable onLongPress={() => { setModalVisible(!modalVisible), setEditJournal(days.event) }}>
+                                    <View style={styles.events}><Text style={styles.font}>·{days.event}</Text></View>
                                 </Pressable>
                             ) : null
                         )}
@@ -28,7 +57,9 @@ export default function DayScreen({ route }) {
                     <View style={styles.entryContainer}>
                         {todaysEntry.journals.map((days) =>
                             days.date === today && days.entry !== "" && days.entry !== null ? (
+                                <Pressable onLongPress={() => { setModalVisible(!modalVisible), setEditJournal(days.entry) }}>
                                 <View style={styles.events}><Text style={styles.font}>{days.entry}</Text></View>
+                            </Pressable>
                             ) : null
                         )}
                     </View>
@@ -79,5 +110,44 @@ const styles = StyleSheet.create({
         width: 300,
         height: 200,
         margin: 3,
+    },
+    modalBox: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22,
+    },
+    modalButton: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        backgroundColor: "green"
+    },
+    modalThing: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    inputs: {
+        borderWidth: 2,
+        borderColor: colors.dark,
+        borderRadius: 5,
+        margin: 10,
+        width: 200,
+        height: 30,
+        padding: 3,
+        textAlign: "center",
+        fontFamily: 'patrick',
+        fontSize: 20,
     },
 });
