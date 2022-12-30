@@ -2,10 +2,13 @@ import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator } from "re
 import colors from "../colors";
 
 export default function CalendarScroll({ selectedDate, calendarEntries }) {
+
+console.log(calendarEntries.journals)
+
   return (
     <ScrollView style={styles.scrollview}>
       {calendarEntries.journals === undefined ? (
-        <ActivityIndicator/>
+        <View style={{position: 'absolute', left: 0, right: 0, top: 90}}><ActivityIndicator color={colors.dark} size='large'/></View>
       ) : (
         <View>
 
@@ -32,21 +35,18 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
         </View>
       )}
 
-      {/* {calendarEntries.map(
-        (days) =>
+
+      {/* {calendarEntries.journals.map((days) =>
           days.date === selectedDate &&
-          days.images.map(
-            (img, idx) =>
-              img !== "" && (
+              days.journal_images !== "" && (
                 <View key={idx} style={styles.imageContainer}>
                   <Image
                     resizeMode="contain"
                     style={styles.imageStyle}
-                    source={{ uri: `${img}` }}
+                    source={{ uri: `${days.journal_images}` }}
                   />
                 </View>
               )
-          )
       )} */}
     </ScrollView>
   );
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   font: {
     fontFamily: 'patrick',
     fontSize: 25,
+    height: 35,
   },
   scrollview: {
     width: "100%",

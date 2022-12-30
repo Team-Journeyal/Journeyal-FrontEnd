@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, StatusBar, Text, Button } from "react-native";
+import { View, StyleSheet, StatusBar, Text, Pressable } from "react-native";
 import { Calendar } from "react-native-calendars";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
@@ -52,7 +52,11 @@ export default function CalendarScreen({ navigation, route }) {
         }}
         initialDate={selectedCalendarDate}
       />
-      <Button title={`Date Details: ${selectedCalendarDate}`} color={colors.white} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, calendarId: route.params.calendarId})}/>
+      <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, calendarId: route.params.calendarId})}>
+        <Text style={styles.font}>
+          The Deetz
+        </Text>
+      </Pressable>
       <CalendarScroll
         selectedDate={selectedCalendarDate}
         calendarEntries={calendarEntries}
@@ -67,4 +71,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dark,
     color: colors.white,
   },
+  deetz: {
+    backgroundColor: colors.bright,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: "50%",
+    height: '4%',
+    borderRadius: 10,
+    margin: 4,
+    alignSelf: 'center'
+  }, 
+  font: {
+    fontFamily: 'timbra',
+    fontSize: 30,
+  }
 });

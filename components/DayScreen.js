@@ -1,4 +1,4 @@
-import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, TouchableOpacity, ActivityIndicator, Vibration } from 'react-native';
 import { useState, useEffect } from 'react';
 import colors from '../colors';
 import { requestCalendarsEntries } from './Requests';
@@ -23,7 +23,7 @@ export default function DayScreen({ route }) {
     return (
         <ScrollView style={styles.scrollview}>
             {calendarEntries.journals === undefined ? (
-                <ActivityIndicator/>
+                <View style={{position: 'absolute', left: 0, right: 0, top: 90}}><ActivityIndicator color={colors.dark} size='large'/></View>
             ) : (
                 <View>
 
@@ -57,7 +57,7 @@ export default function DayScreen({ route }) {
                     <View style={styles.eventContainer}>
                         {calendarEntries.journals.map((days) =>
                             days.date === today && days.event !== "" && days.event !== null ? (
-                                <Pressable onLongPress={() => { setModalVisible(!modalVisible), setEditJournal(days.event) }}>
+                                <Pressable onLongPress={() => {Vibration.vibrate(), setEditJournal(days.event), setModalVisible(!modalVisible) }}>
                                     <View style={styles.events}><Text style={styles.font}>·{days.event}</Text></View>
                                 </Pressable>
                             ) : null
@@ -67,7 +67,7 @@ export default function DayScreen({ route }) {
                     <View style={styles.entryContainer}>
                         {calendarEntries.journals.map((days) =>
                             days.date === today && days.entry !== "" && days.entry !== null ? (
-                                <Pressable onLongPress={() => { setModalVisible(!modalVisible), setEditJournal(days.entry) }}>
+                                <Pressable onLongPress={() => {Vibration.vibrate(), setEditJournal(days.entry), setModalVisible(!modalVisible) }}>
                                 <View style={styles.events}><Text style={styles.font}>{days.entry}</Text></View>
                             </Pressable>
                             ) : null
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         margin: 10,
         width: 200,
-        height: 30,
+        height: 40,
         padding: 3,
         textAlign: "center",
         fontFamily: 'patrick',

@@ -11,7 +11,6 @@ import CalendarScreen from "./components/CalendarScreen.js";
 import NewEntryScreen from "./components/NewEntryScreen.js";
 import SearchScreen from "./components/SearchScreen.js";
 import DayScreen from "./components/DayScreen.js";
-import TaggedScreen from "./components/TaggedScreen.js";
 import colors from "./colors.js";
 
 LogBox.ignoreAllLogs();
@@ -44,6 +43,7 @@ export default function App() {
     setUsername(username);
   };
 
+  console.log(token)
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
@@ -69,7 +69,6 @@ export default function App() {
                 />
               </>
             )
-
           })
           }
         />
