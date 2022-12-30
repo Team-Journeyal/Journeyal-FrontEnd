@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-
     backgroundColor: colors.bright,
     borderColor: colors.dark,
     borderRadius: 5,
@@ -117,8 +116,8 @@ const styles = StyleSheet.create({
     borderColor: colors.dark,
     borderRadius: 5,
     margin: 10,
-    width: 180,
-    height: 35,
+    width: 200,
+    height: 40,
     padding: 3,
     fontFamily: 'timbra',
     fontSize: 30,

@@ -11,7 +11,6 @@ import CalendarScreen from "./components/CalendarScreen.js";
 import NewEntryScreen from "./components/NewEntryScreen.js";
 import SearchScreen from "./components/SearchScreen.js";
 import DayScreen from "./components/DayScreen.js";
-import TaggedScreen from "./components/TaggedScreen.js";
 import colors from "./colors.js";
 
 LogBox.ignoreAllLogs();
@@ -26,7 +25,8 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] = useState(false);
   const [calendarId, setCalendarId] = useState("");
-  const [settings, setSettings] = useState(true)
+  const [settings, setSettings] = useState(true);
+  const [editDay, setEditDay] =useState(true);
   const [loaded] = useFonts({
     marker: require('./assets/fonts/PermanentMarker.ttf'),
     lexie: require('./assets/fonts/LovelexieHandwritten.ttf'),
@@ -43,6 +43,7 @@ export default function App() {
     setUsername(username);
   };
 
+  console.log(token)
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
@@ -68,7 +69,6 @@ export default function App() {
                 />
               </>
             )
-
           })
           }
         />
@@ -142,19 +142,12 @@ export default function App() {
         <Stack.Screen
           name="Day"
           component={DayScreen}
-          options={{
+          initialParams={{ editDay: !editDay, token: token, }}
+          options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
-          }}
-        />
-          <Stack.Screen
-          name="Tagged"
-          component={TaggedScreen}
-          options={{
-            title: "Day",
-            headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
-          }}
+          })
+          }
         />
       </Stack.Navigator>
     </NavigationContainer>

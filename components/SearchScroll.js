@@ -11,7 +11,7 @@ export default function SearchScroll({results, calendarId}) {
                 {results.map((things) => 
                 <>
                 {calendarId === things.calendar &&
-                <Pressable onPress={() => {navigation.navigate("Tagged", {taggedDate: things.date, results: results})}} style={styles.resultBox}>
+                <Pressable onPress={() => {navigation.navigate("Day", {selectedDate: things.date, calendarId: calendarId})}} style={styles.resultBox}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.date}>{things.date}</Text>
                     {things.tags && <Text style={styles.font}>🏷{things.tags}</Text>}

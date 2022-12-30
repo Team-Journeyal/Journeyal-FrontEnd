@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, StatusBar, Text, Button } from "react-native";
+import { View, StyleSheet, StatusBar, Text, Pressable } from "react-native";
 import { Calendar } from "react-native-calendars";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
@@ -18,7 +18,7 @@ export default function CalendarScreen({ navigation, route }) {
       (response) => setCalendarEntries(response.data)
     );
   }, [route.params.refresh]);
-console.log(route.params.selectedDate)
+
   return (
     <View style={styles.background}>
       <StatusBar barStyle={"light-content"} />
@@ -52,7 +52,11 @@ console.log(route.params.selectedDate)
         }}
         initialDate={selectedCalendarDate}
       />
-      <Button title={`Selected date: ${selectedCalendarDate}`} color={colors.white} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries})}/>
+      <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, calendarId: route.params.calendarId})}>
+        <Text style={styles.font}>
+          The Deetz
+        </Text>
+      </Pressable>
       <CalendarScroll
         selectedDate={selectedCalendarDate}
         calendarEntries={calendarEntries}
@@ -67,4 +71,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dark,
     color: colors.white,
   },
+  deetz: {
+    backgroundColor: colors.bright,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: "50%",
+    height: '4%',
+    borderRadius: 10,
+    margin: 4,
+    alignSelf: 'center'
+  }, 
+  font: {
+    fontFamily: 'timbra',
+    fontSize: 30,
+  }
 });

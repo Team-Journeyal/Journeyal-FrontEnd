@@ -76,12 +76,20 @@ export const requestCalendarsEntries = (token, calendarId) => {
   const response = axios.get(url, {
     headers: { Authorization: `Token ${token}` }})
   return response
-}
+};
 
-export const requestAddEntry = (token, newJson) => {
+export const requestAddEntry = (token, formData) => {
   const url = "https://journeyal-webservice.onrender.com/journal/"
 
-  const response = axios.post(url, newJson,
+  const response = axios.post(url, formData,
+    {headers: { Authorization: `Token ${token}` }})
+  return response
+};
+
+export const requestEditEntry = (token, formData, entryId) => {
+  const url = `https://journeyal-webservice.onrender.com/journal/${entryId}/`
+
+  const reponse = axios.patch(url, formData, 
     {headers: { Authorization: `Token ${token}` }})
   return response
 };
@@ -92,4 +100,4 @@ export const requestTagSearch = (token, tag) => {
   const response = axios.get(url, {
     headers: { Authorization: `Token ${token}` }})
   return response
-}
+};

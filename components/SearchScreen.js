@@ -36,10 +36,11 @@ let calId = results.map((cal) => {
       setSelectedDate={route.params.setSelectedDate}
       results={results}
       calendarId={route.params.calendarId}/>)}
-
     </View>
   );
 }
+
+
 const styles = StyleSheet.create({
   background: {
     flex:1,
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
     width: "80%",
-    height: 35,
+    height: 45,
     padding: 3,
     backgroundColor: colors.white,
     fontFamily: 'patrick',

@@ -308,11 +308,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
     width: 200,
-    height: 30,
-    padding: 3,
+    height: 35,
+
     textAlign: "center",
     fontFamily: 'patrick',
-    fontSize: 20,
+    fontSize: 18,
   },
   newButton: {
     width: 350,
