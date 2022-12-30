@@ -1,16 +1,24 @@
 import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, TouchableOpacity, ActivityIndicator, Vibration, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import colors from '../colors';
-import { requestCalendarsEntries } from './Requests';
+import { requestCalendarsEntries, requestEditEvent, requestEditEntry } from './Requests';
+
 
 export default function DayScreen({ route }) {
-    const [today, setToday] = useState(route.params.selectedDate)
-    const [editDay, setEditDay] = useState(false)
-    const [editJournal, setEditJournal] = useState([])
-    const [modalOpacity, setModalOpacity] = useState(1)
-    const [modalVisible, setModalVisible] = useState(false)
-    const [calendarEntries, setCalendarEntries] = useState([])
-
+    const today = route.params.selectedDate
+    const [editJournal, setEditJournal] = useState([]);
+    const [modalOpacity, setModalOpacity] = useState(1);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [editModalVisible, setEditModalVisible] = useState(false);
+    const [calendarEntries, setCalendarEntries] = useState([]);
+    const [editingEvent, setEditingEvent] = useState(false);
+    const [editingEntry, setEditingEntry] = useState(false);
+    const [editEvent, setEditEvent] = useState([]);
+    const [editEntry, setEditEntry] = useState([]);
+    const [editTags, setEditTags] = useState([]);
+    const [editImage, setEditImage] = useState([]);
+    const [editId, setEditId] = useState([])
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
         console.log(route.params.calendarId)
@@ -18,7 +26,37 @@ export default function DayScreen({ route }) {
         requestCalendarsEntries(route.params.token, route.params.calendarId).then(
             (response) => setCalendarEntries(response.data)
         );
-    }, [route.params.refresh]);
+    }, [refresh]);
+
+    // let editEventData = {
+    //     calendar: `${route.params.calendarId}`,
+    //     date: `${route.params.selectedDate}`,
+    //     event: `${editJournal}`,
+    //     entry: `${editEntry}`,
+    //     tags: editTags.length === 0 ? ([]): ([`${editTags}`]),
+    //   };
+
+    //   let editEntryData = {
+    //     calendar: `${route.params.calendarId}`,
+    //     date: `${route.params.selectedDate}`,
+    //     event: `${editEvent}`,
+    //     entry: `${editJournal}`,
+    //     tags: editTags.length === 0 ? ([]): ([`${editTags}`]),
+    //   };
+
+      const handleEventEdit = () => {
+        requestEditEvent(route.params.token, editJournal, editId)
+        .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setModalOpacity(1), setEditingEvent(false), 
+        route.params.setRefreshCalendar(!route.params.refreshCalendar)))
+      }
+
+      const handleEntryEdit = () => {
+        requestEditEntry(route.params.token, editJournal, editId)
+        .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setModalOpacity(1), setEditingEntry(false), 
+        route.params.setRefreshCalendar(!route.params.refreshCalendar)))
+      }
+
+      console.log(editingEvent)
 
     return (
         <ScrollView style={styles.scrollview}>
@@ -42,10 +80,10 @@ export default function DayScreen({ route }) {
                                     onChangeText={setEditJournal}
                                     style={styles.inputs} />
                                 <View style={{ width: 250, flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 5 }}>
-                                    <Pressable onPress={() => { setModalVisible(!modalVisible) }} style={styles.modalButton}>
+                                    <Pressable onPress={() => { setModalVisible(!modalVisible); {editingEvent && (handleEventEdit(), setEditingEvent(false))}; {editingEntry && (handleEntryEdit(), setEditingEntry(false))} }} style={styles.modalButton}>
                                         <Text style={styles.font}>Submit</Text>
                                     </Pressable>
-                                    <Pressable onPress={() => { setModalVisible(!modalVisible), setEditJournal([]), setModalOpacity(1) }} style={styles.modalButton}>
+                                    <Pressable onPress={() => { setModalVisible(!modalVisible), setEditJournal([]), setEditingEntry(false), setEditingEvent(false), setModalOpacity(1) }} style={styles.modalButton}>
                                         <Text style={styles.font}>Cancel</Text>
                                     </Pressable>
                                 </View>
@@ -57,7 +95,7 @@ export default function DayScreen({ route }) {
                     <View style={styles.eventContainer}>
                         {calendarEntries.journals.map((days) =>
                             days.date === today && days.event !== "" && days.event !== null ? (
-                                <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.event), setModalVisible(!modalVisible) }}>
+                                <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.event), setEditId(days.id), setEditingEvent(true), setModalVisible(!modalVisible) }}>
                                     <View style={styles.events}><Text style={styles.font}>·{days.event}</Text></View>
                                 </Pressable>
                             ) : null
@@ -67,7 +105,7 @@ export default function DayScreen({ route }) {
                     <View style={styles.entryContainer}>
                         {calendarEntries.journals.map((days) =>
                             days.date === today && days.entry !== "" && days.entry !== null ? (
-                                <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.entry), setModalVisible(!modalVisible) }}>
+                                <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.entry), setEditId(days.id), setEditingEntry(true), setModalVisible(!modalVisible) }}>
                                     <View style={styles.events}><Text style={styles.font}>{days.entry}</Text></View>
                                 </Pressable>
                             ) : null
