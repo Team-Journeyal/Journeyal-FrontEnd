@@ -1,4 +1,4 @@
-import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, TouchableOpacity, ActivityIndicator, Vibration } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, TouchableOpacity, ActivityIndicator, Vibration, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import colors from '../colors';
 import { requestCalendarsEntries } from './Requests';
@@ -16,14 +16,14 @@ export default function DayScreen({ route }) {
         console.log(route.params.calendarId)
         console.log(route.params.token)
         requestCalendarsEntries(route.params.token, route.params.calendarId).then(
-          (response) => setCalendarEntries(response.data)
+            (response) => setCalendarEntries(response.data)
         );
-      }, [route.params.refresh]);
+    }, [route.params.refresh]);
 
     return (
         <ScrollView style={styles.scrollview}>
             {calendarEntries.journals === undefined ? (
-                <View style={{position: 'absolute', left: 0, right: 0, top: 90}}><ActivityIndicator color={colors.dark} size='large'/></View>
+                <View style={{ position: 'absolute', left: 0, right: 0, top: 90 }}><ActivityIndicator color={colors.dark} size='large' /></View>
             ) : (
                 <View>
 
@@ -40,9 +40,9 @@ export default function DayScreen({ route }) {
                                     value={editJournal}
                                     defaultValue={editJournal}
                                     onChangeText={setEditJournal}
-                                    style={styles.inputs}/>
+                                    style={styles.inputs} />
                                 <View style={{ width: 250, flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 5 }}>
-                                    <Pressable onPress={() => {setModalVisible(!modalVisible) }} style={styles.modalButton}>
+                                    <Pressable onPress={() => { setModalVisible(!modalVisible) }} style={styles.modalButton}>
                                         <Text style={styles.font}>Submit</Text>
                                     </Pressable>
                                     <Pressable onPress={() => { setModalVisible(!modalVisible), setEditJournal([]), setModalOpacity(1) }} style={styles.modalButton}>
@@ -57,7 +57,7 @@ export default function DayScreen({ route }) {
                     <View style={styles.eventContainer}>
                         {calendarEntries.journals.map((days) =>
                             days.date === today && days.event !== "" && days.event !== null ? (
-                                <Pressable onLongPress={() => {Vibration.vibrate(), setEditJournal(days.event), setModalVisible(!modalVisible) }}>
+                                <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.event), setModalVisible(!modalVisible) }}>
                                     <View style={styles.events}><Text style={styles.font}>·{days.event}</Text></View>
                                 </Pressable>
                             ) : null
@@ -67,12 +67,28 @@ export default function DayScreen({ route }) {
                     <View style={styles.entryContainer}>
                         {calendarEntries.journals.map((days) =>
                             days.date === today && days.entry !== "" && days.entry !== null ? (
-                                <Pressable onLongPress={() => {Vibration.vibrate(), setEditJournal(days.entry), setModalVisible(!modalVisible) }}>
-                                <View style={styles.events}><Text style={styles.font}>{days.entry}</Text></View>
-                            </Pressable>
+                                <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.entry), setModalVisible(!modalVisible) }}>
+                                    <View style={styles.events}><Text style={styles.font}>{days.entry}</Text></View>
+                                </Pressable>
                             ) : null
                         )}
                     </View>
+                    <View>
+                        {calendarEntries.journals.map((days) =>
+                            days.date === today &&
+                            days.journal_images.length !== 0 && (
+                                days.journal_images.map((img) =>
+                                    <View style={styles.imageContainer}>
+                                        <Image
+                                            resizeMode="contain"
+                                            style={styles.imageStyle}
+                                            source={{ uri: `${img.image}` }}
+                                        />
+                                    </View>
+                                ))
+                        )}
+                    </View>
+
                 </View>
             )}
         </ScrollView>

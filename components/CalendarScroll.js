@@ -11,7 +11,6 @@ console.log(calendarEntries.journals)
         <View style={{position: 'absolute', left: 0, right: 0, top: 90}}><ActivityIndicator color={colors.dark} size='large'/></View>
       ) : (
         <View>
-
           <View style={styles.eventContainer}>
           {calendarEntries.journals.map((days) =>
             days.date === selectedDate && days.event !== "" && days.event !== null ? (
@@ -32,22 +31,26 @@ console.log(calendarEntries.journals)
             ) : null
           )}
           </View>
-        </View>
-      )}
 
-
-      {/* {calendarEntries.journals.map((days) =>
+      <View>
+      {calendarEntries.journals.map((days) =>
           days.date === selectedDate &&
-              days.journal_images !== "" && (
-                <View key={idx} style={styles.imageContainer}>
+              days.journal_images.length !== 0 && (
+                days.journal_images.map((img) => 
+                <View style={styles.imageContainer}>
                   <Image
                     resizeMode="contain"
                     style={styles.imageStyle}
-                    source={{ uri: `${days.journal_images}` }}
+                    source={{ uri: `${img.image}` }}
                   />
                 </View>
-              )
-      )} */}
+              ))
+      )}
+      </View>
+
+        </View>
+      )}
+
     </ScrollView>
   );
 }
