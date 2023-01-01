@@ -17,7 +17,7 @@ export default function CalendarScreen({ navigation, route }) {
       (response) => setCalendarEntries(response.data)
     );
   }, [refreshCalendar]);
-  
+
   console.log(route.params.selectedDate)
 
   return (
@@ -35,9 +35,9 @@ export default function CalendarScreen({ navigation, route }) {
           textDayHeaderFontFamily: 'marker',
         }}
         onMonthChange={day => {
-            route.params.setSelectedDate(day.dateString),
-              setSelectedCalendarDate(day.dateString);
-          }}
+          route.params.setSelectedDate(day.dateString),
+            setSelectedCalendarDate(day.dateString);
+        }}
         onDayPress={(day) => {
           {
             route.params.setSelectedDate(day.dateString),
@@ -53,7 +53,7 @@ export default function CalendarScreen({ navigation, route }) {
         }}
         initialDate={selectedCalendarDate}
       />
-      <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId})}>
+      <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", { selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId })}>
         <Text style={styles.font}>
           The Deetz
         </Text>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 4,
     alignSelf: 'center'
-  }, 
+  },
   font: {
     fontFamily: 'timbra',
     fontSize: 30,
