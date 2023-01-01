@@ -8,7 +8,8 @@ import {
   StatusBar,
   ActivityIndicator,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ImageBackground
 } from "react-native";
 import colors from "../colors.js";
 import { requestLogin } from "./Requests.js";
@@ -37,11 +38,9 @@ export default function LoginScreen({ navigation, route }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.background}>
+      <ImageBackground source={require('../assets/fridge.png')} style={styles.background}>
+    <View >
       <StatusBar barStyle={"light-content"} />
-      <View style={styles.header}>
-        <Text style={styles.title}>Journeyal</Text>
-      </View>
       <View style={styles.login}>
         {invalid === true ? (
           <Text style={styles.errorFont}>Please enter a valid username or password</Text>
@@ -77,6 +76,7 @@ export default function LoginScreen({ navigation, route }) {
         </Pressable>
       </View>
     </View>
+    </ImageBackground>
     </TouchableWithoutFeedback>
   );
 }
@@ -84,7 +84,6 @@ export default function LoginScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: colors.background,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -102,18 +101,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center'
   },
-  header: {
-    position: "absolute",
-    top: 0,
-    width: "100%",
-    height: "15%",
-    backgroundColor: colors.dark,
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
   inputs: {
     borderWidth: 2,
     borderColor: colors.dark,
+    backgroundColor: colors.white,
     borderRadius: 5,
     margin: 10,
     width: 200,
@@ -123,12 +114,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   login: {
-    height: 300,
-    width: 300,
-    borderWidth: 2,
-    borderColor: colors.dark,
+    marginTop: 40,
+    background: '',
     borderRadius: 5,
-    backgroundColor: colors.white,
     justifyContent: "center",
     alignItems: "center",
   },

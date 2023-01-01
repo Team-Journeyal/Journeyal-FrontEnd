@@ -20,8 +20,8 @@ export default function App() {
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState(null);
   const current = new Date();
-  const currentDate = `${current.getFullYear()}-${current.getMonth() + 1
-    }-${current.getDate()}`;
+  const currentDate = `${current.getFullYear()}-0${current.getMonth() + 1
+    }-0${current.getDate()}`;
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] = useState(false);
   const [calendarId, setCalendarId] = useState("");
@@ -49,7 +49,11 @@ export default function App() {
           name="Login"
           component={LoginScreen}
           initialParams={{ setAuth: setAuth }}
-          options={{ headerShown: false }}
+          options={{ 
+            headerBackVisible: false,
+            headerStyle: { backgroundColor: colors.dark },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
+            title : 'Journeyal' }}
         />
         <Stack.Screen
           name="Home"

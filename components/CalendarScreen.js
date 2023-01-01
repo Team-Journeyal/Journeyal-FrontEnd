@@ -13,12 +13,12 @@ export default function CalendarScreen({ navigation, route }) {
   const [refreshCalendar, setRefreshCalendar] = useState(false)
 
   useEffect(() => {
-    console.log(route.params.calendarId)
-    console.log(route.params.token)
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
       (response) => setCalendarEntries(response.data)
     );
   }, [refreshCalendar]);
+  
+  console.log(route.params.selectedDate)
 
   return (
     <View style={styles.background}>
