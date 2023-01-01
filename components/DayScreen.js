@@ -60,7 +60,9 @@ export default function DayScreen({ route }) {
         <View style={[styles.scrollview, { opacity: modalOpacity }]}>
             <ScrollView>
                 {calendarEntries.journals === undefined ? (
-                    <View style={{ position: 'absolute', left: 0, right: 0, top: 90 }}><ActivityIndicator color={colors.dark} size='large' /></View>
+                    <View style={{ position: 'absolute', left: 0, right: 0, top: 90 }}>
+                        <ActivityIndicator color={colors.dark} size='large' />
+                    </View>
                 ) : (
                     <View>
 
@@ -68,7 +70,10 @@ export default function DayScreen({ route }) {
                             animationType="none"
                             transparent={true}
                             visible={modalVisible}>
-                            <TouchableOpacity style={styles.modalBox} onPress={() => { setModalVisible(false), setModalOpacity(1) }}>
+                            <TouchableOpacity style={styles.modalBox} onPress={() => {
+                                setModalVisible(false),
+                                    setModalOpacity(1)
+                            }}>
                                 <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
                                     <Text>Edit Schedule/Journal</Text>
                                     <TextInput
@@ -79,10 +84,22 @@ export default function DayScreen({ route }) {
                                         onChangeText={setEditJournal}
                                         style={styles.inputs} />
                                     <View style={{ width: 250, flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 5 }}>
-                                        <Pressable onPress={() => { setModalVisible(!modalVisible); { editingEvent && (handleEventEdit(), setEditingEvent(false)) }; { editingEntry && (handleEntryEdit(), setEditingEntry(false)) } }} style={styles.modalButton}>
+                                        <Pressable onPress={() => {
+                                            setModalVisible(!modalVisible);
+                                            { editingEvent && (handleEventEdit(), setEditingEvent(false)) };
+                                            { editingEntry && (handleEntryEdit(), setEditingEntry(false)) }
+                                        }}
+                                            style={styles.modalButton}>
                                             <Text style={styles.font}>Submit</Text>
                                         </Pressable>
-                                        <Pressable onPress={() => { setModalVisible(!modalVisible), setEditJournal([]), setEditingEntry(false), setEditingEvent(false), setModalOpacity(1) }} style={[styles.modalButton, { backgroundColor: 'silver' }]}>
+                                        <Pressable onPress={() => {
+                                            setModalVisible(!modalVisible),
+                                                setEditJournal([]),
+                                                setEditingEntry(false),
+                                                setEditingEvent(false),
+                                                setModalOpacity(1)
+                                        }}
+                                            style={[styles.modalButton, { backgroundColor: 'silver' }]}>
                                             <Text style={styles.font}>Cancel</Text>
                                         </Pressable>
                                     </View>
@@ -94,19 +111,31 @@ export default function DayScreen({ route }) {
                             animationType="none"
                             transparent={true}
                             visible={imgVisible}>
-                            <TouchableOpacity style={styles.modalBox} onPress={() => { setImgVisible(false), setModalOpacity(1) }}>
+                            <TouchableOpacity style={styles.modalBox} onPress={() => {
+                                setImgVisible(false),
+                                    setModalOpacity(1)
+                            }}>
                                 <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
-                                    <Image resizeMode='contain' style={styles.img} source={{uri : zoom}}/>
-                                    </TouchableOpacity>
+                                    <Image resizeMode='contain' style={styles.img} source={{ uri: zoom }} />
                                 </TouchableOpacity>
+                            </TouchableOpacity>
                         </Modal>
 
                         <Text style={styles.dateFont}>{today}</Text>
                         <View style={styles.eventContainer}>
                             {calendarEntries.journals.map((days) =>
                                 days.date === today && days.event !== "" && days.event !== null ? (
-                                    <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.event), setEditId(days.id), setEditingEvent(true), setModalVisible(!modalVisible), setModalOpacity(.3) }}>
-                                        <View style={styles.events}><Text style={styles.font}>·{days.event}</Text></View>
+                                    <Pressable onLongPress={() => {
+                                        Vibration.vibrate(),
+                                            setEditJournal(days.event),
+                                            setEditId(days.id),
+                                            setEditingEvent(true),
+                                            setModalVisible(!modalVisible),
+                                            setModalOpacity(.3)
+                                    }}>
+                                        <View style={styles.events}>
+                                            <Text style={styles.font}>·{days.event}</Text>
+                                        </View>
                                     </Pressable>
                                 ) : null
                             )}
@@ -115,8 +144,17 @@ export default function DayScreen({ route }) {
                         <View style={styles.entryContainer}>
                             {calendarEntries.journals.map((days) =>
                                 days.date === today && days.entry !== "" && days.entry !== null ? (
-                                    <Pressable onLongPress={() => { Vibration.vibrate(), setEditJournal(days.entry), setEditId(days.id), setEditingEntry(true), setModalVisible(!modalVisible), setModalOpacity(.3) }}>
-                                        <View style={styles.events}><Text style={styles.font}>{days.entry}</Text></View>
+                                    <Pressable onLongPress={() => {
+                                        Vibration.vibrate(),
+                                            setEditJournal(days.entry),
+                                            setEditId(days.id),
+                                            setEditingEntry(true),
+                                            setModalVisible(!modalVisible),
+                                            setModalOpacity(.3)
+                                    }}>
+                                        <View style={styles.events}>
+                                            <Text style={styles.font}>{days.entry}</Text>
+                                        </View>
                                     </Pressable>
                                 ) : null
                             )}
@@ -127,17 +165,20 @@ export default function DayScreen({ route }) {
                                 days.journal_images.length !== 0 && (
                                     days.journal_images.map((img) =>
                                         <View style={styles.imageContainer}>
-                                            <Pressable onLongPress={() => {setZoom(img.image), setImgVisible(true), setModalOpacity(.3)}}>
+                                            <Pressable onLongPress={() => {
+                                                setZoom(img.image),
+                                                    setImgVisible(true),
+                                                    setModalOpacity(.3)
+                                            }}>
                                                 <Image
                                                     resizeMode="contain"
                                                     style={styles.imageStyle}
-                                                    source={{ uri: `${img.image}` }}
-                                                /></Pressable>
+                                                    source={{ uri: `${img.image}` }} />
+                                            </Pressable>
                                         </View>
                                     ))
                             )}
                         </View>
-
                     </View>
                 )}
             </ScrollView>
