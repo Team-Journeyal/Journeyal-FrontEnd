@@ -10,15 +10,18 @@ import {
   Modal,
   Button,
   TouchableOpacity,
+  Vibration,
 } from "react-native";
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import colors from "../colors";
+import CalendarInfo from './CalendarInfo.js'
 import {
   requestCalendars,
   requestDeleteCalendar,
   requestNewCalendar,
-  requestEditCalendar
+  requestEditCalendar, 
+  requestUserSearch
 } from "./Requests";
 
 export default function HomeScreen({ navigation, route }) {
@@ -30,6 +33,8 @@ export default function HomeScreen({ navigation, route }) {
   const [editVisisble, setEditVisible] = useState(false);
   const [calId, setCalId] = useState();
   const [modalOpacity, setModalOpacity] = useState(1);
+  const [searchString, setSearchString] = useState("")
+ 
 
   useEffect(() => {
     requestCalendars(route.params.token).then((response) =>
@@ -62,21 +67,9 @@ export default function HomeScreen({ navigation, route }) {
     route.params.setCalendarId(clndr.id);
     setRefresh(!refresh);
   };
-
-  const handleCalendarDelete = (clndr) => {
-    requestDeleteCalendar(route.params.token, clndr.id)
-      .then((res) => (res && setRefresh(!refresh)))
-  };
-
-  const handleCalendarEdit = () => {
-    let formData = new FormData();
-    formData.append('name', calendarName)
-    formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
-    requestEditCalendar(route.params.token, formData, calId)
-      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName(''), setModalOpacity(1)))
-  };
-
+  
   const handleDeleteAlert = (clndr) => {
+    Vibration.vibrate()
     Alert.alert(
       'Delete',
       'Are you sure?',
@@ -89,6 +82,25 @@ export default function HomeScreen({ navigation, route }) {
       }]
     )
   };
+
+  const handleCalendarDelete = () => {
+    requestDeleteCalendar(route.params.token, calId)
+      .then((res) => (res && setRefresh(!refresh), setModalOpacity(1)))
+  };
+
+  const handleCalendarEdit = () => {
+    let formData = new FormData();
+    formData.append('name', calendarName)
+    formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
+    requestEditCalendar(route.params.token, formData, calId)
+      .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName(''), setModalOpacity(1)))
+  };
+
+  const handleUserSearch = () => {
+    requestUserSearch(route.params.token, searchString)
+      .then((res) => (res && console.log(res.data), setModalOpacity(1)))
+  }
+
 
   return (
     <View style={[styles.background, { opacity: modalOpacity }]}>
@@ -119,7 +131,7 @@ export default function HomeScreen({ navigation, route }) {
                     style={styles.modalImage}
                     source={{ uri: `${addImage}` }} />
                 )}
-                <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={{ width: 200, flexDirection: 'row', justifyContent: 'space-between' }}>
                   <Pressable onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
                   </Pressable>
@@ -154,9 +166,22 @@ export default function HomeScreen({ navigation, route }) {
                     style={styles.modalImage}
                     source={{ uri: `${addImage}` }} />
                 )}
+                <TextInput
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  value={searchString}
+                  onChangeText={setSearchString}
+                  style={styles.inputs}
+                />
                 <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
+                  <Pressable onPress={() => { handleUserSearch(); setEditVisible(!editVisisble) }} style={styles.modalAdd}>
+                    <Text style={styles.font}>Search</Text>
+                  </Pressable>
                   <Pressable onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
+                  </Pressable>
+                  <Pressable onPress={() => { handleDeleteAlert(); setEditVisible(!editVisisble) }} style={styles.modalDelete}>
+                    <Text style={styles.font}>Delete</Text>
                   </Pressable>
                   <Pressable onPress={() => {
                     setEditVisible(!editVisisble),
@@ -195,9 +220,25 @@ export default function HomeScreen({ navigation, route }) {
                   style={styles.image}
                   source={{ uri: clndr.cal_image }}
                 />
-                <Text style={styles.text}>{clndr.name}</Text>
-              </Pressable>
-              <View style={styles.settingsBox}>
+                  <Text style={styles.text}>{clndr.name}</Text>
+                  <View style={{justifyContent: "flex-end"}}>
+                  <Pressable style={styles.edit}
+                  onPress={() => {
+                    // setEditVisible(!editVisisble),
+                    //   setCalId(clndr.id),
+                    //   setCalendarName(clndr.name),
+                    //   setAddImage(clndr.cal_image),
+                    //   setModalOpacity(.4)
+                    setOpen(!open)
+                  }}>
+                <CalendarInfo clndr={clndr} />
+                  </Pressable>
+                  </View>
+
+              
+                </Pressable>
+
+              {/* <View style={styles.settingsBox}>
                 {route.params.settings === true ? (<>
                   <View style={styles.settings}>
                     <Pressable onPress={() => {
@@ -210,12 +251,10 @@ export default function HomeScreen({ navigation, route }) {
                       style={styles.edit}>
                       <Text style={styles.font}>Edit</Text>
                     </Pressable>
-                    <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}>
-                      <Text style={styles.font}>Delete</Text>
-                    </Pressable>
+
                   </View></>)
                   : (null)}
-              </View>
+              </View> */}
             </View>
           ))}
         </View>
@@ -256,6 +295,18 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: colors.bright,
   },
+  modalAdd: {
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: "blue",
+  },
+  modalDelete: {
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: colors.red,
+  },
   modalImage: {
     height: 200,
     width: 200,
@@ -281,7 +332,7 @@ const styles = StyleSheet.create({
     height: 250,
     backgroundColor: colors.bright,
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "space-evenly",
     margin: 10,
     padding: 10,
   },
@@ -289,23 +340,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 25,
     marginBottom: 50,
-
-  },
-  delete: {
-    borderRadius: 5,
-    width: 80,
-    height: 20,
-    backgroundColor: colors.red,
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: colors.white,
   },
   edit: {
     borderRadius: 5,
-    width: 80,
+    width: 60,
     height: 20,
-    backgroundColor: colors.bright,
-    justifyContent: 'center',
     alignItems: 'center'
   },
   font: {
@@ -315,8 +354,6 @@ const styles = StyleSheet.create({
   image: {
     height: "80%",
     width: "90%",
-    justifyContent: "center",
-    alignItems: "center",
   },
   inputs: {
     borderWidth: 2,
@@ -325,7 +362,6 @@ const styles = StyleSheet.create({
     margin: 10,
     width: 200,
     height: 35,
-
     textAlign: "center",
     fontFamily: 'patrick',
     fontSize: 18,
@@ -356,11 +392,15 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: 'patrick',
     fontSize: 30,
-    marginTop: 10,
+    textAlign: "center"
   },
   userFont: {
     fontFamily: 'timbra',
     fontSize: 35,
     marginBottom: 10,
+  },
+  words: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
   }
 });

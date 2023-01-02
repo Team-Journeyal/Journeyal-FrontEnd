@@ -87,7 +87,8 @@ export default function DayScreen({ route }) {
                                         <Pressable onPress={() => {
                                             setModalVisible(!modalVisible);
                                             { editingEvent && (handleEventEdit(), setEditingEvent(false)) };
-                                            { editingEntry && (handleEntryEdit(), setEditingEntry(false)) }
+                                            { editingEntry && (handleEntryEdit(), setEditingEntry(false)) };
+                                            setModalOpacity(1)
                                         }}
                                             style={styles.modalButton}>
                                             <Text style={styles.font}>Submit</Text>
