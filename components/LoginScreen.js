@@ -45,7 +45,7 @@ export default function LoginScreen({ navigation, route }) {
         {invalid === true ? (
           <Text style={styles.errorFont}>Please enter a valid username or password</Text>
         ) : null}
-        <View style={{ height: 30 }}>{loading && <ActivityIndicator />}</View>
+        <View style={{ height: 30 }}>{loading && <ActivityIndicator color={colors.dark}/>}</View>
         <TextInput
           autoCorrect={false}
           autoCapitalize="none"
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   login: {
-    marginTop: 40,
+    marginTop: 70,
     background: '',
     borderRadius: 5,
     justifyContent: "center",

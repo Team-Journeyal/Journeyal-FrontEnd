@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     inputs: {
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: colors.dark,
         borderRadius: 5,
         margin: 10,

@@ -16,9 +16,8 @@ export default function CalendarScreen({ navigation, route }) {
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
       (response) => setCalendarEntries(response.data)
     );
-  }, [refreshCalendar]);
+  }, [refreshCalendar, route.params.refresh]);
 
-  console.log(route.params.selectedDate)
 
   return (
     <View style={styles.background}>
@@ -55,7 +54,7 @@ export default function CalendarScreen({ navigation, route }) {
       />
       <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", { selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId })}>
         <Text style={styles.font}>
-          The Deetz
+          Details
         </Text>
       </Pressable>
       <CalendarScroll
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: "50%",
-    height: 28,
+    height: 30,
     borderRadius: 10,
     margin: 4,
     alignSelf: 'center'

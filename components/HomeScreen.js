@@ -137,7 +137,7 @@ export default function HomeScreen({ navigation, route }) {
             visible={editVisisble}>
             <TouchableOpacity style={styles.modalBox} onPress={() => { setEditVisible(false), setModalOpacity(1) }}>
               <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
-                <Text style={styles.settingsFont}>Edit/Rename your calendar</Text>
+                <Text style={styles.settingsFont}>Edit your calendar</Text>
                 <TextInput
                   autoCorrect={false}
                   autoCapitalize="none"
@@ -288,6 +288,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     marginTop: 25,
+    marginBottom: 50,
 
   },
   delete: {

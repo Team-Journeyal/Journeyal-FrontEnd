@@ -58,7 +58,7 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          initialParams={{ token: token, setCalendarId: setCalendarId, settings: !settings }}
+          initialParams={{ token: token, setCalendarId: setCalendarId, settings: !settings, setSettings: setSettings }}
           options={({ navigation }) => ({
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
@@ -66,7 +66,7 @@ export default function App() {
             headerRight: () => (
               <>
                 <Button
-                  title="⚙️"
+                  title="Edit"
                   onPress={() => { setSettings(!settings), navigation.setParams({ settings: settings, setSettings: setSettings }) }}
                 />
               </>
@@ -77,8 +77,12 @@ export default function App() {
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
-          options={{ headerTransparent: true,  fontFamily: 'marker', fontSize: 30, headerTitleStyle: {color: colors.dark} }}
           initialParams={{ setAuth: setAuth }}
+          options={{ 
+            headerBackTitle: 'Log In',
+            headerStyle: { backgroundColor: colors.dark },
+            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
+            title : 'Register' }}
         />
         <Stack.Screen
           name="Calendar"
@@ -144,7 +148,7 @@ export default function App() {
         <Stack.Screen
           name="Day"
           component={DayScreen}
-          initialParams={{ editDay: !editDay, token: token, }}
+          initialParams={{ editDay: !editDay, token: token, setRefresh: setRefresh, refresh: !refresh}}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },

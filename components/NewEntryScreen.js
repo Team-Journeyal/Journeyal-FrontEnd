@@ -12,6 +12,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import colors from "../colors";
+import { data } from "../sample.json";
 import { requestAddEntry } from "./Requests";
 
 export default function NewEntryScreen({ route, navigation }) {
