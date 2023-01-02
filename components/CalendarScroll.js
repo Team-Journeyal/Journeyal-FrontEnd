@@ -3,12 +3,13 @@ import colors from "../colors";
 
 export default function CalendarScroll({ selectedDate, calendarEntries }) {
 
-console.log(calendarEntries.journals)
 
   return (
     <ScrollView style={styles.scrollview}>
       {calendarEntries.journals === undefined ? (
-        <View style={{position: 'absolute', left: 0, right: 0, top: 90}}><ActivityIndicator color={colors.dark} size='large'/></View>
+        <View style={{position: 'absolute', left: 0, right: 0, top: 90}}>
+          <ActivityIndicator color={colors.dark} size='large'/>
+          </View>
       ) : (
         <View>
           <View style={styles.eventContainer}>

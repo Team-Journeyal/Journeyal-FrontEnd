@@ -13,12 +13,11 @@ export default function CalendarScreen({ navigation, route }) {
   const [refreshCalendar, setRefreshCalendar] = useState(false)
 
   useEffect(() => {
-    console.log(route.params.calendarId)
-    console.log(route.params.token)
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
       (response) => setCalendarEntries(response.data)
     );
-  }, [refreshCalendar]);
+  }, [refreshCalendar, route.params.refresh]);
+
 
   return (
     <View style={styles.background}>
@@ -35,9 +34,9 @@ export default function CalendarScreen({ navigation, route }) {
           textDayHeaderFontFamily: 'marker',
         }}
         onMonthChange={day => {
-            route.params.setSelectedDate(day.dateString),
-              setSelectedCalendarDate(day.dateString);
-          }}
+          route.params.setSelectedDate(day.dateString),
+            setSelectedCalendarDate(day.dateString);
+        }}
         onDayPress={(day) => {
           {
             route.params.setSelectedDate(day.dateString),
@@ -53,9 +52,9 @@ export default function CalendarScreen({ navigation, route }) {
         }}
         initialDate={selectedCalendarDate}
       />
-      <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", {selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId})}>
+      <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", { selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId })}>
         <Text style={styles.font}>
-          The Deetz
+          Details
         </Text>
       </Pressable>
       <CalendarScroll
@@ -77,11 +76,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: "50%",
-    height: 28,
+    height: 30,
     borderRadius: 10,
     margin: 4,
     alignSelf: 'center'
-  }, 
+  },
   font: {
     fontFamily: 'timbra',
     fontSize: 30,

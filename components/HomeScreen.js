@@ -91,7 +91,7 @@ export default function HomeScreen({ navigation, route }) {
   };
 
   return (
-    <View style={[styles.background, {opacity: modalOpacity}]}>
+    <View style={[styles.background, { opacity: modalOpacity }]}>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
           <Text style={styles.userFont}>Hello, {route.params.username}</Text>
@@ -101,7 +101,7 @@ export default function HomeScreen({ navigation, route }) {
             animationType="none"
             transparent={true}
             visible={modalVisible}>
-            <TouchableOpacity  style={styles.modalBox} onPress={() => {setModalVisible(false), setModalOpacity(1)}}>
+            <TouchableOpacity style={styles.modalBox} onPress={() => { setModalVisible(false), setModalOpacity(1) }}>
               <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
                 <Text style={styles.settingsFont}>Create a new calendar</Text>
                 <TextInput
@@ -123,7 +123,7 @@ export default function HomeScreen({ navigation, route }) {
                   <Pressable onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
                   </Pressable>
-                  <Pressable onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1)}} style={styles.modalButton}>
+                  <Pressable onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1) }} style={[styles.modalButton, { backgroundColor: 'silver' }]}>
                     <Text style={styles.font}>Cancel</Text>
                   </Pressable>
                 </View>
@@ -135,9 +135,9 @@ export default function HomeScreen({ navigation, route }) {
             animationType="none"
             transparent={true}
             visible={editVisisble}>
-            <TouchableOpacity  style={styles.modalBox} onPress={() => {setEditVisible(false), setModalOpacity(1)}}>
+            <TouchableOpacity style={styles.modalBox} onPress={() => { setEditVisible(false), setModalOpacity(1) }}>
               <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
-                <Text style={styles.settingsFont}>Edit/Rename your calendar</Text>
+                <Text style={styles.settingsFont}>Edit your calendar</Text>
                 <TextInput
                   autoCorrect={false}
                   autoCapitalize="none"
@@ -158,7 +158,13 @@ export default function HomeScreen({ navigation, route }) {
                   <Pressable onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
                   </Pressable>
-                  <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalendarName(''), setAddImage([]), setModalOpacity(1)}} style={styles.modalButton}>
+                  <Pressable onPress={() => {
+                    setEditVisible(!editVisisble),
+                      setCalendarName(''),
+                      setAddImage([]),
+                      setModalOpacity(1)
+                  }}
+                    style={[styles.modalButton, { backgroundColor: 'silver' }]}>
                     <Text style={styles.font}>Cancel</Text>
                   </Pressable>
                 </View>
@@ -169,7 +175,12 @@ export default function HomeScreen({ navigation, route }) {
 
 
 
-          <Pressable style={styles.add} onPress={() => {setModalVisible(!modalVisible), setModalOpacity(.4)}}><Text style={styles.addFont}>Add Calendar</Text></Pressable>
+          <Pressable style={styles.add} onPress={() => {
+            setModalVisible(!modalVisible),
+              setModalOpacity(.4)
+          }}>
+            <Text style={styles.addFont}>Add Calendar</Text>
+          </Pressable>
 
           {calendars.map((clndr, idx) => (
             <View key={idx}>
@@ -189,8 +200,19 @@ export default function HomeScreen({ navigation, route }) {
               <View style={styles.settingsBox}>
                 {route.params.settings === true ? (<>
                   <View style={styles.settings}>
-                    <Pressable onPress={() => { setEditVisible(!editVisisble),  setCalId(clndr.id), setCalendarName(clndr.name), setAddImage(clndr.cal_image), setModalOpacity(.4)}} style={styles.edit}><Text style={styles.font}>Edit</Text></Pressable>
-                    <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}><Text style={styles.font}>Delete</Text></Pressable>
+                    <Pressable onPress={() => {
+                      setEditVisible(!editVisisble),
+                        setCalId(clndr.id),
+                        setCalendarName(clndr.name),
+                        setAddImage(clndr.cal_image),
+                        setModalOpacity(.4)
+                    }}
+                      style={styles.edit}>
+                      <Text style={styles.font}>Edit</Text>
+                    </Pressable>
+                    <Pressable onPress={() => { handleDeleteAlert(clndr) }} style={styles.delete}>
+                      <Text style={styles.font}>Delete</Text>
+                    </Pressable>
                   </View></>)
                   : (null)}
               </View>
@@ -229,14 +251,14 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   modalButton: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
     elevation: 2,
-    backgroundColor: "green"
+    backgroundColor: colors.bright,
   },
   modalImage: {
-    height: 100,
-    width: 100,
+    height: 200,
+    width: 200,
   },
   add: {
     borderRadius: 5,
@@ -266,6 +288,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     marginTop: 25,
+    marginBottom: 50,
 
   },
   delete: {

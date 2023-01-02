@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { View, Text, StyleSheet, TextInput, Pressable, ImageBackground } from "react-native";
 import { requestNewUser, requestLogin } from "./Requests";
 import { useState } from "react";
 import colors from "../colors";
@@ -21,10 +21,8 @@ export default function RegisterScreen({ navigation, route }) {
   };
 
   return (
-    <View style={styles.background}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Journeyal</Text>
-      </View>
+    <ImageBackground source={require('../assets/fridge.png')} style={styles.background}>
+    <View>
       <View style={styles.register}>
         <Text style={styles.msgFont}>Register for Journeyal</Text>
         <TextInput
@@ -49,13 +47,13 @@ export default function RegisterScreen({ navigation, route }) {
         </Pressable>
       </View>
     </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: colors.background,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -67,15 +65,6 @@ const styles = StyleSheet.create({
     width: 60,
     justifyContent: "center",
     alignItems: "center",
-  },
-  header: {
-    position: "absolute",
-    top: 0,
-    width: "100%",
-    height: "15%",
-    backgroundColor: colors.dark,
-    alignItems: "center",
-    justifyContent: "flex-end",
   },
   inputs: {
     borderWidth: 2,
@@ -94,12 +83,8 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   register: {
-    height: 300,
-    width: 300,
-    borderWidth: 2,
-    borderColor: colors.dark,
+    marginTop: 40,
     borderRadius: 5,
-    backgroundColor: colors.white,
     justifyContent: "center",
     alignItems: "center",
   },
