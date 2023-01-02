@@ -119,3 +119,11 @@ export const requestTagSearch = (token, tag) => {
     headers: { Authorization: `Token ${token}` }})
   return response
 };
+
+export const requestUserSearch = (token, username) => {
+  const url = `https://journeyal-webservice.onrender.com/calendar/users/?search=${username}`
+
+  const response = axios.get(url, {
+    headers: { Authorization: `Token ${token}` }})
+  return response
+}

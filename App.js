@@ -20,8 +20,13 @@ export default function App() {
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState(null);
   const current = new Date();
-  const currentDate = `${current.getFullYear()}-0${current.getMonth() + 1
-    }-0${current.getDate()}`;
+  const month = String(current.getMonth() + 1)
+  const day = String(current.getDate())
+  const checkedMonth = month.length === 1 ? `0${month}` : `${month}`
+  const checkedDay = day.length === 1 ? `0${day}` : `${day}`
+
+  const currentDate = `${current.getFullYear()}-${checkedMonth}-${checkedDay}`;
+
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] = useState(false);
   const [calendarId, setCalendarId] = useState("");
