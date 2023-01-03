@@ -127,3 +127,12 @@ export const requestUserSearch = (token, username) => {
     headers: { Authorization: `Token ${token}` }})
   return response
 }
+
+export const requestAddUser = (token, calendarId, userId) => {
+  const url = `https://journeyal-webservice.onrender.com/calendar/${calendarId}/`
+
+  const response = axios.patch(url, {
+      users: [userId]}, 
+    {headers: { Authorization: `Token ${token}` }})
+  return response
+}

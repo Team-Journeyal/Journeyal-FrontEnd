@@ -21,7 +21,8 @@ import {
   requestDeleteCalendar,
   requestNewCalendar,
   requestEditCalendar,
-  requestUserSearch
+  requestUserSearch,
+  requestAddUser
 } from "./Requests";
 
 export default function HomeScreen({ navigation, route }) {
@@ -37,7 +38,7 @@ export default function HomeScreen({ navigation, route }) {
   const [searchString, setSearchString] = useState("");
   const [userResults, setUserResults] = useState([]);
   const [selectedUser, setSelectedUser] = useState()
-
+  const [selectedUserId, setSelectedUserId] = useState()
 
 
   useEffect(() => {
@@ -103,6 +104,12 @@ export default function HomeScreen({ navigation, route }) {
   const handleUserSearch = () => {
     requestUserSearch(route.params.token, searchString)
       .then((res) => (setUserResults(res.data), setModalOpacity(1)))
+  }
+
+  const handleAddUser = () => {
+    console.log(calId, selectedUserId)
+    requestAddUser(route.params.token, calId, selectedUserId)
+      .then((res) => (console.log(res)))
   }
 
 
@@ -207,11 +214,13 @@ export default function HomeScreen({ navigation, route }) {
                 </View>
                 <View style={{ alignItems: 'center' }}>
                   {userResults.map((users) =>
-                    <Pressable onPress={() => setSelectedUser(users.username)}>
+                    <Pressable onPress={() => {setSelectedUser(users.username), setSelectedUserId(users.id)}}>
+                      {console.log(userResults)}
                       <Text style={{ fontSize: 25 }}>{users.username}</Text></Pressable>)}
                 </View>
 
-                {selectedUser ? (<Pressable style={styles.searchButton}><Text>Add {selectedUser}</Text></Pressable>) : (null)}
+                {selectedUser ? (<Pressable onPress={() => handleAddUser()}
+                style={styles.searchButton}><Text>Add {selectedUser}</Text></Pressable>) : (null)}
 
               </TouchableOpacity>
             </TouchableOpacity>
