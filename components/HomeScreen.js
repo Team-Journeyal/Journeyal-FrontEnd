@@ -20,7 +20,7 @@ import {
   requestCalendars,
   requestDeleteCalendar,
   requestNewCalendar,
-  requestEditCalendar, 
+  requestEditCalendar,
   requestUserSearch
 } from "./Requests";
 
@@ -28,13 +28,17 @@ export default function HomeScreen({ navigation, route }) {
   const [calendars, setCalendars] = useState([]);
   const [refresh, setRefresh] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [editVisisble, setEditVisible] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(false)
   const [calendarName, setCalendarName] = useState('');
   const [addImage, setAddImage] = useState([]);
-  const [editVisisble, setEditVisible] = useState(false);
   const [calId, setCalId] = useState();
   const [modalOpacity, setModalOpacity] = useState(1);
-  const [searchString, setSearchString] = useState("")
- 
+  const [searchString, setSearchString] = useState("");
+  const [userResults, setUserResults] = useState([]);
+  const [selectedUser, setSelectedUser] = useState()
+
+
 
   useEffect(() => {
     requestCalendars(route.params.token).then((response) =>
@@ -67,7 +71,7 @@ export default function HomeScreen({ navigation, route }) {
     route.params.setCalendarId(clndr.id);
     setRefresh(!refresh);
   };
-  
+
   const handleDeleteAlert = (clndr) => {
     Vibration.vibrate()
     Alert.alert(
@@ -98,7 +102,7 @@ export default function HomeScreen({ navigation, route }) {
 
   const handleUserSearch = () => {
     requestUserSearch(route.params.token, searchString)
-      .then((res) => (res && console.log(res.data), setModalOpacity(1)))
+      .then((res) => (setUserResults(res.data), setModalOpacity(1)))
   }
 
 
@@ -115,7 +119,7 @@ export default function HomeScreen({ navigation, route }) {
             visible={modalVisible}>
             <TouchableOpacity style={styles.modalBox} onPress={() => { setModalVisible(false), setModalOpacity(1) }}>
               <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
-                <Text style={styles.settingsFont}>Create a new calendar</Text>
+                <Text style={styles.settingsFont}>Create a new Journeyal</Text>
                 <TextInput
                   autoCorrect={false}
                   autoCapitalize="none"
@@ -149,7 +153,7 @@ export default function HomeScreen({ navigation, route }) {
             visible={editVisisble}>
             <TouchableOpacity style={styles.modalBox} onPress={() => { setEditVisible(false), setModalOpacity(1) }}>
               <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
-                <Text style={styles.settingsFont}>Edit your calendar</Text>
+                <Text style={styles.settingsFont}>Edit your Journeyal</Text>
                 <TextInput
                   autoCorrect={false}
                   autoCapitalize="none"
@@ -166,22 +170,9 @@ export default function HomeScreen({ navigation, route }) {
                     style={styles.modalImage}
                     source={{ uri: `${addImage}` }} />
                 )}
-                <TextInput
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  value={searchString}
-                  onChangeText={setSearchString}
-                  style={styles.inputs}
-                />
                 <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
-                  <Pressable onPress={() => { handleUserSearch(); setEditVisible(!editVisisble) }} style={styles.modalAdd}>
-                    <Text style={styles.font}>Search</Text>
-                  </Pressable>
                   <Pressable onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
-                  </Pressable>
-                  <Pressable onPress={() => { handleDeleteAlert(); setEditVisible(!editVisisble) }} style={styles.modalDelete}>
-                    <Text style={styles.font}>Delete</Text>
                   </Pressable>
                   <Pressable onPress={() => {
                     setEditVisible(!editVisisble),
@@ -198,13 +189,44 @@ export default function HomeScreen({ navigation, route }) {
           </Modal>
 
 
+          <Modal
+            animationType="none"
+            transparent={true}
+            visible={searchVisible}>
+            <TouchableOpacity style={styles.modalBox} onPress={() => { setSearchVisible(false), setSearchString([]), setUserResults([]), setSelectedUser(), setModalOpacity(1) }}>
+              <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
+                <Text style={styles.settingsFont}>Search for a user</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TextInput
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  value={searchString}
+                  onChangeText={setSearchString}
+                  style={styles.inputs} />
+                  <Pressable onPress={() => handleUserSearch()} ><Text style={{fontSize: 25}}>🔎</Text></Pressable>
+                  </View>
+
+                  <View>
+                    {userResults.map((users) => 
+                    <Pressable onPress={() => setSelectedUser(users.username)}>
+                    <Text style={{fontSize: 25}}>{users.username}</Text></Pressable>)}
+                  </View>
+                      
+                    {selectedUser ? (<Pressable><Text>Add {selectedUser}</Text></Pressable>) : (<Pressable><Text>No user selected</Text></Pressable>)}
+                      
+              </TouchableOpacity>
+            </TouchableOpacity>
+
+
+          </Modal>
+
 
 
           <Pressable style={styles.add} onPress={() => {
             setModalVisible(!modalVisible),
               setModalOpacity(.4)
           }}>
-            <Text style={styles.addFont}>Add Calendar</Text>
+            <Text style={styles.addFont}>Add Journeyal</Text>
           </Pressable>
 
           {calendars.map((clndr, idx) => (
@@ -213,48 +235,51 @@ export default function HomeScreen({ navigation, route }) {
                 style={styles.button}
                 onPress={() => {
                   handleCalendarEntries(clndr);
-                }}
-              >
-
+                }}>
                 <Image
                   style={styles.image}
                   source={{ uri: clndr.cal_image }}
                 />
-                  <Text style={styles.text}>{clndr.name}</Text>
-                  <View style={{justifyContent: "flex-end"}}>
-                  <Pressable style={styles.edit}
-                  onPress={() => {
-                    // setEditVisible(!editVisisble),
-                    //   setCalId(clndr.id),
-                    //   setCalendarName(clndr.name),
-                    //   setAddImage(clndr.cal_image),
-                    //   setModalOpacity(.4)
-                    setOpen(!open)
-                  }}>
-                <CalendarInfo clndr={clndr} />
-                  </Pressable>
-                  </View>
+                <Text style={styles.text}>{clndr.name}</Text>
+                <View style={styles.edit}>
+                  <CalendarInfo clndr={clndr} calId={calId} setCalId={setCalId} />
+                </View>
+              </Pressable>
 
-              
-                </Pressable>
+              <View>
+                {calId === clndr.id ?
+                  (
+                    <View style={styles.info}>
+                      <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-evenly',
+                        alignItems: 'center',
+                      }}>
+                        <Pressable onPress={() => {
+                          setEditVisible(!editVisisble),
+                            setCalId(clndr.id),
+                            setCalendarName(clndr.name),
+                            setAddImage(clndr.cal_image),
+                            setModalOpacity(.4)
+                        }}
+                          style={styles.modalAdd}>
+                          <Text style={styles.font}>Edit</Text>
+                        </Pressable>
 
-              {/* <View style={styles.settingsBox}>
-                {route.params.settings === true ? (<>
-                  <View style={styles.settings}>
-                    <Pressable onPress={() => {
-                      setEditVisible(!editVisisble),
-                        setCalId(clndr.id),
-                        setCalendarName(clndr.name),
-                        setAddImage(clndr.cal_image),
-                        setModalOpacity(.4)
-                    }}
-                      style={styles.edit}>
-                      <Text style={styles.font}>Edit</Text>
-                    </Pressable>
+                        <Pressable onPress={() => { setSearchVisible(true)}} style={[styles.modalAdd, {width:100}]}>
+                          <Text style={styles.font}>Add User</Text>
+                        </Pressable>
 
-                  </View></>)
-                  : (null)}
-              </View> */}
+                        <Pressable onPress={() => { handleDeleteAlert(clndr), console.log(clndr) }} style={styles.modalDelete}>
+                          <Text style={styles.font}>Delete</Text>
+                        </Pressable>
+
+                      </View>
+                      <Text style={styles.font}>Journeyal Users:</Text>
+                      <Text style={styles.font}>~{clndr.owner}</Text>
+                      <Text style={styles.font}>~{clndr.users}</Text>
+                    </View>) : (null)}
+              </View>
             </View>
           ))}
         </View>
@@ -267,6 +292,7 @@ const styles = StyleSheet.create({
   addFont: {
     fontFamily: 'timbra',
     fontSize: 25,
+    color: colors.white,
   },
   modalBox: {
     flex: 1,
@@ -299,13 +325,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     elevation: 2,
-    backgroundColor: "blue",
+    backgroundColor: colors.bright,
+    width: 70,
+    alignItems: 'center'
   },
   modalDelete: {
     borderRadius: 10,
     padding: 10,
     elevation: 2,
     backgroundColor: colors.red,
+    width: 70,
+    alignItems: 'center'
   },
   modalImage: {
     height: 200,
@@ -315,7 +345,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 180,
     height: 50,
-    backgroundColor: "gold",
+    backgroundColor: colors.bright,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -325,12 +355,11 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    backgroundColor: colors.background,
   },
   button: {
     width: 350,
     height: 250,
-    backgroundColor: colors.bright,
+    backgroundColor: colors.dark,
     alignItems: "center",
     justifyContent: "space-evenly",
     margin: 10,
@@ -345,11 +374,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 60,
     height: 20,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   font: {
     fontFamily: 'timbra',
     fontSize: 20,
+    color: colors.white
   },
   image: {
     height: "80%",
@@ -378,6 +408,7 @@ const styles = StyleSheet.create({
   settings: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+    borderWidth: 1,
 
   },
   settingsBox: {
@@ -402,5 +433,13 @@ const styles = StyleSheet.create({
   words: {
     flexDirection: "row",
     justifyContent: "flex-end",
+  },
+  info: {
+    backgroundColor: colors.dark,
+    height: 140,
+    width: 350,
+    margin: 10,
+    marginTop: -10,
+    padding: 10,
   }
 });

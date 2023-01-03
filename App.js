@@ -63,19 +63,11 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          initialParams={{ token: token, setCalendarId: setCalendarId, settings: !settings, setSettings: setSettings }}
+          initialParams={{ token: token, setCalendarId: setCalendarId }}
           options={({ navigation }) => ({
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
             headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
-            headerRight: () => (
-              <>
-                <Button
-                  title="Edit"
-                  onPress={() => { setSettings(!settings), navigation.setParams({ settings: settings, setSettings: setSettings }) }}
-                />
-              </>
-            )
           })
           }
         />
