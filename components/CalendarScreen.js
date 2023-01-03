@@ -11,7 +11,7 @@ export default function CalendarScreen({ navigation, route }) {
   );
   const [calendarEntries, setCalendarEntries] = useState([]);
   const [refreshCalendar, setRefreshCalendar] = useState(false)
-  const dotMarker = {key: 'dotMarker', color: 'red'}
+  const dotMarker = {key: 'dotMarker', color: colors.dark}
 
 
   useEffect(() => {
@@ -20,16 +20,14 @@ export default function CalendarScreen({ navigation, route }) {
     );
   }, [refreshCalendar, route.params.refresh]);
 
+  let dateObject = {[selectedCalendarDate]: {selected: true, selectedColor: colors.bright}}
 
-  let dotTest = calendarEntries.length !== 0 && calendarEntries.journals.map((things)=> {
-   return things.date
-  })
-
-  let markedDates = dotTest && dotTest.map((dotz) => {
-    return dotz
-  })
-
-console.log(markedDates)
+  calendarEntries.length !== 0 && calendarEntries.journals.map((dots)=> {
+    dateObject[dots.date] = {
+      dots: [dotMarker],
+      selectedColor: colors.bright,
+    };
+  });
 
   return (
     <View style={styles.background}>
@@ -50,17 +48,23 @@ console.log(markedDates)
             setSelectedCalendarDate(day.dateString);
         }}
         onDayPress={(day) => {
-          {
+          { 
             route.params.setSelectedDate(day.dateString),
               setSelectedCalendarDate(day.dateString);
           }
         }}
         markingType={"multi-dot"}
-        markedDates={{
-          markedDots: {dots: [dotMarker]}
-        }}
-        initialDate={selectedCalendarDate}
-      />
+        markedDates={ dateObject
+          
+          //   {
+            //   [selectedCalendarDate]: {
+              //   selected: true,
+              //   selectedColor: colors.bright,
+              // }}
+            }
+            initialDate={selectedCalendarDate}
+            />
+            {console.log(dateObject)}
       <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
         <Text style={[styles.font, {color: colors.white}]}>Details Page:</Text>
       <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", { selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId })}>
