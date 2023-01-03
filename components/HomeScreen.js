@@ -196,28 +196,25 @@ export default function HomeScreen({ navigation, route }) {
             <TouchableOpacity style={styles.modalBox} onPress={() => { setSearchVisible(false), setSearchString([]), setUserResults([]), setSelectedUser(), setModalOpacity(1) }}>
               <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
                 <Text style={styles.settingsFont}>Search for a user</Text>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <TextInput
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  value={searchString}
-                  onChangeText={setSearchString}
-                  style={styles.inputs} />
-                  <Pressable onPress={() => handleUserSearch()} ><Text style={{fontSize: 25}}>🔎</Text></Pressable>
-                  </View>
-
-                  <View>
-                    {userResults.map((users) => 
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TextInput
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    value={searchString}
+                    onChangeText={setSearchString}
+                    style={styles.inputs} />
+                  <Pressable onPress={() => handleUserSearch()} ><Text style={{ fontSize: 25 }}>🔎</Text></Pressable>
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                  {userResults.map((users) =>
                     <Pressable onPress={() => setSelectedUser(users.username)}>
-                    <Text style={{fontSize: 25}}>{users.username}</Text></Pressable>)}
-                  </View>
-                      
-                    {selectedUser ? (<Pressable><Text>Add {selectedUser}</Text></Pressable>) : (<Pressable><Text>No user selected</Text></Pressable>)}
-                      
+                      <Text style={{ fontSize: 25 }}>{users.username}</Text></Pressable>)}
+                </View>
+
+                {selectedUser ? (<Pressable style={styles.searchButton}><Text>Add {selectedUser}</Text></Pressable>) : (null)}
+
               </TouchableOpacity>
             </TouchableOpacity>
-
-
           </Modal>
 
 
@@ -266,7 +263,7 @@ export default function HomeScreen({ navigation, route }) {
                           <Text style={styles.font}>Edit</Text>
                         </Pressable>
 
-                        <Pressable onPress={() => { setSearchVisible(true)}} style={[styles.modalAdd, {width:100}]}>
+                        <Pressable onPress={() => { setSearchVisible(true) }} style={[styles.modalAdd, { width: 100 }]}>
                           <Text style={styles.font}>Add User</Text>
                         </Pressable>
 
@@ -275,9 +272,11 @@ export default function HomeScreen({ navigation, route }) {
                         </Pressable>
 
                       </View>
-                      <Text style={styles.font}>Journeyal Users:</Text>
-                      <Text style={styles.font}>~{clndr.owner}</Text>
-                      <Text style={styles.font}>~{clndr.users}</Text>
+                      <View style={{ paddingTop: 5 }}>
+                        <Text style={styles.font}>{clndr.name} Users</Text>
+                        <Text style={styles.font}>~{clndr.owner}</Text>
+                        <Text style={styles.font}>~{clndr.users}</Text>
+                      </View>
                     </View>) : (null)}
               </View>
             </View>
@@ -293,6 +292,14 @@ const styles = StyleSheet.create({
     fontFamily: 'timbra',
     fontSize: 25,
     color: colors.white,
+  },
+  searchButton: {
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: colors.bright,
+    width: 150,
+    alignItems: 'center'
   },
   modalBox: {
     flex: 1,
@@ -436,7 +443,6 @@ const styles = StyleSheet.create({
   },
   info: {
     backgroundColor: colors.dark,
-    height: 140,
     width: 350,
     margin: 10,
     marginTop: -10,

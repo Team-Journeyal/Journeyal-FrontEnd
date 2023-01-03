@@ -52,11 +52,14 @@ export default function CalendarScreen({ navigation, route }) {
         }}
         initialDate={selectedCalendarDate}
       />
+      <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
+        <Text style={[styles.font, {color: colors.white}]}>Details Page:</Text>
       <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", { selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId })}>
         <Text style={styles.font}>
-          Details
+          ➤
         </Text>
       </Pressable>
+      </View>
       <CalendarScroll
         selectedDate={selectedCalendarDate}
         calendarEntries={calendarEntries}
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bright,
     justifyContent: 'center',
     alignItems: 'center',
-    width: "50%",
+    width: "30%",
     height: 30,
     borderRadius: 10,
     margin: 4,
