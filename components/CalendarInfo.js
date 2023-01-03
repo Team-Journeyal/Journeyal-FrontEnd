@@ -1,26 +1,37 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import {useState} from 'react'
+import { useState } from 'react'
+import colors from '../colors'
 
-export default function CalendarInfo ({clndr }) {
+export default function CalendarInfo({ clndr, setCalId, calId }) {
     const [info, setInfo] = useState(false)
 
 
     return (
-        <View style={styles.container}> 
-            <Pressable onPress={() => setInfo(!info)} style={styles.button}><Text>▽</Text></Pressable>
-            {console.log(clndr)}
-            {info && 
-            <Text>Test</Text>}
+        <View>
+            <View style={styles.container}>
+            <Pressable style={styles.button} onPress={() => {setCalId(clndr.id)}}>
+                {calId !== clndr.id ? (<Text style={{ fontSize: 20, color: colors.white }}>▽</Text>) : (null)}
+            </Pressable>
+            </View>
+
+            <Pressable style={styles.button} onPress={() => {setCalId(null)}}>
+                {calId === clndr.id ? (<Text style={{ fontSize: 20, color: colors.white }}>△</Text>) : (null)}
+            </Pressable>
         </View>
     )
 }
 const styles = StyleSheet.create({
     button: {
-        width: "50%",
-        backgroundColor: "pink"
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     container: {
-        width: 100,
-        height: 100
+        width: 350,
+    },
+    expand: {
+        height: 200,
+        width: 350,
+        backgroundColor: colors.bright,
+        marginBottom: 300,
     }
 })
