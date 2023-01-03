@@ -11,6 +11,8 @@ export default function CalendarScreen({ navigation, route }) {
   );
   const [calendarEntries, setCalendarEntries] = useState([]);
   const [refreshCalendar, setRefreshCalendar] = useState(false)
+  const dotMarker = {key: 'dotMarker', color: 'red'}
+
 
   useEffect(() => {
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
@@ -18,6 +20,16 @@ export default function CalendarScreen({ navigation, route }) {
     );
   }, [refreshCalendar, route.params.refresh]);
 
+
+  let dotTest = calendarEntries.length !== 0 && calendarEntries.journals.map((things)=> {
+   return things.date
+  })
+
+  let markedDates = dotTest && dotTest.map((dotz) => {
+    return dotz
+  })
+
+console.log(markedDates)
 
   return (
     <View style={styles.background}>
@@ -45,10 +57,7 @@ export default function CalendarScreen({ navigation, route }) {
         }}
         markingType={"multi-dot"}
         markedDates={{
-          [selectedCalendarDate]: {
-            selected: true,
-            selectedColor: colors.bright,
-          },
+          markedDots: {dots: [dotMarker]}
         }}
         initialDate={selectedCalendarDate}
       />

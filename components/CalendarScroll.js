@@ -28,7 +28,6 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
           {calendarEntries.journals.map((days) =>
             days.date === selectedDate && days.entry !== "" && days.entry !== null ? (
             <View style={styles.events}>
-              {console.log(days)}
               <Text>{days.user}</Text>
               <Text style={styles.font}>{days.entry}</Text>
             </View>
