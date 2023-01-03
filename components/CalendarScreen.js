@@ -24,11 +24,11 @@ export default function CalendarScreen({ navigation, route }) {
       <StatusBar barStyle={"light-content"} />
       <Calendar
         style={{
-          backgroundColor: colors.light,
+          backgroundColor: colors.white,
         }}
         theme={{
-          calendarBackground: colors.light,
-          selectedDayBackgroundColor: colors.bright,
+          calendarBackground: colors.white,
+          selectedDayBackgroundColor: colors.white,
           textDayFontFamily: 'marker',
           textMonthFontFamily: 'marker',
           textDayHeaderFontFamily: 'marker',

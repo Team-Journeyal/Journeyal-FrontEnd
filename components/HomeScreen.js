@@ -107,9 +107,9 @@ export default function HomeScreen({ navigation, route }) {
   }
 
   const handleAddUser = () => {
-    console.log(calId, selectedUserId)
     requestAddUser(route.params.token, calId, selectedUserId)
-      .then((res) => (console.log(res)))
+      .then((res) => (res && setRefresh(!refresh), setSearchVisible(false), 
+      setSearchString(""), setUserResults([]), setSelectedUser()))
   }
 
 
