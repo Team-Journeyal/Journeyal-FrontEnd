@@ -52,14 +52,16 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
       )}
       </View> */}
 
-      <View>
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         {calendarEntries.journals.map((days) => 
         days.date === selectedDate && 
           days.tags.length !== 0 &&
 
-          <View>
-              {console.log(days.tags)}
-              <Text style={styles.tag}>🏷{days.tags}</Text>
+          <View style={styles.tag}>
+            <View style={{flexDirection: "row",}}>
+              <Text style={{color: colors.white, }}>·</Text>
+              <Text style={{marginLeft: 5,}}>{days.tags}</Text>
+            </View>
             </View>
             
             )}
@@ -73,7 +75,6 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
 }
 const styles = StyleSheet.create({
   events: {
-    // borderBottomWidth: 2.5,
     borderTopWidth: 1,
     backgroundColor: colors.white,
     paddingLeft: 10,
@@ -88,10 +89,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2.5,
   },
   entryContainer: {
-    // borderRadius: 5,
     marginBottom: 20,
-    // borderRightWidth: 3,
-    // borderLeftWidth: 1,
   } , 
   font: {
     fontFamily: 'patrick',
@@ -113,7 +111,12 @@ const styles = StyleSheet.create({
     margin: 3,
   },
   tag:{
+    flexDirection: 'row',
     backgroundColor: colors.background,
-
+    margin: 5,
+    marginBottom: 50,
+    borderBottomLeftRadius: 9,
+    borderTopLeftRadius: 9,
+    padding: 5,
   }
 });
