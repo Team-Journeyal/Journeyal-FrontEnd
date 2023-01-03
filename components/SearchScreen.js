@@ -44,7 +44,7 @@ let calId = results.map((cal) => {
 const styles = StyleSheet.create({
   background: {
     flex:1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.white,
     justifyContent: "flex-start",
     alignItems: "center",
   },

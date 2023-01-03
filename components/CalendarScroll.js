@@ -16,6 +16,7 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
           {calendarEntries.journals.map((days) =>
             days.date === selectedDate && days.event !== "" && days.event !== null ? (
             <View style={styles.events}>
+              <Text>{days.user}</Text>
               <Text style={styles.font}>•{days.event}</Text>
             </View>
             ) : null
@@ -27,13 +28,15 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
           {calendarEntries.journals.map((days) =>
             days.date === selectedDate && days.entry !== "" && days.entry !== null ? (
             <View style={styles.events}>
+              {console.log(days)}
+              <Text>{days.user}</Text>
               <Text style={styles.font}>{days.entry}</Text>
             </View>
             ) : null
           )}
           </View>
 
-      <View>
+      {/* <View>
       {calendarEntries.journals.map((days) =>
           days.date === selectedDate &&
               days.journal_images.length !== 0 && (
@@ -47,6 +50,21 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
                 </View>
               ))
       )}
+      </View> */}
+
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        {calendarEntries.journals.map((days) => 
+        days.date === selectedDate && 
+          days.tags.length !== 0 &&
+
+          <View style={styles.tag}>
+            <View style={{flexDirection: "row",}}>
+              <Text style={{color: colors.white, }}>·</Text>
+              <Text style={{marginLeft: 5,}}>{days.tags}</Text>
+            </View>
+            </View>
+            
+            )}
       </View>
 
         </View>
@@ -57,31 +75,31 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
 }
 const styles = StyleSheet.create({
   events: {
-    borderBottomWidth: 2.5,
     borderTopWidth: 1,
     backgroundColor: colors.white,
-    paddingLeft: 5,
+    paddingLeft: 10,
   },
   eventContainer: {
     borderRadius: 5,
+    margin: 10,
+    marginTop: 0,
     marginBottom: 20,
     borderRightWidth: 3,
     borderLeftWidth: 1,
+    borderBottomWidth: 2.5,
   },
   entryContainer: {
-    borderRadius: 5,
     marginBottom: 20,
-    borderRightWidth: 3,
-    borderLeftWidth: 1,
   } , 
   font: {
     fontFamily: 'patrick',
     fontSize: 25,
     height: 35,
+    marginLeft: 10,
   },
   scrollview: {
     width: "100%",
-    backgroundColor: colors.background,
+    backgroundColor: colors.white,
     padding: 5,
   },
   imageContainer: {
@@ -92,4 +110,13 @@ const styles = StyleSheet.create({
     height: 200,
     margin: 3,
   },
+  tag:{
+    flexDirection: 'row',
+    backgroundColor: colors.background,
+    margin: 5,
+    marginBottom: 50,
+    borderBottomLeftRadius: 9,
+    borderTopLeftRadius: 9,
+    padding: 5,
+  }
 });

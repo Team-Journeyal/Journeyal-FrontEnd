@@ -14,7 +14,9 @@ export default function SearchScroll({results, calendarId}) {
                 <Pressable onPress={() => {navigation.navigate("Day", {selectedDate: things.date, calendarId: calendarId})}} style={styles.resultBox}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.date}>{things.date}</Text>
-                    {things.tags && <Text style={styles.font}>🏷{things.tags}</Text>}
+                    <View style={styles.tag}>
+                    {things.tags && <Text style={styles.font}>{things.tags}</Text>}
+                    </View>
                     </View>
                     {things.event && <Text style={styles.font}>~{things.event}</Text>}
                     {things.entry && <Text style={styles.font}>{things.entry}</Text>}
@@ -47,7 +49,16 @@ const styles = StyleSheet.create({
         height: 113,
         marginTop: 10, 
         padding: 10,
+        borderWidth: 1,
         borderRadius: 5,
         backgroundColor: colors.white
-    }
+    },
+    tag:{
+        minWidth: 55,
+        alignItems: "center",
+        backgroundColor: colors.background,
+        borderBottomLeftRadius: 9,
+        borderTopLeftRadius: 9,
+        padding: 5,
+      }
 })
