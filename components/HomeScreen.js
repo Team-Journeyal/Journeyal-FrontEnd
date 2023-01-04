@@ -112,7 +112,6 @@ export default function HomeScreen({ navigation, route }) {
       setSearchString(""), setUserResults([]), setSelectedUser()))
   }
 
-
   return (
     <View style={[styles.background, { opacity: modalOpacity }]}>
       <ScrollView style={{ width: "100%" }}>
@@ -200,7 +199,7 @@ export default function HomeScreen({ navigation, route }) {
             animationType="none"
             transparent={true}
             visible={searchVisible}>
-            <TouchableOpacity style={styles.modalBox} onPress={() => { setSearchVisible(false), setSearchString([]), setUserResults([]), setSelectedUser(), setModalOpacity(1) }}>
+            <TouchableOpacity style={styles.modalBox} onPress={() => { setSearchVisible(false), setSearchString([]), setUserResults([]), setSelectedUser(), setModalOpacity(1)}}>
               <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
                 <Text style={styles.settingsFont}>Search for a user</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -215,7 +214,6 @@ export default function HomeScreen({ navigation, route }) {
                 <View style={{ alignItems: 'center' }}>
                   {userResults.map((users) =>
                     <Pressable onPress={() => {setSelectedUser(users.username), setSelectedUserId(users.id)}}>
-                      {console.log(userResults)}
                       <Text style={{ fontSize: 25 }}>{users.username}</Text></Pressable>)}
                 </View>
 
@@ -272,7 +270,7 @@ export default function HomeScreen({ navigation, route }) {
                           <Text style={styles.font}>Edit</Text>
                         </Pressable>
 
-                        <Pressable onPress={() => { setSearchVisible(true) }} style={[styles.modalAdd, { width: 100 }]}>
+                        <Pressable onPress={() => { setSearchVisible(true)}} style={[styles.modalAdd, { width: 100 }]}>
                           <Text style={styles.font}>Add User</Text>
                         </Pressable>
 
@@ -281,12 +279,19 @@ export default function HomeScreen({ navigation, route }) {
                         </Pressable>
 
                       </View>
-                      <View style={{ paddingTop: 5 }}>
+                      <View style={{padding: 5,}}>
                         <Text style={styles.font}>{clndr.name} Users</Text>
-                        <Text style={styles.font}>~{clndr.owner}</Text>
-                        <Text style={styles.font}>~{clndr.users}</Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                        <View style={{backgroundColor: colors.bright, borderRadius: 5, margin: 5, padding: 5}}><Text style={styles.font}>{clndr.owner}</Text></View>
+                        {clndr.users.map((usr) => <View style={{backgroundColor: colors.bright, borderRadius: 5, margin: 5, padding: 5}}><Text style={styles.font}> {usr}</Text></View>)}
+                        </View>
                       </View>
+                      <Pressable style={{alignItems: "center"}} onPress={() => {setCalId(null)}}>
+                        <Text style={{ fontSize: 20, color: colors.white }}>△</Text>
+                      </Pressable>
+
                     </View>) : (null)}
+                    
               </View>
             </View>
           ))}
@@ -374,7 +379,8 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 350,
-    height: 250,
+    height: 260,
+    borderRadius: 10,
     backgroundColor: colors.dark,
     alignItems: "center",
     justifyContent: "space-evenly",
@@ -400,6 +406,15 @@ const styles = StyleSheet.create({
   image: {
     height: "80%",
     width: "90%",
+    marginTop: 15,
+  },
+  info: {
+    backgroundColor: colors.dark,
+    width: 350,
+    margin: 10,
+    marginTop: -25,
+    padding: 10,
+    borderRadius: 10,
   },
   inputs: {
     borderWidth: 2,
@@ -439,7 +454,8 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: 'patrick',
     fontSize: 30,
-    textAlign: "center"
+    textAlign: "center",
+    paddingTop: 10,
   },
   userFont: {
     fontFamily: 'timbra',
@@ -450,11 +466,4 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
   },
-  info: {
-    backgroundColor: colors.dark,
-    width: 350,
-    margin: 10,
-    marginTop: -10,
-    padding: 10,
-  }
 });

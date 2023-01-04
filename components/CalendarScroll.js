@@ -59,7 +59,7 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
           <View style={styles.tag}>
             <View style={{flexDirection: "row",}}>
               <Text style={{color: colors.white, }}>·</Text>
-              <Text style={{marginLeft: 5,}}>{days.tags}</Text>
+              <Text style={{marginLeft: 5}}>{days.tags}</Text>
             </View>
             </View>
             
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     backgroundColor: colors.white,
     paddingLeft: 10,
+    marginBottom: 5,
   },
   eventContainer: {
     borderRadius: 5,
@@ -89,6 +90,8 @@ const styles = StyleSheet.create({
   },
   entryContainer: {
     marginBottom: 20,
+    paddingRight: 10,
+    paddingLeft: 10,
   } , 
   font: {
     fontFamily: 'patrick',

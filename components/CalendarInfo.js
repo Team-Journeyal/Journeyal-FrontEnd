@@ -3,7 +3,6 @@ import { useState } from 'react'
 import colors from '../colors'
 
 export default function CalendarInfo({ clndr, setCalId, calId }) {
-    const [info, setInfo] = useState(false)
 
 
     return (
