@@ -135,7 +135,7 @@ export default function DayScreen({ route }) {
 
                         <Text style={styles.dateFont}>{today}</Text>
                         
-                        <View style={{marginBottom: 20}}>
+                        <View style={{marginBottom: 20,}}>
                         <CarouselCards newArray={newArray}/>
                         </View>
                         

@@ -22,12 +22,12 @@ const styles = StyleSheet.create({
     width: ITEM_WIDTH,
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 3,
+      width: 5,
+      height: 5,
     },
-
-    shadowOpacity: 1,
-    shadowRadius: 4.65,
+    marginBottom: 15,
+    shadowOpacity: 0.6,
+    shadowRadius: 5,
     elevation: 7,
   },
   image: {
