@@ -8,18 +8,18 @@ export default function SearchScroll({results, calendarId}) {
     return (
         <ScrollView style={styles.container}>
             <View>
-                {results.map((things) => 
+                {results.map((days) => 
                 <>
-                {calendarId === things.calendar &&
-                <Pressable onPress={() => {navigation.navigate("Day", {selectedDate: things.date, calendarId: calendarId})}} style={styles.resultBox}>
+                {calendarId === days.calendar &&
+                <Pressable onPress={() => {navigation.navigate("Day", {selectedDate: days.date, calendarId: calendarId})}} style={styles.resultBox}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Text style={styles.date}>{things.date}</Text>
+                    <Text style={styles.date}>{days.date}</Text>
                     <View style={styles.tag}>
-                    {things.tags && <Text style={styles.font}>{things.tags}</Text>}
+                    {things.tags && <Text style={styles.font}>{days.tags}</Text>}
                     </View>
                     </View>
-                    {things.event && <Text style={styles.font}>~{things.event}</Text>}
-                    {things.entry && <Text style={styles.font}>{things.entry}</Text>}
+                    {things.event && <Text style={styles.font}>·{days.event}</Text>}
+                    {things.entry && <Text style={styles.font}>{days.entry}</Text>}
                 </Pressable>}
                 </>
                 )}
