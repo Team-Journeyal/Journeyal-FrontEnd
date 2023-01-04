@@ -59,12 +59,12 @@ export default function DayScreen({ route }) {
                 route.params.setRefreshCalendar(!route.params.refreshCalendar), setModalOpacity(1)))
     }
 
-    let newArray = []
+    let imageArray = []
     calendarEntries.journals && calendarEntries.journals.map((days) => 
         days.date === today && days.journal_images.length !== 0 && (
-        days.journal_images.map((img) => newArray.push({image: img.image}))))
+        days.journal_images.map((img) => imageArray.push({image: img.image}))))
 
-    console.log(newArray)
+    
 
     return (
         <View style={[styles.scrollview, { opacity: modalOpacity }]}>
@@ -135,10 +135,7 @@ export default function DayScreen({ route }) {
 
                         <Text style={styles.dateFont}>{today}</Text>
                         
-                        <View style={{marginBottom: 20,}}>
-                        <CarouselCards newArray={newArray}/>
-                        </View>
-                        
+                        <CarouselCards imageArray={imageArray}/>
 
                         <View style={styles.eventContainer}>
                             {calendarEntries.journals.map((days) =>
