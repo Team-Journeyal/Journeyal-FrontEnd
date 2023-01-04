@@ -19,17 +19,19 @@ export default function DayScreen({ route }) {
     const [editEntry, setEditEntry] = useState([]);
     const [editTags, setEditTags] = useState([]);
     const [editImage, setEditImage] = useState([]);
-    const [editId, setEditId] = useState([])
-    const [refresh, setRefresh] = useState(false)
-    const [zoom, setZoom] = useState([])
+    const [editId, setEditId] = useState([]);
+    const [refresh, setRefresh] = useState(false);
+    const [zoom, setZoom] = useState([]);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
-        requestCalendarsEntries(route.params.token, route.params.calendarId).then(
-            (response) => setCalendarEntries(response.data)
+        requestCalendarsEntries(route.params.token, route.params.calendarId)
+        .then((response) =>  setCalendarEntries(response.data)
         );
     }, [refresh]);
 
-    // let editEventData = {
+    
+    // let editEventData = 
     //     calendar: `${route.params.calendarId}`,
     //     date: `${route.params.selectedDate}`,
     //     event: `${editJournal}`,
@@ -57,6 +59,13 @@ export default function DayScreen({ route }) {
                 route.params.setRefreshCalendar(!route.params.refreshCalendar), setModalOpacity(1)))
     }
 
+    let newArray = []
+    calendarEntries.journals && calendarEntries.journals.map((days) => 
+        days.date === today && days.journal_images.length !== 0 && (
+        days.journal_images.map((img) => newArray.push({image: img.image}))))
+
+    console.log(newArray)
+
     return (
         <View style={[styles.scrollview, { opacity: modalOpacity }]}>
             <ScrollView>
@@ -66,8 +75,6 @@ export default function DayScreen({ route }) {
                     </View>
                 ) : (
                     <View>
-
-<CarouselCards />
 
                         <Modal
                             animationType="none"
@@ -128,26 +135,10 @@ export default function DayScreen({ route }) {
 
                         <Text style={styles.dateFont}>{today}</Text>
                         
-                        <View>
-                            {calendarEntries.journals.map((days) =>
-                                days.date === today &&
-                                days.journal_images.length !== 0 && (
-                                    days.journal_images.map((img) =>
-                                        <View style={styles.imageContainer}>
-                                            <Pressable onLongPress={() => {
-                                                setZoom(img.image),
-                                                    setImgVisible(true),
-                                                    setModalOpacity(.3)
-                                            }}>
-                                                <Image
-                                                    resizeMode="contain"
-                                                    style={styles.imageStyle}
-                                                    source={{ uri: `${img.image}` }} />
-                                            </Pressable>
-                                        </View>
-                                    ))
-                            )}
+                        <View style={{marginBottom: 20}}>
+                        <CarouselCards newArray={newArray}/>
                         </View>
+                        
 
                         <View style={styles.eventContainer}>
                             {calendarEntries.journals.map((days) =>
