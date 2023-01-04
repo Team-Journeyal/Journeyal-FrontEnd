@@ -122,44 +122,9 @@ export default function DayScreen({ route }) {
                             </TouchableOpacity>
                         </Modal>
 
-                        <Text style={styles.dateFont}>{today}</Text>
-                        <View style={styles.eventContainer}>
-                            {calendarEntries.journals.map((days) =>
-                                days.date === today && days.event !== "" && days.event !== null ? (
-                                    <Pressable onLongPress={() => {
-                                        Vibration.vibrate(),
-                                            setEditJournal(days.event),
-                                            setEditId(days.id),
-                                            setEditingEvent(true),
-                                            setModalVisible(!modalVisible),
-                                            setModalOpacity(.3)
-                                    }}>
-                                        <View style={styles.events}>
-                                            <Text style={styles.font}>·{days.event}</Text>
-                                        </View>
-                                    </Pressable>
-                                ) : null
-                            )}
-                        </View>
 
-                        <View style={styles.entryContainer}>
-                            {calendarEntries.journals.map((days) =>
-                                days.date === today && days.entry !== "" && days.entry !== null ? (
-                                    <Pressable onLongPress={() => {
-                                        Vibration.vibrate(),
-                                            setEditJournal(days.entry),
-                                            setEditId(days.id),
-                                            setEditingEntry(true),
-                                            setModalVisible(!modalVisible),
-                                            setModalOpacity(.3)
-                                    }}>
-                                        <View style={styles.events}>
-                                            <Text style={styles.font}>{days.entry}</Text>
-                                        </View>
-                                    </Pressable>
-                                ) : null
-                            )}
-                        </View>
+                        <Text style={styles.dateFont}>{today}</Text>
+                        
                         <View>
                             {calendarEntries.journals.map((days) =>
                                 days.date === today &&
@@ -180,6 +145,61 @@ export default function DayScreen({ route }) {
                                     ))
                             )}
                         </View>
+
+                        <View style={styles.eventContainer}>
+                            {calendarEntries.journals.map((days) =>
+                                days.date === today && days.event !== "" && days.event !== null ? (
+                                    <Pressable onLongPress={() => {
+                                        Vibration.vibrate(),
+                                            setEditJournal(days.event),
+                                            setEditId(days.id),
+                                            setEditingEvent(true),
+                                            setModalVisible(!modalVisible),
+                                            setModalOpacity(.3)
+                                    }}>
+                                        <View style={styles.events}>
+                                            <Text>{days.user}</Text>
+                                            <Text style={styles.font}>·{days.event}</Text>
+                                        </View>
+                                    </Pressable>
+                                ) : null
+                            )}
+                        </View>
+
+                        <View style={styles.entryContainer}>
+                            {calendarEntries.journals.map((days) =>
+                                days.date === today && days.entry !== "" && days.entry !== null ? (
+                                    <Pressable onLongPress={() => {
+                                        Vibration.vibrate(),
+                                            setEditJournal(days.entry),
+                                            setEditId(days.id),
+                                            setEditingEntry(true),
+                                            setModalVisible(!modalVisible),
+                                            setModalOpacity(.3)
+                                    }}>
+                                        <View style={styles.entries}>
+                                            <Text>{days.user}</Text>
+                                            <Text style={styles.font}>{days.entry}</Text>
+                                        </View>
+                                    </Pressable>
+                                ) : null
+                            )}
+                        </View>
+
+                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                            {calendarEntries.journals.map((days) => 
+                                days.date === today && 
+                                days.tags.length !== 0 &&
+
+                            <View style={styles.tag}>
+                                <View style={{flexDirection: "row"}}>
+                                    <Text style={{color: colors.white }}>·</Text>
+                                    <Text style={{marginLeft: 5}}>{days.tags}</Text>
+                                </View>
+                            </View>
+            
+                            )}
+                        </View>
                     </View>
                 )}
             </ScrollView>
@@ -193,28 +213,34 @@ const styles = StyleSheet.create({
         height: 300,
     },
     events: {
-        borderBottomWidth: 2.5,
         borderTopWidth: 1,
         backgroundColor: colors.white,
-        paddingLeft: 5,
+        paddingLeft: 10,
+        marginBottom: 5,
     },
     eventContainer: {
         borderRadius: 5,
+        margin: 10,
+        marginTop: 0,
         marginBottom: 20,
         borderRightWidth: 3,
         borderLeftWidth: 1,
+        borderBottomWidth: 2.5,
+    },
+    entries: {
+        borderTopWidth: 1,
+        paddingLeft: 10,
+        marginBottom: 5,
     },
     entryContainer: {
         borderRadius: 5,
         marginBottom: 20,
-        borderRightWidth: 3,
-        borderLeftWidth: 1,
     },
     scrollview: {
         flex: 1,
         width: "100%",
-        backgroundColor: colors.light,
         padding: 5,
+
     },
     inputFont: {
         borderWidth: 1,
@@ -225,6 +251,8 @@ const styles = StyleSheet.create({
     font: {
         fontFamily: 'patrick',
         fontSize: 25,
+        // height: 35, 
+        marginLeft: 10,
     },
     dateFont: {
         fontFamily: 'patrick',
@@ -278,4 +306,14 @@ const styles = StyleSheet.create({
         fontFamily: 'patrick',
         fontSize: 20,
     },
+    tag: {
+        flexDirection: 'row',
+        backgroundColor: colors.background,
+        margin: 5,
+        marginTop: 20,
+        marginBottom: 50,
+        borderBottomLeftRadius: 9,
+        borderTopLeftRadius: 9,
+        padding: 5,
+    }
 });

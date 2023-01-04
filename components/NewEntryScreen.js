@@ -93,7 +93,6 @@ export default function NewEntryScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: colors.background,
     alignItems: "center",
   },
   image: {
