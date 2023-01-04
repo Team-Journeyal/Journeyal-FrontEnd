@@ -1,21 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Pressable, ScrollView } from "react-native";
 import SearchScroll from "./SearchScroll";
 import colors from "../colors";
-import { requestCalendarsEntries, requestTagSearch } from "./Requests";
+import { requestTagSearch } from "./Requests";
 
 export default function SearchScreen({route}) {
   const [searchString, setSearchString] = useState("");
   const [results, setResults] = useState([''])
-  const [noResults, setNoResults] = useState('')
-
-  // useEffect(() => {
-  //   requestCalendarsEntries(route.params.token, route.params.calendarId).then((response)=>
-  //   setResults(response.data.journals))
-  // }, [])
-
-  // const tags = results.map((entries) => 
-  //   entries.tags)
 
   const handleSubmit = () => {
     requestTagSearch(route.params.token, searchString)
@@ -32,7 +23,9 @@ let calId = results.map((cal) => {
     <Pressable onPress={handleSubmit} style={styles.search}>
       <Text style={styles.font}>Search</Text>
     </Pressable>
-    {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{margin: 20}}>No results</Text>) : (<SearchScroll 
+    {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{margin: 20}}>No results</Text>
+    ) : (
+    <SearchScroll 
       setSelectedDate={route.params.setSelectedDate}
       results={results}
       calendarId={route.params.calendarId}/>)}

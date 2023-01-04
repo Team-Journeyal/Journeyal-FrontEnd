@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import { useState } from 'react'
 import colors from '../colors'
 
 export default function CalendarInfo({ clndr, setCalId, calId }) {
@@ -12,10 +11,6 @@ export default function CalendarInfo({ clndr, setCalId, calId }) {
                 {calId !== clndr.id ? (<Text style={{ fontSize: 20, color: colors.white }}>▽</Text>) : (null)}
             </Pressable>
             </View>
-
-            <Pressable style={styles.button} onPress={() => {setCalId(null)}}>
-                {calId === clndr.id ? (<Text style={{ fontSize: 20, color: colors.white }}>△</Text>) : (null)}
-            </Pressable>
         </View>
     )
 }

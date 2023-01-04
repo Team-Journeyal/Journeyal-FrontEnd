@@ -214,6 +214,7 @@ export default function HomeScreen({ navigation, route }) {
                 <View style={{ alignItems: 'center' }}>
                   {userResults.map((users) =>
                     <Pressable onPress={() => {setSelectedUser(users.username), setSelectedUserId(users.id)}}>
+                      {console.log(users)}
                       <Text style={{ fontSize: 25 }}>{users.username}</Text></Pressable>)}
                 </View>
 
@@ -236,7 +237,7 @@ export default function HomeScreen({ navigation, route }) {
           {calendars.map((clndr, idx) => (
             <View key={idx}>
               <Pressable
-                style={styles.button}
+                style={styles.journeyalContainer}
                 onPress={() => {
                   handleCalendarEntries(clndr);
                 }}>
@@ -246,7 +247,11 @@ export default function HomeScreen({ navigation, route }) {
                 />
                 <Text style={styles.text}>{clndr.name}</Text>
                 <View style={styles.edit}>
-                  <CalendarInfo clndr={clndr} calId={calId} setCalId={setCalId} />
+                  <View style={styles.downArrow}>
+                    <Pressable style={styles.arrowButton} onPress={() => {setCalId(clndr.id)}}>
+                      {calId !== clndr.id ? (<Text style={{ fontSize: 20, color: colors.white }}>▽</Text>) : (null)}
+                    </Pressable>
+                  </View>
                 </View>
               </Pressable>
 
@@ -274,16 +279,16 @@ export default function HomeScreen({ navigation, route }) {
                           <Text style={styles.font}>Add User</Text>
                         </Pressable>
 
-                        <Pressable onPress={() => { handleDeleteAlert(clndr), console.log(clndr) }} style={styles.modalDelete}>
+                        <Pressable onPress={() => { handleDeleteAlert(clndr)}} style={styles.modalDelete}>
                           <Text style={styles.font}>Delete</Text>
                         </Pressable>
 
                       </View>
                       <View style={{padding: 5,}}>
-                        <Text style={styles.font}>{clndr.name} Users</Text>
+                        <Text style={styles.userList}>⎯⎯ {clndr.name} Users ⎯⎯</Text>
                         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                         <View style={{backgroundColor: colors.bright, borderRadius: 5, margin: 5, padding: 5}}><Text style={styles.font}>{clndr.owner}</Text></View>
-                        {clndr.users.map((usr) => <View style={{backgroundColor: colors.bright, borderRadius: 5, margin: 5, padding: 5}}><Text style={styles.font}> {usr}</Text></View>)}
+                        {clndr.users.map((usr) => <View style={{backgroundColor: colors.bright, borderRadius: 5, margin: 5, padding: 5}}><Text style={styles.font}>{usr.username}</Text></View>)}
                         </View>
                       </View>
                       <Pressable style={{alignItems: "center"}} onPress={() => {setCalId(null)}}>
@@ -362,6 +367,13 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
   },
+  arrowButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  downArrow: {
+    width: 350,
+  },
   add: {
     borderRadius: 5,
     width: 180,
@@ -377,15 +389,15 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
-  button: {
+  journeyalContainer: {
     width: 350,
-    height: 260,
+    height: 280,
     borderRadius: 10,
     backgroundColor: colors.dark,
     alignItems: "center",
     justifyContent: "space-evenly",
     margin: 10,
-    padding: 10,
+    padding: 15,
   },
   container: {
     alignItems: "center",
@@ -405,7 +417,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: "80%",
-    width: "90%",
+    width: "95%",
     marginTop: 15,
   },
   info: {
@@ -440,7 +452,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     borderWidth: 1,
-
   },
   settingsBox: {
     height: 30,
@@ -456,11 +467,18 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "center",
     paddingTop: 10,
+    marginBottom: 10,
   },
   userFont: {
     fontFamily: 'timbra',
     fontSize: 35,
     marginBottom: 10,
+  },
+  userList: {
+    textAlign: "center",
+    fontFamily: 'timbra',
+    fontSize: 20,
+    color: colors.white
   },
   words: {
     flexDirection: "row",

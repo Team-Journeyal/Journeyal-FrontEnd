@@ -2,6 +2,7 @@ import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, Toucha
 import { useState, useEffect } from 'react';
 import colors from '../colors';
 import { requestCalendarsEntries, requestEditEvent, requestEditEntry } from './Requests';
+import CarouselCards from './CarouselCards'
 
 
 export default function DayScreen({ route }) {
@@ -10,39 +11,17 @@ export default function DayScreen({ route }) {
     const [modalOpacity, setModalOpacity] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
     const [imgVisible, setImgVisible] = useState(false);
-    const [editModalVisible, setEditModalVisible] = useState(false);
     const [calendarEntries, setCalendarEntries] = useState([]);
     const [editingEvent, setEditingEvent] = useState(false);
     const [editingEntry, setEditingEntry] = useState(false);
-    const [editEvent, setEditEvent] = useState([]);
-    const [editEntry, setEditEntry] = useState([]);
-    const [editTags, setEditTags] = useState([]);
-    const [editImage, setEditImage] = useState([]);
-    const [editId, setEditId] = useState([])
-    const [refresh, setRefresh] = useState(false)
-    const [zoom, setZoom] = useState([])
+    const [editId, setEditId] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
-        requestCalendarsEntries(route.params.token, route.params.calendarId).then(
-            (response) => setCalendarEntries(response.data)
+        requestCalendarsEntries(route.params.token, route.params.calendarId)
+        .then((response) =>  setCalendarEntries(response.data)
         );
     }, [refresh]);
-
-    // let editEventData = {
-    //     calendar: `${route.params.calendarId}`,
-    //     date: `${route.params.selectedDate}`,
-    //     event: `${editJournal}`,
-    //     entry: `${editEntry}`,
-    //     tags: editTags.length === 0 ? ([]): ([`${editTags}`]),
-    //   };
-
-    //   let editEntryData = {
-    //     calendar: `${route.params.calendarId}`,
-    //     date: `${route.params.selectedDate}`,
-    //     event: `${editEvent}`,
-    //     entry: `${editJournal}`,
-    //     tags: editTags.length === 0 ? ([]): ([`${editTags}`]),
-    //   };
 
     const handleEventEdit = () => {
         requestEditEvent(route.params.token, editJournal, editId)
@@ -55,6 +34,11 @@ export default function DayScreen({ route }) {
             .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setEditingEntry(false),
                 route.params.setRefreshCalendar(!route.params.refreshCalendar), setModalOpacity(1)))
     }
+
+    const imageArray = []
+    calendarEntries.journals && calendarEntries.journals.map((days) => 
+        days.date === today && days.journal_images.length !== 0 && (
+        days.journal_images.map((img) => imageArray.push({image: img.image}))))
 
     return (
         <View style={[styles.scrollview, { opacity: modalOpacity }]}>
@@ -108,43 +92,8 @@ export default function DayScreen({ route }) {
                             </TouchableOpacity>
                         </Modal>
 
-                        <Modal
-                            animationType="none"
-                            transparent={true}
-                            visible={imgVisible}>
-                            <TouchableOpacity style={styles.modalBox} onPress={() => {
-                                setImgVisible(false),
-                                    setModalOpacity(1)
-                            }}>
-                                <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
-                                    <Image resizeMode='contain' style={styles.img} source={{ uri: zoom }} />
-                                </TouchableOpacity>
-                            </TouchableOpacity>
-                        </Modal>
-
-
                         <Text style={styles.dateFont}>{today}</Text>
-                        
-                        <View>
-                            {calendarEntries.journals.map((days) =>
-                                days.date === today &&
-                                days.journal_images.length !== 0 && (
-                                    days.journal_images.map((img) =>
-                                        <View style={styles.imageContainer}>
-                                            <Pressable onLongPress={() => {
-                                                setZoom(img.image),
-                                                    setImgVisible(true),
-                                                    setModalOpacity(.3)
-                                            }}>
-                                                <Image
-                                                    resizeMode="contain"
-                                                    style={styles.imageStyle}
-                                                    source={{ uri: `${img.image}` }} />
-                                            </Pressable>
-                                        </View>
-                                    ))
-                            )}
-                        </View>
+                        <CarouselCards imageArray={imageArray}/>
 
                         <View style={styles.eventContainer}>
                             {calendarEntries.journals.map((days) =>

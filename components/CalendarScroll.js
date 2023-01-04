@@ -13,26 +13,25 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
       ) : (
         <View>
           <View style={styles.eventContainer}>
-          {calendarEntries.journals.map((days) =>
-            days.date === selectedDate && days.event !== "" && days.event !== null ? (
+            {calendarEntries.journals.map((days) =>
+              days.date === selectedDate && days.event !== "" && days.event !== null ? (
             <View style={styles.events}>
               <Text>{days.user}</Text>
               <Text style={styles.font}>•{days.event}</Text>
             </View>
             ) : null
-          )}
+            )}
           </View>
 
-
           <View style={styles.entryContainer}>
-          {calendarEntries.journals.map((days) =>
-            days.date === selectedDate && days.entry !== "" && days.entry !== null ? (
+            {calendarEntries.journals.map((days) =>
+              days.date === selectedDate && days.entry !== "" && days.entry !== null ? (
             <View style={styles.events}>
               <Text>{days.user}</Text>
               <Text style={styles.font}>{days.entry}</Text>
             </View>
             ) : null
-          )}
+            )}
           </View>
 
       {/* <View>
@@ -53,17 +52,14 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
 
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         {calendarEntries.journals.map((days) => 
-        days.date === selectedDate && 
-          days.tags.length !== 0 &&
-
-          <View style={styles.tag}>
-            <View style={{flexDirection: "row",}}>
-              <Text style={{color: colors.white, }}>·</Text>
-              <Text style={{marginLeft: 5}}>{days.tags}</Text>
-            </View>
-            </View>
-            
-            )}
+          days.date === selectedDate && days.tags.length !== 0 &&
+        <View style={styles.tag}>
+          <View style={{flexDirection: "row", justifyContent: 'space-evenly'}}>
+            <Text style={{color: colors.white, }}>·</Text>
+            <Text style={{marginLeft: 5}}>{days.tags}</Text>
+          </View>
+        </View>  
+        )}
       </View>
 
         </View>
@@ -113,7 +109,7 @@ const styles = StyleSheet.create({
     margin: 3,
   },
   tag:{
-    flexDirection: 'row',
+    minWidth: 55,
     backgroundColor: colors.background,
     margin: 5,
     marginBottom: 50,
