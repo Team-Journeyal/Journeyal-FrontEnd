@@ -2,6 +2,7 @@ import { View, ScrollView, Text, StyleSheet, TextInput, Pressable, Modal, Toucha
 import { useState, useEffect } from 'react';
 import colors from '../colors';
 import { requestCalendarsEntries, requestEditEvent, requestEditEntry } from './Requests';
+import CarouselCards from './CarouselCards'
 
 
 export default function DayScreen({ route }) {
@@ -65,6 +66,8 @@ export default function DayScreen({ route }) {
                     </View>
                 ) : (
                     <View>
+
+<CarouselCards />
 
                         <Modal
                             animationType="none"

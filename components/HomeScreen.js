@@ -214,6 +214,7 @@ export default function HomeScreen({ navigation, route }) {
                 <View style={{ alignItems: 'center' }}>
                   {userResults.map((users) =>
                     <Pressable onPress={() => {setSelectedUser(users.username), setSelectedUserId(users.id)}}>
+                      {console.log(users)}
                       <Text style={{ fontSize: 25 }}>{users.username}</Text></Pressable>)}
                 </View>
 
@@ -235,6 +236,7 @@ export default function HomeScreen({ navigation, route }) {
 
           {calendars.map((clndr, idx) => (
             <View key={idx}>
+              {console.log(clndr.journals)}
               <Pressable
                 style={styles.button}
                 onPress={() => {
