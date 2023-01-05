@@ -34,21 +34,21 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
             )}
           </View>
 
-      {/* <View>
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap'}}> 
       {calendarEntries.journals.map((days) =>
           days.date === selectedDate &&
               days.journal_images.length !== 0 && (
                 days.journal_images.map((img) => 
                 <View style={styles.imageContainer}>
                   <Image
-                    resizeMode="contain"
+                    resizeMode= 'cover'
                     style={styles.imageStyle}
                     source={{ uri: `${img.image}` }}
                   />
                 </View>
               ))
       )}
-      </View> */}
+      </View>
 
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         {calendarEntries.journals.map((days) => 
@@ -101,11 +101,12 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   imageContainer: {
+    flexDirection: 'row',
     alignItems: "center",
   },
   imageStyle: {
-    width: 300,
-    height: 200,
+    width: 80,
+    height: 80,
     margin: 3,
   },
   tag:{

@@ -15,11 +15,11 @@ export default function SearchScroll({results, calendarId}) {
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.date}>{days.date}</Text>
                     <View style={styles.tag}>
-                    {things.tags && <Text style={styles.font}>{days.tags}</Text>}
+                    {days.tags && <Text style={[styles.font, {fontSize: 14}]}>{days.tags}</Text>}
                     </View>
                     </View>
-                    {things.event && <Text style={styles.font}>·{days.event}</Text>}
-                    {things.entry && <Text style={styles.font}>{days.entry}</Text>}
+                    {days.event && <Text style={styles.font}>·{days.event}</Text>}
+                    {days.entry && <Text style={styles.font}>{days.entry}</Text>}
                 </Pressable>}
                 </>
                 )}
