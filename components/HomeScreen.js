@@ -58,11 +58,13 @@ export default function HomeScreen({ navigation, route }) {
       setAddImage(result.uri);
     }
   };
+  console.log(addImage)
 
   const handleSubmit = () => {
     let formData = new FormData();
     formData.append('name', calendarName)
-    formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
+    formData.append('cal_image', { uri: addImage, type: 'image/jpg' })
+    console.log(formData)
     requestNewCalendar(route.params.token, formData)
       .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName(''), setModalOpacity(1)))
       .catch(function (error) {

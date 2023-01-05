@@ -9,7 +9,7 @@ import {
   Image,
   TouchableWithoutFeedback
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+import { ImagePicker } from 'expo-image-multiple-picker'
 import { useState } from "react";
 import colors from "../colors";
 import { requestAddEntry } from "./Requests";
@@ -19,17 +19,21 @@ export default function NewEntryScreen({ route, navigation }) {
   const [addEntry, setAddEntry] = useState([]);
   const [addImage, setAddImage] = useState([]);
   const [addTag, setAddTag] = useState([])
+  const [pickImage, setPickImage] =useState(false)
+  const [assets, setAssets] =useState([])
 
+  const assets2 = assets.map((stuff) => stuff.filename)
+  console.log(assets2)
+  // const pickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //   });
+  //   if (result) {
+  //     setAddImage(result.uri);
+  //   }
+  // };
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-    });
-    if (result) {
-      setAddImage(result.uri);
-    }
-  };
 
   let newJson = {
     calendar: `${route.params.calendarId}`,
@@ -43,6 +47,20 @@ export default function NewEntryScreen({ route, navigation }) {
     requestAddEntry(route.params.token, newJson)
     navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
     route.params.setRefresh(!route.params.refresh)
+  };
+
+  const handleSubmit2 = () => {
+    let formData = new FormData();
+    formData.append('date', route.params.selectedDate)
+    formData.append('calendar', route.params.calendarId)
+    formData.append('uploaded_images', { uri: addImage, type: 'image/jpg' })
+    formData.append('entry', addEntry)
+    console.log(formData)
+    requestAddEntry(route.params.token, formData)
+      .then(navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh}),
+      route.params.setRefresh(!route.params.refresh))
+      .catch(function (error) {
+      })
   };
 
   return (
@@ -65,13 +83,15 @@ export default function NewEntryScreen({ route, navigation }) {
         value={addEntry}
         onChangeText={setAddEntry}
       ></TextInput>
-      <Button title="Add an image" onPress={pickImage} />
+      <Button title="Add an image" onPress={() => setPickImage(!pickImage)} />
+
+
       {addImage && (
         <Image 
-          resizeMode="contain"
-          style={styles.image}
-          source={{uri: `${addImage}`}}/>
-      )}
+        resizeMode="contain"
+        style={styles.image}
+        source={{uri: `${addImage}`}}/>
+        )}
       <TextInput
           autoCorrect={false}
           autoCapitalize="none"
@@ -81,7 +101,14 @@ export default function NewEntryScreen({ route, navigation }) {
           value={addTag}
           onChangeText={setAddTag}
           ></TextInput>
-      <Pressable style={styles.submit} onPress={handleSubmit}>
+
+{pickImage &&
+    <ImagePicker
+    onSave={(assets) => {setAssets(assets), console.log(assets)}}
+    onCancel={() => console.log('no permissions or user go back')}
+    multiple
+  />}
+      <Pressable style={styles.submit} onPress={handleSubmit2}>
         <Text style={styles.font}> Submit </Text>
       </Pressable>
     </View>
