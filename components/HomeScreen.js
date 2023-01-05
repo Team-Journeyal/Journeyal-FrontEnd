@@ -169,7 +169,7 @@ export default function HomeScreen({ navigation, route }) {
             animationType="none"
             transparent={true}
             visible={editVisisble}>
-            <TouchableOpacity style={styles.modalBox} onPress={() => { setEditVisible(false), setModalOpacity(1) }}>
+            <TouchableOpacity style={styles.modalBox} onPress={() => { setEditVisible(false), setModalOpacity(1), setCalendarName(''), setAddImage([]) }}>
               <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
                 <Text style={styles.settingsFont}>Edit your Journeyal</Text>
                 <TextInput
