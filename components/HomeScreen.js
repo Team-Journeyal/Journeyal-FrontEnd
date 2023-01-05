@@ -39,6 +39,8 @@ export default function HomeScreen({ navigation, route }) {
   const [userResults, setUserResults] = useState([]);
   const [selectedUser, setSelectedUser] = useState()
   const [selectedUserId, setSelectedUserId] = useState()
+  const [addUsers, setAddUsers] = useState([])
+  const userIds = []
 
 
   useEffect(() => {
@@ -88,6 +90,14 @@ export default function HomeScreen({ navigation, route }) {
     )
   };
 
+  const handleUserIds = (clndr) => {
+    {clndr.length !== 0 ? (
+      clndr.map((thing) => {
+        userIds.push(thing.id)
+        setAddUsers(userIds)
+      })
+    ) : (setAddUsers([]))}}
+
   const handleCalendarDelete = () => {
     requestDeleteCalendar(route.params.token, calId)
       .then((res) => (res && setRefresh(!refresh), setModalOpacity(1)))
@@ -107,7 +117,9 @@ export default function HomeScreen({ navigation, route }) {
   }
 
   const handleAddUser = () => {
-    requestAddUser(route.params.token, calId, selectedUserId)
+    console.log(calId)
+    console.log(addUsers)
+    requestAddUser(route.params.token, calId, addUsers)
       .then((res) => (res && setRefresh(!refresh), setSearchVisible(false), 
       setSearchString(""), setUserResults([]), setSelectedUser()))
   }
@@ -214,11 +226,10 @@ export default function HomeScreen({ navigation, route }) {
                 <View style={{ alignItems: 'center' }}>
                   {userResults.map((users) =>
                     <Pressable onPress={() => {setSelectedUser(users.username), setSelectedUserId(users.id)}}>
-                      {console.log(users)}
                       <Text style={{ fontSize: 25 }}>{users.username}</Text></Pressable>)}
                 </View>
 
-                {selectedUser ? (<Pressable onPress={() => handleAddUser()}
+                {selectedUser ? (<Pressable onPress={() => {addUsers.push(selectedUserId), handleAddUser()}}
                 style={styles.searchButton}><Text>Add {selectedUser}</Text></Pressable>) : (null)}
 
               </TouchableOpacity>
@@ -248,7 +259,7 @@ export default function HomeScreen({ navigation, route }) {
                 <Text style={styles.text}>{clndr.name}</Text>
                 <View style={styles.edit}>
                   <View style={styles.downArrow}>
-                    <Pressable style={styles.arrowButton} onPress={() => {setCalId(clndr.id)}}>
+                    <Pressable style={styles.arrowButton} onPress={() => {setCalId(clndr.id), handleUserIds(clndr.users)}}>
                       {calId !== clndr.id ? (<Text style={{ fontSize: 20, color: colors.white }}>▽</Text>) : (null)}
                     </Pressable>
                   </View>
@@ -275,9 +286,11 @@ export default function HomeScreen({ navigation, route }) {
                           <Text style={styles.font}>Edit</Text>
                         </Pressable>
 
+
                         <Pressable onPress={() => { setSearchVisible(true)}} style={[styles.modalAdd, { width: 100 }]}>
                           <Text style={styles.font}>Add User</Text>
                         </Pressable>
+
 
                         <Pressable onPress={() => { handleDeleteAlert(clndr)}} style={styles.modalDelete}>
                           <Text style={styles.font}>Delete</Text>

@@ -132,7 +132,7 @@ export const requestAddUser = (token, calendarId, userId) => {
   const url = `https://journeyal-webservice.onrender.com/calendar/${calendarId}/`
 
   const response = axios.patch(url, {
-      users: [userId]}, 
+      users: userId}, 
     {headers: { Authorization: `Token ${token}` }})
   return response
 }
