@@ -37,13 +37,13 @@ let calId = results.map((cal) => {
 const styles = StyleSheet.create({
   background: {
     flex:1,
-    backgroundColor: colors.white,
     justifyContent: "flex-start",
     alignItems: "center",
   },
   font: {
-    fontFamily: 'timbra',
-    fontSize: 25,
+    fontFamily: 'nunitoBold',
+    color: colors.white,
+    fontSize: 20,
   },
   input: {
     borderWidth: 1,
@@ -54,15 +54,14 @@ const styles = StyleSheet.create({
     height: 45,
     padding: 3,
     backgroundColor: colors.white,
-    fontFamily: 'patrick',
-    fontSize: 25,
+    fontFamily: 'nunitoReg',
+    fontSize: 20,
   },
   search: {
     backgroundColor: colors.bright,
-    borderColor: colors.dark,
     borderRadius: 5,
     height: 40,
-    width: 60,
+    width: 80,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,

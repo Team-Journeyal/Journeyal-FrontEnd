@@ -107,7 +107,7 @@ export default function DayScreen({ route }) {
                                             setModalOpacity(.3)
                                     }}>
                                         <View style={styles.events}>
-                                            <Text>{days.user}</Text>
+                                            <Text style={styles.user}>{days.user}</Text>
                                             <Text style={styles.font}>·{days.event}</Text>
                                         </View>
                                     </Pressable>
@@ -127,7 +127,7 @@ export default function DayScreen({ route }) {
                                             setModalOpacity(.3)
                                     }}>
                                         <View style={styles.entries}>
-                                            <Text>{days.user}</Text>
+                                            <Text style={styles.user}>{days.user}</Text>
                                             <Text style={styles.font}>{days.entry}</Text>
                                         </View>
                                     </Pressable>
@@ -193,18 +193,17 @@ const styles = StyleSheet.create({
     },
     inputFont: {
         borderWidth: 1,
-        fontFamily: 'patrick',
+        fontFamily: 'nunitoReg',
         fontSize: 25,
         backgroundColor: colors.white,
     },
     font: {
-        fontFamily: 'patrick',
-        fontSize: 25,
-        // height: 35, 
+        fontFamily: 'nunitoReg',
+        fontSize: 20,
         marginLeft: 10,
     },
     dateFont: {
-        fontFamily: 'patrick',
+        fontFamily: 'nunitoBold',
         fontSize: 30,
         textAlign: 'center',
     },
@@ -252,7 +251,7 @@ const styles = StyleSheet.create({
         height: 40,
         padding: 3,
         textAlign: "center",
-        fontFamily: 'patrick',
+        fontFamily: 'nunitoReg',
         fontSize: 20,
     },
     tag: {
@@ -264,5 +263,9 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 9,
         borderTopLeftRadius: 9,
         padding: 5,
+    },
+    user: {
+        fontFamily: "nunitoReg",
+        margin: 5
     }
 });

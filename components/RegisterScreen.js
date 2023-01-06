@@ -1,4 +1,15 @@
-import { View, Text, StyleSheet, TextInput, Pressable, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  ImageBackground,
+  Image,
+  ActivityIndicator,
+  Keyboard,
+  TouchableWithoutFeedback
+} from "react-native";
 import { requestNewUser, requestLogin } from "./Requests";
 import { useState } from "react";
 import colors from "../colors";
@@ -6,9 +17,11 @@ import colors from "../colors";
 export default function RegisterScreen({ navigation, route }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true)
     requestNewUser(username, password).then(
       (response) =>
         response.data.id &&
@@ -17,37 +30,45 @@ export default function RegisterScreen({ navigation, route }) {
           route.params.setAuth(token, username);
           navigation.navigate("Home", { username: username });
         })
-    );
+    ).catch(function () {
+      setLoading(false)
+    });;
   };
 
   return (
-    <ImageBackground source={require('../assets/fridge.png')} style={styles.background}>
-    <View>
-      <View style={styles.register}>
-        <Text style={styles.msgFont}>Register for Journeyal</Text>
-        <TextInput
-          autoCorrect={false}
-          autoCapitalize="none"
-          placeholder="username"
-          value={username}
-          onChangeText={setUsername}
-          style={styles.inputs}
-        ></TextInput>
-        <TextInput
-          autoCorrect={false}
-          autoCapitalize="none"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={true}
-          placeholder="password"
-          style={styles.inputs}
-        ></TextInput>
-        <Pressable onPress={handleSubmit} style={styles.button}>
-          <Text style={styles.registerFont}>Register</Text>
-        </Pressable>
-      </View>
-    </View>
-    </ImageBackground>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ImageBackground source={require('../assets/kiwihug-zGZYQQVmXw0-unsplash.jpg')} style={styles.background}>
+        <View style={styles.background}>
+          <Image
+            style={styles.image}
+            source={require('../assets/JourneyalLogo.png')} />
+          <View style={styles.register}>
+            <View style={{ height: 30 }}>{loading && <ActivityIndicator color={colors.dark} />}</View>
+            <Text style={styles.msgFont}>Register for Journeyal</Text>
+            <TextInput
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholder="username"
+              value={username}
+              onChangeText={setUsername}
+              style={styles.inputs}
+            ></TextInput>
+            <TextInput
+              autoCorrect={false}
+              autoCapitalize="none"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+              placeholder="password"
+              style={styles.inputs}
+            ></TextInput>
+            <Pressable onPress={handleSubmit} style={styles.button}>
+              <Text style={styles.registerFont}>Register</Text>
+            </Pressable>
+          </View>
+        </View>
+      </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -59,42 +80,44 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: colors.bright,
-    borderColor: colors.dark,
     borderRadius: 5,
     height: 40,
-    width: 60,
+    width: 100,
+    margin: 10,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 190,
   },
   inputs: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.dark,
+    backgroundColor: colors.white,
     borderRadius: 5,
     margin: 10,
-    width: 180,
-    height: 35,
+    width: 200,
+    height: 40,
     padding: 3,
-    fontFamily: 'timbra',
-    fontSize: 30,
+    fontFamily: 'nunitoReg',
+    fontSize: 25,
+  },
+  image: {
+    width: 420,
+    height: 200,
   },
   msgFont: {
-    fontFamily: 'timbra',
+    fontFamily: 'nunitoReg',
     fontSize: 22,
     textAlign: 'center'
   },
   register: {
-    marginTop: 40,
-    borderRadius: 5,
+    height: 380,
+    width: 350,
     justifyContent: "center",
     alignItems: "center",
   },
   registerFont: {
-    fontFamily: 'timbra',
-    fontSize: 20
-  },
-  title: {
-    fontSize: 40,
-    color: colors.white,
-    fontFamily: 'marker'
+    fontFamily: 'nunitoBold',
+    fontSize: 20,
+    color: colors.white
   },
 });
