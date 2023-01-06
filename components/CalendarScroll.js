@@ -16,8 +16,8 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
             {calendarEntries.journals.map((days) =>
               days.date === selectedDate && days.event !== "" && days.event !== null ? (
             <View style={styles.events}>
-              <Text>{days.user}</Text>
-              <Text style={styles.font}>•{days.event}</Text>
+              <Text style={styles.user}>{days.user}</Text>
+              <Text style={styles.font}>·{days.event}</Text>
             </View>
             ) : null
             )}
@@ -26,8 +26,8 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
           <View style={styles.entryContainer}>
             {calendarEntries.journals.map((days) =>
               days.date === selectedDate && days.entry !== "" && days.entry !== null ? (
-            <View style={styles.events}>
-              <Text>{days.user}</Text>
+            <View style={styles.entries}>
+              <Text style={styles.user}>{days.user}</Text>
               <Text style={styles.font}>{days.entry}</Text>
             </View>
             ) : null
@@ -75,6 +75,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom: 5,
   },
+  entries: {
+    borderTopWidth: 1,
+    paddingLeft: 10,
+    marginBottom: 5,
+  },
   eventContainer: {
     borderRadius: 5,
     margin: 10,
@@ -90,14 +95,14 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   } , 
   font: {
-    fontFamily: 'patrick',
-    fontSize: 25,
+    fontFamily: 'nunitoReg',
+    fontSize: 20,
     height: 35,
     marginLeft: 10,
   },
   scrollview: {
     width: "100%",
-    backgroundColor: colors.white,
+    backgroundColor: "#efefef",
     padding: 5,
   },
   imageContainer: {
@@ -117,5 +122,9 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 9,
     borderTopLeftRadius: 9,
     padding: 5,
+  },
+  user: {
+    fontFamily: "nunitoReg",
+    margin: 5,
   }
 });

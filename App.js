@@ -1,4 +1,4 @@
-import { Button } from "react-native";
+import { Button, Pressable, Image, StyleSheet, Text } from "react-native";
 import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -33,9 +33,10 @@ export default function App() {
   const [settings, setSettings] = useState(true);
   const [editDay, setEditDay] =useState(true);
   const [loaded] = useFonts({
-    marker: require('./assets/fonts/PermanentMarker.ttf'),
-    timbra: require('./assets/fonts/Timbra_Sans_Bold.otf'),
-    patrick: require('./assets/fonts/PatrickHand-Regular.ttf')
+    nunitoReg: require('./assets/fonts/Nunito-Regular.ttf'),
+    nunitoBold: require('./assets/fonts/Nunito-Bold.ttf'),
+    nunitoBlack: require('./assets/fonts/Nunito-Black.ttf'),
+    yeseva: require('./assets/fonts/YesevaOne-Regular_v2.otf')
   })
 
   if(!loaded) {
@@ -54,11 +55,11 @@ export default function App() {
           name="Login"
           component={LoginScreen}
           initialParams={{ setAuth: setAuth }}
-          options={{ 
+          options={{
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
-            title : 'Journeyal' }}
+            headerTitleStyle: { color: colors.white, fontFamily: 'yeseva', fontSize: 30 },
+            title : '' }}
         />
         <Stack.Screen
           name="Home"
@@ -67,7 +68,7 @@ export default function App() {
           options={({ navigation }) => ({
             headerBackVisible: false,
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
+            headerTitleStyle: { color: colors.white, fontFamily: 'yeseva', fontSize: 30 },
           })
           }
         />
@@ -78,7 +79,7 @@ export default function App() {
           options={{ 
             headerBackTitle: 'Log In',
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
+            headerTitleStyle: { color: colors.white, fontFamily: 'yeseva', fontSize: 30 },
             title : 'Register' }}
         />
         <Stack.Screen
@@ -91,11 +92,10 @@ export default function App() {
           }}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white,  fontFamily: 'marker', fontSize: 30 },
+            headerTitleStyle: { color: colors.white,  fontFamily: 'yeseva', fontSize: 30 },
             headerRight: () => (
               <>
-                <Button
-                  title="🔎"
+                <Pressable
                   onPress={() =>
                     navigation.navigate("Search", {
                       setSelectedDate: setSelectedDate,
@@ -106,10 +106,9 @@ export default function App() {
                       calendarId: calendarId,
                     })
                   }
-                />
-                <Button
-                  title="+"
-                  color={"white"}
+                ><Image style={styles.icon} source={require("./assets/searchicon.png")}/></Pressable>
+                <Pressable
+                  style={{marginLeft: 15,}}
                   onPress={
                     (() =>
                       navigation.navigate("Add", {
@@ -121,7 +120,7 @@ export default function App() {
                         calendarId: calendarId,
                       }))
                   }
-                />
+                ><Image style={styles.icon} source={require("./assets/plusicon.png")}/></Pressable>
               </>
             ),
           })}
@@ -131,7 +130,7 @@ export default function App() {
           component={NewEntryScreen}
           options={{
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
+            headerTitleStyle: { color: colors.white, fontFamily: 'yeseva', fontSize: 30 },
           }}
         />
         <Stack.Screen
@@ -139,7 +138,7 @@ export default function App() {
           component={SearchScreen}
           options={{
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
+            headerTitleStyle: { color: colors.white, fontFamily: 'yeseva', fontSize: 30 },
           }}
         />
         <Stack.Screen
@@ -148,7 +147,7 @@ export default function App() {
           initialParams={{ editDay: !editDay, token: token, setRefresh: setRefresh, refresh: !refresh}}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: colors.dark },
-            headerTitleStyle: { color: colors.white, fontFamily: 'marker', fontSize: 30 },
+            headerTitleStyle: { color: colors.white, fontFamily: 'yeseva', fontSize: 30 },
           })
           }
         />
@@ -156,3 +155,10 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    height: 25, 
+    width: 25,
+  },
+})

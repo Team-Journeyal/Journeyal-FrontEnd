@@ -49,11 +49,12 @@ export default function NewEntryScreen({ route, navigation }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.background}>
       <Text style={styles.font}>{route.params.selectedDate}</Text>
+      {/* <View style={styles.inputBox}> */}
       <TextInput
         autoCorrect={false}
         multiline={true}
         style={styles.schedule}
-        placeholder="New Schedule Event"
+        placeholder="Add an Event"
         value={addEvent}
         onChangeText={setAddEvent}
       ></TextInput>
@@ -61,28 +62,29 @@ export default function NewEntryScreen({ route, navigation }) {
         autoCorrect={false}
         multiline={true}
         style={styles.journal}
-        placeholder="New Journal Entry"
+        placeholder="Add a Journal Entry"
         value={addEntry}
         onChangeText={setAddEntry}
       ></TextInput>
-      <Button title="Add an image" onPress={pickImage} />
+      <TextInput
+          autoCorrect={false}
+          autoCapitalize="none"
+          multiline={true}
+          style={styles.journal}
+          placeholder="Add a Tag to Your Post"
+          value={addTag}
+          onChangeText={setAddTag}
+          ></TextInput>
+      {/* </View> */}
+      <Button title="Add an Image" onPress={pickImage} />
       {addImage && (
         <Image 
           resizeMode="contain"
           style={styles.image}
           source={{uri: `${addImage}`}}/>
       )}
-      <TextInput
-          autoCorrect={false}
-          autoCapitalize="none"
-          multiline={true}
-          style={styles.journal}
-          placeholder="Add a tag to your post"
-          value={addTag}
-          onChangeText={setAddTag}
-          ></TextInput>
       <Pressable style={styles.submit} onPress={handleSubmit}>
-        <Text style={styles.font}> Submit </Text>
+        <Text style={[styles.font, {color: colors.white, fontSize: 20,}]}> Submit </Text>
       </Pressable>
     </View>
     </TouchableWithoutFeedback>
@@ -99,9 +101,13 @@ const styles = StyleSheet.create({
     height: 200,
   },
   font: {
-    fontFamily: 'timbra',
-    fontSize: 35,
+    fontFamily: 'nunitoBold',
+    fontSize: 30,
   },
+  // inputBox: {
+  //   width: 400,
+  //   alignItems: "center"
+  // },
   journal: {
     borderWidth: 1,
     borderRadius: 3,
@@ -109,9 +115,11 @@ const styles = StyleSheet.create({
     width: "80%",
     margin: 3,
     padding: 3,
+    paddingTop: 7,
+    paddingLeft: 10,
     backgroundColor: colors.white,
-    fontFamily: 'patrick',
-    fontSize: 25,
+    fontFamily: 'nunitoReg',
+    fontSize: 20,
   },
   schedule: {
     borderWidth: 1,
@@ -121,15 +129,21 @@ const styles = StyleSheet.create({
     margin: 3,
     marginTop: 50,
     padding: 3,
+    paddingTop: 7,
+    paddingLeft: 10,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.white,
-    fontFamily: 'patrick', 
-    fontSize: 25,
+    fontFamily: 'nunitoReg', 
+    fontSize: 20,
   },
   submit: {
     borderRadius: 3,
     width: 100,
     height: 50,
+    width: 120,
     backgroundColor: colors.bright,
+    color: colors.white,
     marginTop: 30,
     justifyContent: "center",
     alignItems: "center",

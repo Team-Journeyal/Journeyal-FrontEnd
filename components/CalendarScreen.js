@@ -39,9 +39,10 @@ export default function CalendarScreen({ navigation, route }) {
         theme={{
           calendarBackground: colors.white,
           selectedDayBackgroundColor: colors.white,
-          textDayFontFamily: 'marker',
-          textMonthFontFamily: 'marker',
-          textDayHeaderFontFamily: 'marker',
+          textDayFontFamily: 'nunitoBlack',
+          textMonthFontFamily: 'nunitoBlack',
+          textMonthFontSize: 20,
+          textDayHeaderFontFamily: 'nunitoBlack',
         }}
         onMonthChange={day => {
           route.params.setSelectedDate(day.dateString),
@@ -54,22 +55,13 @@ export default function CalendarScreen({ navigation, route }) {
           }
         }}
         markingType={"multi-dot"}
-        markedDates={ dateObject
-          
-          //   {
-            //   [selectedCalendarDate]: {
-              //   selected: true,
-              //   selectedColor: colors.bright,
-              // }}
-            }
-            initialDate={selectedCalendarDate}
+        markedDates={ dateObject}
+        initialDate={selectedCalendarDate}
             />
       <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
         <Text style={[styles.font, {color: colors.white}]}>Details Page:</Text>
       <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", { selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId })}>
-        <Text style={styles.font}>
-          ➤
-        </Text>
+        <Text style={[styles.font, {color: colors.dark}]}>➤</Text>
       </Pressable>
       </View>
       <CalendarScroll
@@ -97,7 +89,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   font: {
-    fontFamily: 'timbra',
-    fontSize: 30,
+    fontFamily: 'nunitoBold',
+    fontSize: 20,
   }
 });

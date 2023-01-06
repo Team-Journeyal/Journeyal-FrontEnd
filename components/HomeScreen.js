@@ -15,7 +15,6 @@ import {
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import colors from "../colors";
-import CalendarInfo from './CalendarInfo.js'
 import {
   requestCalendars,
   requestDeleteCalendar,
@@ -113,7 +112,7 @@ export default function HomeScreen({ navigation, route }) {
 
   const handleUserSearch = () => {
     requestUserSearch(route.params.token, searchString)
-      .then((res) => (setUserResults(res.data), setModalOpacity(1)))
+      .then((res) => (setUserResults(res.data)))
   }
 
   const handleAddUser = () => {
@@ -221,7 +220,7 @@ export default function HomeScreen({ navigation, route }) {
                     value={searchString}
                     onChangeText={setSearchString}
                     style={styles.inputs} />
-                  <Pressable onPress={() => handleUserSearch()} ><Text style={{ fontSize: 25 }}>🔎</Text></Pressable>
+                  <Pressable onPress={() => handleUserSearch()}><Image style={styles.icon} source={require("../assets/searchiconblack.png")}/></Pressable>
                 </View>
                 <View style={{ alignItems: 'center' }}>
                   {userResults.map((users) =>
@@ -229,7 +228,7 @@ export default function HomeScreen({ navigation, route }) {
                       <Text style={{ fontSize: 25 }}>{users.username}</Text></Pressable>)}
                 </View>
 
-                {selectedUser ? (<Pressable onPress={() => {addUsers.push(selectedUserId), handleAddUser()}}
+                {selectedUser ? (<Pressable onPress={() => {addUsers.push(selectedUserId), handleAddUser(), setModalOpacity(1)}}
                 style={styles.searchButton}><Text>Add {selectedUser}</Text></Pressable>) : (null)}
 
               </TouchableOpacity>
@@ -240,7 +239,7 @@ export default function HomeScreen({ navigation, route }) {
 
           <Pressable style={styles.add} onPress={() => {
             setModalVisible(!modalVisible),
-              setModalOpacity(.4)
+              setModalOpacity(0.7)
           }}>
             <Text style={styles.addFont}>Add Journeyal</Text>
           </Pressable>
@@ -257,10 +256,13 @@ export default function HomeScreen({ navigation, route }) {
                   source={{ uri: clndr.cal_image }}
                 />
                 <Text style={styles.text}>{clndr.name}</Text>
+                <Text style={{fontSize: 20, color: colors.white}}>⎯⎯⎯⎯⎯</Text>
                 <View style={styles.edit}>
                   <View style={styles.downArrow}>
                     <Pressable style={styles.arrowButton} onPress={() => {setCalId(clndr.id), handleUserIds(clndr.users)}}>
-                      {calId !== clndr.id ? (<Text style={{ fontSize: 20, color: colors.white }}>▽</Text>) : (null)}
+                      {calId !== clndr.id ? (
+                      <Text style={{ fontSize: 30, color: colors.white, margin: -13, }}>⌄</Text>
+                      ) : (null)}
                     </Pressable>
                   </View>
                 </View>
@@ -274,20 +276,21 @@ export default function HomeScreen({ navigation, route }) {
                         flexDirection: 'row',
                         justifyContent: 'space-evenly',
                         alignItems: 'center',
+                        marginBottom: 15,
                       }}>
                         <Pressable onPress={() => {
                           setEditVisible(!editVisisble),
                             setCalId(clndr.id),
                             setCalendarName(clndr.name),
                             setAddImage(clndr.cal_image),
-                            setModalOpacity(.4)
+                            setModalOpacity(0.7)
                         }}
-                          style={styles.modalAdd}>
+                          style={styles.modalEdit}>
                           <Text style={styles.font}>Edit</Text>
                         </Pressable>
 
 
-                        <Pressable onPress={() => { setSearchVisible(true)}} style={[styles.modalAdd, { width: 100 }]}>
+                        <Pressable onPress={() => { setSearchVisible(true), setModalOpacity(0.7)}} style={[styles.modalAdd, { width: 100 }]}>
                           <Text style={styles.font}>Add User</Text>
                         </Pressable>
 
@@ -299,13 +302,13 @@ export default function HomeScreen({ navigation, route }) {
                       </View>
                       <View style={{padding: 5,}}>
                         <Text style={styles.userList}>⎯⎯ {clndr.name} Users ⎯⎯</Text>
-                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                        <View style={{backgroundColor: colors.bright, borderRadius: 5, margin: 5, padding: 5}}><Text style={styles.font}>{clndr.owner}</Text></View>
-                        {clndr.users.map((usr) => <View style={{backgroundColor: colors.bright, borderRadius: 5, margin: 5, padding: 5}}><Text style={styles.font}>{usr.username}</Text></View>)}
+                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap'}}>
+                        <View style={{margin: 5, padding: 5}}><Text style={styles.font}>{clndr.owner}</Text></View>
+                        {clndr.users.map((usr) => <View style={{margin: 5, padding: 5}}><Text style={styles.font}>{usr.username}</Text></View>)}
                         </View>
                       </View>
                       <Pressable style={{alignItems: "center"}} onPress={() => {setCalId(null)}}>
-                        <Text style={{ fontSize: 20, color: colors.white }}>△</Text>
+                        <Text style={{ fontSize: 20, color: colors.white }}>⌃</Text>
                       </Pressable>
 
                     </View>) : (null)}
@@ -321,8 +324,8 @@ export default function HomeScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   addFont: {
-    fontFamily: 'timbra',
-    fontSize: 25,
+    fontFamily: 'nunitoBold',
+    fontSize: 20,
     color: colors.white,
   },
   searchButton: {
@@ -360,6 +363,14 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: colors.bright,
   },
+  modalEdit: {
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: "#2a6f97",
+    width: 70,
+    alignItems: 'center'
+  },
   modalAdd: {
     borderRadius: 10,
     padding: 10,
@@ -386,6 +397,8 @@ const styles = StyleSheet.create({
   },
   downArrow: {
     width: 350,
+    height: 25,
+
   },
   add: {
     borderRadius: 5,
@@ -404,13 +417,14 @@ const styles = StyleSheet.create({
   },
   journeyalContainer: {
     width: 350,
-    height: 280,
+    height: 320,
     borderRadius: 10,
     backgroundColor: colors.dark,
     alignItems: "center",
     justifyContent: "space-evenly",
     margin: 10,
     padding: 15,
+    
   },
   container: {
     alignItems: "center",
@@ -424,9 +438,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   font: {
-    fontFamily: 'timbra',
-    fontSize: 20,
+    fontFamily: 'nunitoBold',
+    fontSize: 15,
     color: colors.white
+  },
+  icon: {
+    height: 25, 
+    width: 25,
   },
   image: {
     height: "80%",
@@ -449,7 +467,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 35,
     textAlign: "center",
-    fontFamily: 'patrick',
+    fontFamily: 'nunitoReg',
     fontSize: 18,
   },
   newButton: {
@@ -471,25 +489,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   settingsFont: {
-    fontFamily: 'timbra',
+    fontFamily: 'nunitoReg',
     fontSize: 25,
   },
   text: {
     color: colors.white,
-    fontFamily: 'patrick',
+    fontFamily: 'nunitoBold',
     fontSize: 30,
     textAlign: "center",
-    paddingTop: 10,
+    paddingTop: 20,
     marginBottom: 10,
   },
   userFont: {
-    fontFamily: 'timbra',
+    fontFamily: 'nunitoReg',
     fontSize: 35,
     marginBottom: 10,
   },
   userList: {
     textAlign: "center",
-    fontFamily: 'timbra',
+    fontFamily: 'nunitoReg',
     fontSize: 20,
     color: colors.white
   },

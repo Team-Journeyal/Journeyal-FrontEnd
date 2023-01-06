@@ -9,7 +9,8 @@ import {
   ActivityIndicator,
   Keyboard,
   TouchableWithoutFeedback,
-  ImageBackground
+  ImageBackground,
+  Image
 } from "react-native";
 import colors from "../colors.js";
 import { requestLogin } from "./Requests.js";
@@ -38,8 +39,11 @@ export default function LoginScreen({ navigation, route }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ImageBackground source={require('../assets/fridge.png')} style={styles.background}>
-    <View >
+      <ImageBackground source={require('../assets/kiwihug-zGZYQQVmXw0-unsplash.jpg')} style={styles.background}>
+    <View style={styles.background}>
+      <Image
+        style={styles.image}
+        source={require('../assets/JourneyalLogo.png')}/>
       <StatusBar barStyle={"light-content"} />
       <View style={styles.login}>
         {invalid === true ? (
@@ -89,50 +93,48 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: colors.bright,
-    borderColor: colors.dark,
     borderRadius: 5,
     height: 40,
-    width: 60,
+    width: 70,
+    margin: 10,
     justifyContent: "center",
     alignItems: "center",
   },
   errorFont: {
-    fontFamily: 'timbra',
+    fontFamily: 'nunitoReg',
     fontSize: 22,
     textAlign: 'center'
   },
+  image: {
+    width: 420,
+    height: 200,
+  },
   inputs: {
-    borderWidth: 2,
     borderColor: colors.dark,
     backgroundColor: colors.white,
+    borderWidth: 1,
     borderRadius: 5,
     margin: 10,
     width: 200,
     height: 40,
     padding: 3,
-    fontFamily: 'timbra',
-    fontSize: 30,
+    fontFamily: 'nunitoReg',
+    fontSize: 25,
   },
   login: {
-    marginTop: 70,
-    background: '',
-    borderRadius: 5,
-    justifyContent: "center",
+    height: 380,
+    width: 350,
     alignItems: "center",
   },
   loginFont: {
-    fontFamily: 'timbra',
+    fontFamily: 'nunitoBold',
+    color: colors.white,
     fontSize: 20
   },
   registerFont: {
-    fontFamily: 'timbra', 
+    fontFamily: 'nunitoReg', 
     fontSize: 25, 
     color: 'royalblue',
     marginTop: 15,
-  },
-  title: {
-    fontSize: 40,
-    color: colors.white,
-    fontFamily: 'marker'
   },
 });

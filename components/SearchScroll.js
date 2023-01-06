@@ -37,11 +37,11 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
     },
     date: {
-        fontWeight: "bold",
+        fontFamily: "nunitoBold",
         marginBottom: 2,
     },
     font:{
-        fontFamily: 'patrick',
+        fontFamily: 'nunitoReg',
         fontSize: 18,
     },
     resultBox: {
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white
     },
     tag:{
-        minWidth: 55,
+        minWidth: 60,
         alignItems: "center",
         backgroundColor: colors.background,
         borderBottomLeftRadius: 9,
