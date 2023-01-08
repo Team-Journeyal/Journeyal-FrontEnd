@@ -82,7 +82,9 @@ export const requestAddEntry = (token, formData) => {
   const url = "https://journeyal-webservice.onrender.com/journal/"
 
   const response = axios.post(url, formData,
-    {headers: { Authorization: `Token ${token}` }})
+    {headers: { 
+      'content-type': 'multipart/form-data',
+      Authorization: `Token ${token}` }})
   return response
 };
 

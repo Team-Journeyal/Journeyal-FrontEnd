@@ -18,29 +18,43 @@ export default function NewEntryScreen({ route, navigation }) {
   const [addEvent, setAddEvent] = useState([]);
   const [addEntry, setAddEntry] = useState([]);
   const [addImage, setAddImage] = useState([]);
-  const [addTag, setAddTag] = useState([])
+  const [addTag, setAddTag] = useState([]);
+  const imgArray = []
+
 
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
+      // allowsMultipleSelection: true,
+      // selectionLimit: 4,
+      // quality: 1,
     });
     if (result) {
-      setAddImage(result.uri);
+      // console.log(result.uri)
+      imgArray.push(result.uri)
+      let testz = imgArray.concat(addImage)
+      setAddImage(testz)
     }
-  };
-
-  let newJson = {
-    calendar: `${route.params.calendarId}`,
-    date: `${route.params.selectedDate}`,
-    event: `${addEvent}`,
-    entry: `${addEntry}`,
-    tags: addTag.length === 0 ? ([]): ([`${addTag}`]),
-  };
+    // imgArray.map((thing) => setAddImage(thing))
+    
+    // setAddImage(imgArray)
+    // console.log(addImage)
+    // return addImage
+  }; 
+  
+  // console.log(addImage)
 
   const handleSubmit = () => {
-    requestAddEntry(route.params.token, newJson)
+    let formData = new FormData()
+    formData.append('date', route.params.selectedDate)
+    formData.append('calendar', route.params.calendarId)
+    addEvent.length !== 0 && formData.append('event', addEvent)
+    addEntry.length !== 0 && formData.append('entry', addEntry)
+    addImage.length !== 0 && formData.append('uploaded_images', {uri: addImage, name:'my_photo.jpg', type: 'image/jpg'})
+    addTag.length !== 0 && formData.append('tags', addTag)
+    requestAddEntry(route.params.token, formData)
     navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
     route.params.setRefresh(!route.params.refresh)
   };
@@ -49,7 +63,6 @@ export default function NewEntryScreen({ route, navigation }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.background}>
       <Text style={styles.font}>{route.params.selectedDate}</Text>
-      {/* <View style={styles.inputBox}> */}
       <TextInput
         autoCorrect={false}
         multiline={true}
@@ -74,15 +87,16 @@ export default function NewEntryScreen({ route, navigation }) {
           placeholder="Add a Tag to Your Post"
           value={addTag}
           onChangeText={setAddTag}
-          ></TextInput>
-      {/* </View> */}
+          ></TextInput> 
+
       <Button title="Add an Image" onPress={pickImage} />
-      {addImage && (
-        <Image 
-          resizeMode="contain"
-          style={styles.image}
-          source={{uri: `${addImage}`}}/>
-      )}
+
+      {addImage.length !== 0 && 
+      <View style={styles.grid}>
+      {addImage.map((thing) => 
+      <Image resizeMode= "cover" style={styles.image} source={{uri: `${thing}`}}/>)}
+      </View>}
+
       <Pressable style={styles.submit} onPress={handleSubmit}>
         <Text style={[styles.font, {color: colors.white, fontSize: 20,}]}> Submit </Text>
       </Pressable>
@@ -97,17 +111,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: "100%",
-    height: 200,
+    width: 100,
+    height: 100,
+    margin: 3,
   },
   font: {
     fontFamily: 'nunitoBold',
     fontSize: 30,
   },
-  // inputBox: {
-  //   width: 400,
-  //   alignItems: "center"
-  // },
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: 350,
+    justifyContent: "center"
+    },
   journal: {
     borderWidth: 1,
     borderRadius: 3,
