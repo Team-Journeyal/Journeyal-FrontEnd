@@ -28,6 +28,7 @@ export default function CalendarScreen({ navigation, route }) {
       selectedColor: colors.bright,
     };
   });
+  console.log(`cal ${route.params.refresh}`)
 
   return (
     <View style={styles.background}>

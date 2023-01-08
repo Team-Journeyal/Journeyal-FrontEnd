@@ -21,30 +21,17 @@ export default function NewEntryScreen({ route, navigation }) {
   const [addTag, setAddTag] = useState([]);
   const imgArray = []
 
-
-
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      // allowsMultipleSelection: true,
-      // selectionLimit: 4,
-      // quality: 1,
     });
     if (result) {
-      // console.log(result.uri)
       imgArray.push(result.uri)
-      let testz = imgArray.concat(addImage)
-      setAddImage(testz)
+      let addedImages = imgArray.concat(addImage)
+      setAddImage(addedImages)
     }
-    // imgArray.map((thing) => setAddImage(thing))
-    
-    // setAddImage(imgArray)
-    // console.log(addImage)
-    // return addImage
   }; 
-  
-  // console.log(addImage)
 
   const handleSubmit = () => {
     let formData = new FormData()
@@ -52,11 +39,12 @@ export default function NewEntryScreen({ route, navigation }) {
     formData.append('calendar', route.params.calendarId)
     addEvent.length !== 0 && formData.append('event', addEvent)
     addEntry.length !== 0 && formData.append('entry', addEntry)
-    addImage.length !== 0 && formData.append('uploaded_images', {uri: addImage, name:'my_photo.jpg', type: 'image/jpg'})
+    addImage.length !== 0 && addImage.forEach((imgUri) => 
+    formData.append('uploaded_images', {uri: imgUri, name: 'my_photo.jpg', type: 'image/jpg'}))
     addTag.length !== 0 && formData.append('tags', addTag)
     requestAddEntry(route.params.token, formData)
-    navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
     route.params.setRefresh(!route.params.refresh)
+    navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
   };
 
   return (
@@ -93,8 +81,8 @@ export default function NewEntryScreen({ route, navigation }) {
 
       {addImage.length !== 0 && 
       <View style={styles.grid}>
-      {addImage.map((thing) => 
-      <Image resizeMode= "cover" style={styles.image} source={{uri: `${thing}`}}/>)}
+      {addImage.map((imgUri) => 
+      <Image resizeMode= "cover" style={styles.image} source={{uri: `${imgUri}`}}/>)}
       </View>}
 
       <Pressable style={styles.submit} onPress={handleSubmit}>

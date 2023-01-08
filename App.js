@@ -47,7 +47,7 @@ export default function App() {
     setToken(token);
     setUsername(username);
   };
-
+  console.log(`app ${refresh}`)
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
