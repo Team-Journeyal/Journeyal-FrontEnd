@@ -4,21 +4,20 @@ import { Calendar } from "react-native-calendars";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
 import { requestCalendarsEntries } from "./Requests";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function CalendarScreen({ navigation, route }) {
-  const [selectedCalendarDate, setSelectedCalendarDate] = useState(
-    route.params.selectedDate
-  );
+  const [selectedCalendarDate, setSelectedCalendarDate] = useState(route.params.selectedDate);
   const [calendarEntries, setCalendarEntries] = useState([]);
   const [refreshCalendar, setRefreshCalendar] = useState(false)
   const dotMarker = {key: 'dotMarker', color: colors.dark}
-
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
-      (response) => {response && console.log(response.data), setCalendarEntries(response.data)}
+      (response) => {response && console.log("effect ran"), setCalendarEntries(response.data)}
     );
-  }, [refreshCalendar, route.params.refresh]);
+  }, [isFocused]);
 
   let dateObject = {[selectedCalendarDate]: {selected: true, selectedColor: colors.bright}}
 
