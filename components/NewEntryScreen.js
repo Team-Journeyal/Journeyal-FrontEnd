@@ -19,6 +19,8 @@ export default function NewEntryScreen({ route, navigation }) {
   const [addEntry, setAddEntry] = useState([]);
   const [addImage, setAddImage] = useState([]);
   const [addTag, setAddTag] = useState([]);
+  const [tags, setTags] =useState([])
+  const tagArray = []
   const imgArray = []
 
   const pickImage = async () => {
@@ -32,6 +34,14 @@ export default function NewEntryScreen({ route, navigation }) {
       setAddImage(addedImages)
     }
   }; 
+  console.log(tags)
+
+  const handleTags = () => {
+    tagArray.push(addTag)
+    let addedTags = tagArray.concat(tags)
+    setTags(addedTags)
+    setAddTag([])
+  }
 
   const handleSubmit = () => {
     let formData = new FormData()
@@ -39,9 +49,10 @@ export default function NewEntryScreen({ route, navigation }) {
     formData.append('calendar', route.params.calendarId)
     addEvent.length !== 0 && formData.append('event', addEvent)
     addEntry.length !== 0 && formData.append('entry', addEntry)
-    addImage.length !== 0 && addImage.forEach((imgUri) => 
+    addImage.length !== 0 && addImage.map((imgUri) => 
     formData.append('uploaded_images', {uri: imgUri, name: 'my_photo.jpg', type: 'image/jpg'}))
-    addTag.length !== 0 && formData.append('tags', addTag)
+    tags.length !== 0 && tags.map((tag) => 
+    formData.append('tags', tag))
     requestAddEntry(route.params.token, formData)
     route.params.setRefresh(!route.params.refresh)
     navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
@@ -67,16 +78,20 @@ export default function NewEntryScreen({ route, navigation }) {
         value={addEntry}
         onChangeText={setAddEntry}
       ></TextInput>
+      <View style={{flexDirection: "row", alignItems: "center"}}>
       <TextInput
           autoCorrect={false}
           autoCapitalize="none"
           multiline={true}
-          style={styles.journal}
+          style={styles.tagInput}
           placeholder="Add a Tag to Your Post"
           value={addTag}
           onChangeText={setAddTag}
           ></TextInput> 
-
+          <Pressable style={styles.tagAdd} onPress={handleTags}>
+            <Image style={styles.icon} source={require("../assets/plusicon.png")}/>
+          </Pressable>
+        </View>
       <Button title="Add an Image" onPress={pickImage} />
 
       {addImage.length !== 0 && 
@@ -84,6 +99,15 @@ export default function NewEntryScreen({ route, navigation }) {
       {addImage.map((imgUri) => 
       <Image resizeMode= "cover" style={styles.image} source={{uri: `${imgUri}`}}/>)}
       </View>}
+
+      {tags.length !== 0 &&
+      <View style={styles.tagBox}>
+        {tags.map((tag) => 
+        <View style={styles.tag}>
+          <Text style={styles.tagFont}>{tag}</Text>
+        </View>)}
+      </View>
+      }
 
       <Pressable style={styles.submit} onPress={handleSubmit}>
         <Text style={[styles.font, {color: colors.white, fontSize: 20,}]}> Submit </Text>
@@ -112,6 +136,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     width: 350,
     justifyContent: "center"
+    },
+    icon: {
+      height: 15, 
+      width: 15,
     },
   journal: {
     borderWidth: 1,
@@ -153,4 +181,45 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  tag:{
+    minWidth: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.background,
+    borderBottomLeftRadius: 9,
+    borderTopLeftRadius: 9,
+    padding: 5,
+    margin: 3,
+    flexDirection: "row",
+
+  },
+  tagAdd: {
+    borderRadius: 3, 
+    height: 45,
+    width:"9%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.bright,
+  },
+  tagBox: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  tagInput: {
+    borderWidth: 1,
+    borderRadius: 3,
+    height: 45,
+    width: "70%",
+    margin: 3,
+    padding: 3,
+    paddingTop: 7,
+    paddingLeft: 10,
+    backgroundColor: colors.white,
+    fontFamily: 'nunitoReg',
+    fontSize: 20,
+  },
+  tagFont: {
+    fontFamily: 'nunitoReg',
+    fontSize: 15,
+}
 });
