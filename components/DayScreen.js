@@ -139,12 +139,14 @@ export default function DayScreen({ route }) {
                             {calendarEntries.journals.map((days) => 
                                 days.date === today && 
                                 days.tags.length !== 0 &&
-
+                            <View style={styles.tagBox}>
+                            {days.tags.map((tag) =>
                             <View style={styles.tag}>
                                 <View style={{flexDirection: "row"}}>
                                     <Text style={{color: colors.white }}>·</Text>
-                                    <Text style={{marginLeft: 5}}>{days.tags}</Text>
+                                    <Text style={{marginLeft: 5}}>{tag}</Text>
                                 </View>
+                            </View>)}
                             </View>
             
                             )}
@@ -263,6 +265,10 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 9,
         borderTopLeftRadius: 9,
         padding: 5,
+    },
+    tagBox: {
+        flexDirection: "row",
+        flexWrap: "wrap"
     },
     user: {
         fontFamily: "nunitoReg",

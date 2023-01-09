@@ -53,12 +53,13 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         {calendarEntries.journals.map((days) => 
           days.date === selectedDate && days.tags.length !== 0 &&
-        <View style={styles.tag}>
+          days.tags.map((tag) =>           
+          <View style={styles.tag}>
           <View style={{flexDirection: "row", justifyContent: 'space-evenly'}}>
             <Text style={{color: colors.white, }}>·</Text>
-            <Text style={{marginLeft: 5}}>{days.tags}</Text>
+            <Text style={{marginLeft: 5}}>{tag}</Text>
           </View>
-        </View>  
+        </View>)
         )}
       </View>
 

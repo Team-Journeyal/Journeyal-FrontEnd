@@ -16,7 +16,7 @@ export default function CalendarScreen({ navigation, route }) {
 
   useEffect(() => {
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
-      (response) => setCalendarEntries(response.data)
+      (response) => {response && console.log(response.data), setCalendarEntries(response.data)}
     );
   }, [refreshCalendar, route.params.refresh]);
 

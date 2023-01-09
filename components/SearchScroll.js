@@ -14,8 +14,13 @@ export default function SearchScroll({results, calendarId}) {
                 <Pressable onPress={() => {navigation.navigate("Day", {selectedDate: days.date, calendarId: calendarId})}} style={styles.resultBox}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.date}>{days.date}</Text>
-                    <View style={styles.tag}>
-                    {days.tags && <Text style={[styles.font, {fontSize: 14}]}>{days.tags}</Text>}
+                    <View>
+                        <ScrollView>
+                    {days.tags && days.tags.map((tag) => 
+                        <View style ={styles.tag}>
+                            <Text style={[styles.tagFont, {fontSize: 14}]}>{tag}</Text>
+                        </View>)}
+                        </ScrollView>
                     </View>
                     </View>
                     {days.event && <Text style={styles.font}>·{days.event}</Text>}
@@ -60,5 +65,10 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 9,
         borderTopLeftRadius: 9,
         padding: 5,
-      }
+        marginTop: 3,
+      },
+    tagFont: {
+        fontFamily: 'nunitoReg',
+        fontSize: 18,
+    }
 })
