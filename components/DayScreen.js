@@ -108,7 +108,7 @@ export default function DayScreen({ route }) {
                                     }}>
                                         <View style={styles.events}>
                                             <Text style={styles.user}>{days.user}</Text>
-                                            <Text style={styles.font}>·{days.event}</Text>
+                                            <Text style={styles.font}>{days.event}</Text>
                                         </View>
                                     </Pressable>
                                 ) : null
@@ -135,15 +135,15 @@ export default function DayScreen({ route }) {
                             )}
                         </View>
 
-                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                        <View style={styles.tagContainer}>
                             {calendarEntries.journals.map((days) => 
                                 days.date === today && 
                                 days.tags.length !== 0 &&
                             <View style={styles.tagBox}>
                             {days.tags.map((tag) =>
                             <View style={styles.tag}>
-                                <View style={{flexDirection: "row"}}>
-                                    <Text style={{color: colors.white }}>·</Text>
+                                <View style={{flexDirection: "row", alignItem: "center", justifyContent: 'center', }}>
+                                    <Text style={{color: colors.white, fontSize: 8, paddingTop: 4, }}>●</Text>
                                     <Text style={{marginLeft: 5}}>{tag}</Text>
                                 </View>
                             </View>)}
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         backgroundColor: colors.white,
         paddingLeft: 10,
-        marginBottom: 5,
+        paddingBottom: 10,
     },
     eventContainer: {
         borderRadius: 5,
@@ -258,17 +258,27 @@ const styles = StyleSheet.create({
     },
     tag: {
         flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexWrap: 'wrap',
         backgroundColor: colors.background,
         margin: 5,
-        marginTop: 20,
-        marginBottom: 50,
-        borderBottomLeftRadius: 9,
-        borderTopLeftRadius: 9,
+        borderBottomLeftRadius: 12,
+        borderTopLeftRadius: 12,
         padding: 5,
     },
     tagBox: {
         flexDirection: "row",
-        flexWrap: "wrap"
+        flexWrap: "wrap",
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    tagContainer:{
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        flexWrap: "wrap",
+        marginTop: 40,
+        marginBottom: 100,
     },
     user: {
         fontFamily: "nunitoReg",

@@ -35,6 +35,7 @@ export default function CalendarScreen({ navigation, route }) {
       <Calendar
         style={{
           backgroundColor: colors.white,
+          paddingBottom: 13,
         }}
         theme={{
           calendarBackground: colors.white,
@@ -58,8 +59,8 @@ export default function CalendarScreen({ navigation, route }) {
         markedDates={ dateObject}
         initialDate={selectedCalendarDate}
             />
-      <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
-        <Text style={[styles.font, {color: colors.white}]}>Details Page:</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center',}}>
+        <Text style={[styles.font, {color: colors.white}]}>More about this day</Text>
       <Pressable style={styles.deetz} onPress={() => navigation.navigate("Day", { selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId })}>
         <Text style={[styles.font, {color: colors.dark}]}>➤</Text>
       </Pressable>
