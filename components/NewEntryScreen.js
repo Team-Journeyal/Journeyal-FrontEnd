@@ -53,9 +53,8 @@ export default function NewEntryScreen({ route, navigation }) {
     formData.append('uploaded_images', {uri: imgUri, name: 'my_photo.jpg', type: 'image/jpg'}))
     tags.length !== 0 && tags.map((tag) => 
     formData.append('tags', tag))
-    requestAddEntry(route.params.token, formData)
-    route.params.setRefresh(!route.params.refresh)
-    navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh});
+    requestAddEntry(route.params.token, formData).then((response) => 
+      {response && navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh}), console.log(response.data)})
   };
 
   return (

@@ -70,18 +70,18 @@ export const requestAllEntries = (token) => {
   return response
 };
 
-export const requestCalendarsEntries = (token, calendarId) => {
+export const requestCalendarsEntries = async (token, calendarId) => {
   const url = `https://journeyal-webservice.onrender.com/calendar/${calendarId}/`
 
-  const response = axios.get(url, {
+  const response = await axios.get(url, {
     headers: { Authorization: `Token ${token}` }})
   return response
 };
 
-export const requestAddEntry = (token, formData) => {
+export const requestAddEntry = async (token, formData) => {
   const url = "https://journeyal-webservice.onrender.com/journal/"
 
-  const response = axios.post(url, formData,
+  const response = await axios.post(url, formData,
     {headers: { 
       'content-type': 'multipart/form-data',
       Authorization: `Token ${token}` }})
