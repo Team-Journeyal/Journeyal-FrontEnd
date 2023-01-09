@@ -301,7 +301,7 @@ export default function HomeScreen({ navigation, route }) {
 
                       </View>
                       <View style={{padding: 5,}}>
-                        <Text style={styles.userList}>⎯⎯ {clndr.name} Users ⎯⎯</Text>
+                        <Text style={styles.userList}>⎯⎯ Journeyalists ⎯⎯</Text>
                         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap'}}>
                         <View style={{margin: 5, padding: 5}}><Text style={styles.font}>{clndr.owner}</Text></View>
                         {clndr.users.map((usr) => <View style={{margin: 5, padding: 5}}><Text style={styles.font}>{usr.username}</Text></View>)}

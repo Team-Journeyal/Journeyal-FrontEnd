@@ -17,12 +17,12 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
               days.date === selectedDate && days.event !== "" && days.event !== null ? (
             <View style={styles.events}>
               <Text style={styles.user}>{days.user}</Text>
-              <Text style={styles.font}>·{days.event}</Text>
+              <Text style={styles.font}>{days.event}</Text>
             </View>
             ) : null
             )}
           </View>
-
+                  
           <View style={styles.entryContainer}>
             {calendarEntries.journals.map((days) =>
               days.date === selectedDate && days.entry !== "" && days.entry !== null ? (
@@ -50,15 +50,12 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
       )}
       </View>
 
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+      <View style={{flexDirection: 'row', justifyContent: 'center', marginRight: 20, marginTop: 75,}}>
         {calendarEntries.journals.map((days) => 
           days.date === selectedDate && days.tags.length !== 0 &&
           days.tags.map((tag) =>           
           <View style={styles.tag}>
-          <View style={{flexDirection: "row", justifyContent: 'space-evenly'}}>
-            <Text style={{color: colors.white, }}>·</Text>
-            <Text style={{marginLeft: 5}}>{tag}</Text>
-          </View>
+            <Text style={{padding: 2, textAlign: "center"}}>{tag}</Text>
         </View>)
         )}
       </View>
@@ -71,10 +68,10 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
 }
 const styles = StyleSheet.create({
   events: {
-    borderTopWidth: 1,
+    borderWidth: 1,
     backgroundColor: colors.white,
     paddingLeft: 10,
-    marginBottom: 5,
+    marginBottom: -1,
   },
   entries: {
     borderTopWidth: 1,
@@ -84,11 +81,9 @@ const styles = StyleSheet.create({
   eventContainer: {
     borderRadius: 5,
     margin: 10,
-    marginTop: 0,
+    marginTop: 15,
     marginBottom: 20,
-    borderRightWidth: 3,
-    borderLeftWidth: 1,
-    borderBottomWidth: 2.5,
+
   },
   entryContainer: {
     marginBottom: 20,
@@ -99,7 +94,7 @@ const styles = StyleSheet.create({
     fontFamily: 'nunitoReg',
     fontSize: 20,
     height: 35,
-    marginLeft: 10,
+    marginLeft: 5,
   },
   scrollview: {
     width: "100%",
@@ -120,12 +115,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     margin: 5,
     marginBottom: 50,
-    borderBottomLeftRadius: 9,
-    borderTopLeftRadius: 9,
+    borderRadius: 10,
     padding: 5,
   },
   user: {
     fontFamily: "nunitoReg",
     margin: 5,
+    justifyContent: "flex-end"
   }
 });
