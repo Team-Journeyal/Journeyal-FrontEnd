@@ -38,7 +38,6 @@ export default function NewEntryScreen({ route, navigation }) {
       setAddImage(addedImages)
     }
   }; 
-  console.log(tags)
 
   const handleTags = () => {
     tagArray.push(addTag)

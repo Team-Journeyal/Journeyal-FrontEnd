@@ -14,9 +14,10 @@ export default function CalendarScreen({ navigation, route }) {
   const dotMarker = { key: 'dotMarker', color: colors.dark }
   const isFocused = useIsFocused()
 
+
   useEffect(() => {
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
-      (response) => { response && console.log("effect ran"), setCalendarEntries(response.data) }
+      (response) => { response && setCalendarEntries(response.data) }
     );
   }, [isFocused]);
 
@@ -28,7 +29,6 @@ export default function CalendarScreen({ navigation, route }) {
       selectedColor: colors.bright,
     };
   });
-  console.log(`cal ${route.params.refresh}`)
 
   return (
     <View style={styles.background}>

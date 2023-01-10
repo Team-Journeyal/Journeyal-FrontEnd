@@ -32,7 +32,6 @@ export default function SearchScroll({ results, calendarId }) {
                     </>
                 )}
             </View>
-
         </ScrollView>
 
     )
