@@ -1,6 +1,7 @@
-import { ScrollView, View, Text, StyleSheet, Pressable } from "react-native"
+import { ScrollView, View, Text, StyleSheet, Pressable} from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import colors from "../colors"
+
 
 export default function SearchScroll({ results, calendarId }) {
     const navigation = useNavigation();

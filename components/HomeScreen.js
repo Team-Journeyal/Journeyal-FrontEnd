@@ -152,7 +152,7 @@ export default function HomeScreen({ navigation, route }) {
                   <TouchableOpacity onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1) }} style={[styles.modalButton, { backgroundColor: '#747474'}]}>
+                  <TouchableOpacity onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1) }} style={[styles.modalButton, { backgroundColor: '#AAA'}]}>
                     <Text style={styles.font}>Cancel</Text>
                   </TouchableOpacity>
                 </View>
@@ -194,7 +194,7 @@ export default function HomeScreen({ navigation, route }) {
                       setAddImage([]),
                       setModalOpacity(1)
                   }}
-                    style={[styles.modalButton, { backgroundColor: '#747474' }]}>
+                    style={[styles.modalButton, { backgroundColor: '#AAA' }]}>
                     <Text style={styles.font}>Cancel</Text>
                   </TouchableOpacity>
                 </View>

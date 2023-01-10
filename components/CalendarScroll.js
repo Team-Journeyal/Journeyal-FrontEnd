@@ -4,16 +4,29 @@ import { useEffect, useState } from "react";
 
 export default function CalendarScroll({ selectedDate, calendarEntries }) {
   const [empty, setEmpty] = useState(false)
-  const datez = calendarEntries.journals
+  const [truncated, setTruncated] = useState("")
+  let dateArray = []
+  let entryArray = []
 
-console.log(` empty ${empty}`)
+  useEffect(() => {
+    calendarEntries.journals === undefined ? (null) : (
+      calendarEntries.journals.map((days) => {
+        dateArray.push(days.date),
+        dateArray.includes(selectedDate) ? (setEmpty(true)) : (setEmpty(false))
+      }))
+  }, [calendarEntries, selectedDate])
 
-  // useEffect(() => {
-  //   calendarEntries.journals === undefined ? (null) : (
-  //     calendarEntries.journals.date.includes(selectedDate) ?
-  //     (setEmpty(true)) : (setEmpty(false))
-  // )
-  // }, [calendarEntries, selectedDate])
+  useEffect(() => {
+    calendarEntries.journals === undefined ? (null) : (
+      calendarEntries.journals.map((days) => {
+        entryArray.push(days.entry),
+        entryArray.map((entries) => {
+          entries !== null && (
+          entries.length > 36 ? (setTruncated(entries.slice(0,36), console.log(truncated))) : null)
+        })
+      })
+    )
+  }, [calendarEntries, selectedDate])
 
   return (
     <ScrollView style={styles.scrollview}>
@@ -25,7 +38,7 @@ console.log(` empty ${empty}`)
         <View>
           <View style={styles.eventContainer}>
             {calendarEntries.journals.map((days) =>
-              days.date === selectedDate && days.event !== null ? (
+              days.date === selectedDate && days.event !== "" && days.event !== null ? (
                 <View style={styles.events}>
                   <Text style={styles.user}>{days.user}</Text>
                   <Text style={styles.font}>{days.event}</Text>
@@ -36,10 +49,12 @@ console.log(` empty ${empty}`)
 
           <View style={styles.entryContainer}>
             {calendarEntries.journals.map((days) =>
-              days.date === selectedDate && days.entry !== null ? (
+              days.date === selectedDate && days.entry !== "" && days.entry !== null ? (
                 <View style={styles.entries}>
                   <Text style={styles.user}>{days.user}</Text>
+                  {days.entry.length < 36 ? 
                   <Text style={styles.font}>{days.entry}</Text>
+                  : <Text style={styles.font}>{truncated}...</Text>}
                 </View>
               ) : null
             )}
@@ -73,7 +88,7 @@ console.log(` empty ${empty}`)
                   </View>)) : null
             )}
           </View>
-                {empty ? (null): (<View><Text>No posts</Text></View>)}
+                {empty ? (null): (<View style={styles.empty}><Text style={styles.font}>Nothing posted yet!</Text></View>)}
         </View>
       )}
 
@@ -81,6 +96,11 @@ console.log(` empty ${empty}`)
   );
 }
 const styles = StyleSheet.create({
+  empty: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.7
+  },
   events: {
     borderWidth: 1,
     backgroundColor: colors.white,
