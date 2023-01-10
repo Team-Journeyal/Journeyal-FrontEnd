@@ -1,4 +1,4 @@
-import { Button, Pressable, Image, StyleSheet, Text } from "react-native";
+import { Pressable, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -30,10 +30,7 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [refresh, setRefresh] = useState(false);
   const [calendarId, setCalendarId] = useState("");
-  const [settings, setSettings] = useState(true);
   const [editDay, setEditDay] =useState(true);
-  const [addOpacity, setAddOpacity] = useState(1)
-  const [searchOpacity, setSearchOpacity] = useState(1)
   const [loaded] = useFonts({
     nunitoReg: require('./assets/fonts/Nunito-Regular.ttf'),
     nunitoBold: require('./assets/fonts/Nunito-Bold.ttf'),
@@ -49,7 +46,7 @@ export default function App() {
     setToken(token);
     setUsername(username);
   };
-  console.log(`app ${refresh}`)
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
@@ -97,7 +94,7 @@ export default function App() {
             headerTitleStyle: { color: colors.white,  fontFamily: 'yeseva', fontSize: 30 },
             headerRight: () => (
               <>
-                <Pressable
+                <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("Search", {
                       setSelectedDate: setSelectedDate,
@@ -108,11 +105,9 @@ export default function App() {
                       calendarId: calendarId,
                     })
                   }
-                  style={{opacity: addOpacity}}
-                  onPressIn={() => setAddOpacity(.5)} onPressOut={() => setAddOpacity(1)}
-                ><Image style={styles.icon} source={require("./assets/searchicon.png")}/></Pressable>
-                <Pressable
-                  style={{marginLeft: 15, opacity: searchOpacity}}
+                ><Image style={styles.icon} source={require("./assets/searchicon.png")}/></TouchableOpacity>
+                <TouchableOpacity
+                  style={{marginLeft: 15}}
                   onPress={() =>
                       navigation.navigate("Add", {
                         setSelectedDate: setSelectedDate,
@@ -123,8 +118,7 @@ export default function App() {
                         calendarId: calendarId,
                       })
                   }
-                  onPressIn={() => setSearchOpacity(.5)} onPressOut={() => setSearchOpacity(1)}
-                ><Image style={styles.icon} source={require("./assets/plusicon.png")}/></Pressable>
+                ><Image style={styles.icon} source={require("./assets/plusicon.png")}/></TouchableOpacity>
               </>
             ),
           })}

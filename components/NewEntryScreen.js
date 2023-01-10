@@ -3,12 +3,12 @@ import {
   TextInput,
   Text,
   StyleSheet,
-  Pressable,
   Button,
   Keyboard,
   Image,
   TouchableWithoutFeedback,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
@@ -22,8 +22,6 @@ export default function NewEntryScreen({ route, navigation }) {
   const [addTag, setAddTag] = useState([]);
   const [tags, setTags] =useState([])
   const [loading, setLoading] = useState(false)
-  const [submitOpacity, setSubmitOpacity] = useState(1)
-  const [tagOpacity, setTagOpacity] = useState(1)
   const tagArray = []
   const imgArray = []
 
@@ -38,7 +36,6 @@ export default function NewEntryScreen({ route, navigation }) {
       setAddImage(addedImages)
     }
   }; 
-  console.log(tags)
 
   const handleTags = () => {
     tagArray.push(addTag)
@@ -93,9 +90,9 @@ export default function NewEntryScreen({ route, navigation }) {
           value={addTag}
           onChangeText={setAddTag}
           ></TextInput> 
-          <Pressable style={[styles.tagAdd, {opacity: tagOpacity}]} onPress={handleTags} onPressIn={() => setTagOpacity(.5)} onPressOut={() => setTagOpacity(1)}>
+          <TouchableOpacity style={styles.tagAdd} onPress={handleTags}>
             <Image style={styles.icon} source={require("../assets/plusicon.png")}/>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       <Button title="Add an Image" onPress={pickImage} />
 
@@ -114,9 +111,9 @@ export default function NewEntryScreen({ route, navigation }) {
       </View>
       }
 
-      <Pressable style={[styles.submit, {opacity: submitOpacity}]} onPress={handleSubmit} onPressIn={() => setSubmitOpacity(.5)} onPressOut={() => setSubmitOpacity(1)}>
+      <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
         <Text style={[styles.font, {color: colors.white, fontSize: 20,}]}> Submit </Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
     </TouchableWithoutFeedback>
   );

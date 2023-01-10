@@ -19,7 +19,7 @@ export default function SearchScroll({ results, calendarId }) {
                                             {days.tags && days.tags.map((tag) =>
                                                 <View style={styles.tag}>
                                                     <View style={{ flexDirection: "row", alignItem: "center", justifyContent: 'space-between', }}>
-                                                        <Text style={{ color: colors.white, fontSize: 8, paddingTop: 4, }}>●</Text>
+                                                        <Text style={{ color: '#efefef', fontSize: 8, paddingTop: 4, }}>●</Text>
                                                         <Text style={{marginLeft: 5}}>{tag}</Text>
                                                     </View>
                                                 </View>)}
@@ -32,7 +32,6 @@ export default function SearchScroll({ results, calendarId }) {
                     </>
                 )}
             </View>
-
         </ScrollView>
 
     )

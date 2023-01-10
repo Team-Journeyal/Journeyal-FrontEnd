@@ -37,18 +37,11 @@ export default function HomeScreen({ navigation, route }) {
   const [modalOpacity, setModalOpacity] = useState(1);
   const [searchString, setSearchString] = useState("");
   const [userResults, setUserResults] = useState([]);
-  const [selectedUser, setSelectedUser] = useState()
-  const [selectedUserId, setSelectedUserId] = useState()
-  const [addUsers, setAddUsers] = useState([])
-  const [addOpacity, setAddOpacity] = useState(1)
-  const [editOpacity, setEditOpacity] = useState(1)
-  const [userOpacity, setUserOpacity] = useState(1)
-  const [deleteOpacity, setDeleteOpacity] = useState(1)
-  const [modalButtonOpacity, setModalButtonOpacity] = useState(1)
-  const [cancelOpacity, setCancelOpacity] = useState(1)
-  const [loading, setLoading] = useState(true)
-  const userIds = []
-
+  const [selectedUser, setSelectedUser] = useState();
+  const [selectedUserId, setSelectedUserId] = useState();
+  const [addUsers, setAddUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const userIds = [];
 
   useEffect(() => {
     requestCalendars(route.params.token).then((response) =>
@@ -72,8 +65,6 @@ export default function HomeScreen({ navigation, route }) {
     formData.append('cal_image', { uri: addImage, name: 'my_photo.jpg', type: 'image/jpg' })
     requestNewCalendar(route.params.token, formData)
       .then((res) => (res && setRefresh(!refresh), setAddImage([]), setCalendarName(''), setModalOpacity(1)))
-      .catch(function (error) {
-      })
   };
 
   const handleCalendarEntries = (clndr) => {
@@ -124,25 +115,23 @@ export default function HomeScreen({ navigation, route }) {
   }
 
   const handleAddUser = () => {
-    console.log(calId)
-    console.log(addUsers)
     requestAddUser(route.params.token, calId, addUsers)
-      .then((res) => (res && setRefresh(!refresh), setSearchString(""), setUserResults([]), setSelectedUser(),setSearchVisible(false)))
+      .then((res) => (res && setRefresh(!refresh), setSearchString(""), setUserResults([]), setSelectedUser(), setSearchVisible(false), setModalOpacity(1)))
   }
 
   return (
     <View style={[styles.background, { opacity: modalOpacity }]}>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
-          <Text style={styles.userFont}>Hello, {route.params.username}</Text>
+          <Text style={styles.userFont}>Hello {route.params.username}</Text>
 
 
           <Modal
             animationType="none"
             transparent={true}
             visible={modalVisible}>
-            <TouchableOpacity style={styles.modalBox} onPress={() => { setModalVisible(false), setModalOpacity(1) }}>
-              <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
+            <TouchableOpacity style={styles.modalScreen} onPress={() => { setModalVisible(false), setModalOpacity(1) }}>
+              <TouchableOpacity onPress={null} style={styles.modalBox} activeOpacity={1}>
                 <Text style={styles.settingsFont}>Create a new Journeyal</Text>
                 <TextInput
                   autoCorrect={false}
@@ -160,14 +149,12 @@ export default function HomeScreen({ navigation, route }) {
                     source={{ uri: `${addImage}` }} />
                 )}
                 <View style={{ width: 200, flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Pressable onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={[styles.modalButton, {opacity: modalButtonOpacity}]}
-                  onPressIn={() => setModalButtonOpacity(.5)} onPressOut={() => setModalButtonOpacity(1)}>
+                  <TouchableOpacity onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
-                  </Pressable>
-                  <Pressable onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1) }} style={[styles.modalButton, { backgroundColor: 'silver', opacity: cancelOpacity }]}
-                  onPressIn={() => setCancelOpacity(.5)} onPressOut={() => setCancelOpacity(1)}>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => { setModalVisible(!modalVisible), setModalOpacity(1) }} style={[styles.modalButton, { backgroundColor: '#747474'}]}>
                     <Text style={styles.font}>Cancel</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               </TouchableOpacity>
             </TouchableOpacity>
@@ -177,8 +164,8 @@ export default function HomeScreen({ navigation, route }) {
             animationType="none"
             transparent={true}
             visible={editVisisble}>
-            <TouchableOpacity style={styles.modalBox} onPress={() => { setEditVisible(false), setModalOpacity(1), setCalendarName(''), setAddImage([]) }}>
-              <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
+            <TouchableOpacity style={styles.modalScreen} onPress={() => { setEditVisible(false), setModalOpacity(1), setCalendarName(''), setAddImage([]) }}>
+              <TouchableOpacity onPress={null} style={styles.modalBox} activeOpacity={1}>
                 <Text style={styles.settingsFont}>Edit your Journeyal</Text>
                 <TextInput
                   autoCorrect={false}
@@ -197,21 +184,19 @@ export default function HomeScreen({ navigation, route }) {
                     source={{ uri: `${addImage}` }} />
                 )}
                 <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
-                  <Pressable onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} 
-                  onPressIn={() => setModalButtonOpacity(.5)} onPressOut={() => setModalButtonOpacity(1)}
-                  style={[styles.modalButton, {opacity: modalButtonOpacity}]}>
+                  <TouchableOpacity onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} 
+                  style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
-                  </Pressable>
-                  <Pressable onPress={() => {
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => {
                     setEditVisible(!editVisisble),
                       setCalendarName(''),
                       setAddImage([]),
                       setModalOpacity(1)
                   }}
-                  onPressIn={() => setCancelOpacity(.5)} onPressOut={() => setCancelOpacity(1)}
-                    style={[styles.modalButton, { backgroundColor: 'silver', opacity: cancelOpacity }]}>
+                    style={[styles.modalButton, { backgroundColor: '#747474' }]}>
                     <Text style={styles.font}>Cancel</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               </TouchableOpacity>
             </TouchableOpacity>
@@ -222,8 +207,8 @@ export default function HomeScreen({ navigation, route }) {
             animationType="none"
             transparent={true}
             visible={searchVisible}>
-            <TouchableOpacity style={styles.modalBox} onPress={() => { setSearchVisible(false), setSearchString([]), setUserResults([]), setSelectedUser(), setModalOpacity(1)}}>
-              <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
+            <TouchableOpacity style={styles.modalScreen} onPress={() => { setSearchVisible(false), setSearchString([]), setUserResults([]), setSelectedUser(), setModalOpacity(1)}}>
+              <TouchableOpacity onPress={null} style={styles.modalBox} activeOpacity={1}>
                 <Text style={styles.settingsFont}>Search for a user</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInput
@@ -232,17 +217,16 @@ export default function HomeScreen({ navigation, route }) {
                     value={searchString}
                     onChangeText={setSearchString}
                     style={styles.inputs} />
-                  <Pressable onPress={() => handleUserSearch()}><Image style={styles.icon} source={require("../assets/searchiconblack.png")}/></Pressable>
+                  <TouchableOpacity onPress={() => handleUserSearch()}><Image style={styles.icon} source={require("../assets/searchiconblack.png")}/></TouchableOpacity>
                 </View>
                 <View style={{ alignItems: 'center' }}>
                   {userResults.map((users) =>
-                    <Pressable onPress={() => {setSelectedUser(users.username), setSelectedUserId(users.id)}}>
-                      <Text style={{ fontSize: 25 }}>{users.username}</Text></Pressable>)}
+                    <TouchableOpacity onPress={() => {setSelectedUser(users.username), setSelectedUserId(users.id)}}>
+                      <Text style={{ fontSize: 20 }}>{users.username}</Text></TouchableOpacity>)}
                 </View>
 
-                {selectedUser ? (<Pressable onPress={() => {addUsers.push(selectedUserId), handleAddUser(), setModalOpacity(1)}}
-                onPressIn={() => setModalButtonOpacity(.5)} onPressOut={() => setModalButtonOpacity(1)}
-                style={[styles.searchButton, {opacity: modalButtonOpacity}]}><Text>Add {selectedUser}</Text></Pressable>) : (null)}
+                {selectedUser ? (<TouchableOpacity onPress={() => {addUsers.push(selectedUserId), handleAddUser()}}
+                style={styles.searchButton}><Text style={styles.addUserFont}>Add {selectedUser}</Text></TouchableOpacity>) : (null)}
 
               </TouchableOpacity>
             </TouchableOpacity>
@@ -250,12 +234,9 @@ export default function HomeScreen({ navigation, route }) {
 
 
 
-          <Pressable style={[styles.add, {opacity: addOpacity}]} onPress={() => {
-            setModalVisible(!modalVisible),
-              setModalOpacity(0.7)
-          }} onPressIn={() => setAddOpacity(.5)} onPressOut={() => setAddOpacity(1)}>
+          <TouchableOpacity style={styles.add} onPress={() => {setModalVisible(!modalVisible), setModalOpacity(0.7)}}>
             <Text style={styles.addFont}>Add Journeyal</Text>
-          </Pressable>
+          </TouchableOpacity>
           {loading && <View style={{marginTop: 40}}><ActivityIndicator color={colors.dark} size='large' /></View>}
           {calendars.map((clndr, idx) => (
             <View key={idx}>
@@ -272,11 +253,11 @@ export default function HomeScreen({ navigation, route }) {
                 <Text style={{fontSize: 20, color: colors.white}}>⎯⎯⎯⎯⎯</Text>
                 <View style={styles.edit}>
                   <View style={styles.downArrow}>
-                    <Pressable style={styles.arrowButton} onPress={() => {setCalId(clndr.id), handleUserIds(clndr.users)}}>
+                    <TouchableOpacity style={styles.arrowButton} onPress={() => {setCalId(clndr.id), handleUserIds(clndr.users)}}>
                       {calId !== clndr.id ? (
                       <Text style={{ fontSize: 30, color: colors.white, margin: -13, }}>⌄</Text>
                       ) : (null)}
-                    </Pressable>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </Pressable>
@@ -291,31 +272,26 @@ export default function HomeScreen({ navigation, route }) {
                         alignItems: 'center',
                         marginBottom: 15,
                       }}>
-                        <Pressable onPress={() => {
+                        <TouchableOpacity onPress={() => {
                           setEditVisible(!editVisisble),
                             setCalId(clndr.id),
                             setCalendarName(clndr.name),
                             setAddImage(clndr.cal_image),
                             setModalOpacity(0.7)
                         }}
-                        onPressIn={() => setEditOpacity(.5)} onPressOut={() => setEditOpacity(1)}
-                          style={[styles.modalEdit, {opacity: editOpacity}]}>
+                          style={styles.modalEdit}>
                           <Text style={styles.font}>Edit</Text>
-                        </Pressable>
+                        </TouchableOpacity>
 
-                        <TouchableOpacity>
-                        <Pressable onPress={() => { setSearchVisible(true), setModalOpacity(0.7)}} style={[styles.modalAdd, { width: 100 }]}
-                        onPressIn={() => setUserOpacity(.5)} onPressOut={() => setUserOpacity(1)}>
-                          <Text style={[styles.font, {opacity: userOpacity}]}>Add User</Text>
-                        </Pressable>
+                        <TouchableOpacity onPress={() => { setSearchVisible(true), setModalOpacity(0.7)}} style={[styles.modalAdd, { width: 100 }]}>
+                          <Text style={styles.font}>Add User</Text>
                         </TouchableOpacity>
 
 
-                        <Pressable onPress={() => { handleDeleteAlert(clndr)}} 
-                        onPressIn={() => setDeleteOpacity(.5)} onPressOut={() => setDeleteOpacity(1)}
-                        style={[styles.modalDelete, {opacity: deleteOpacity}]}>
+                        <TouchableOpacity onPress={() => { handleDeleteAlert(clndr)}} 
+                        style={styles.modalDelete}>
                           <Text style={styles.font}>Delete</Text>
-                        </Pressable>
+                        </TouchableOpacity>
 
                       </View>
                       <View style={{padding: 5,}}>
@@ -325,9 +301,9 @@ export default function HomeScreen({ navigation, route }) {
                         {clndr.users.map((usr) => <View style={{margin: 5, padding: 5}}><Text style={styles.font}>{usr.username}</Text></View>)}
                         </View>
                       </View>
-                      <Pressable style={{alignItems: "center"}} onPress={() => {setCalId(null)}}>
+                      <TouchableOpacity style={{alignItems: "center"}} onPress={() => {setCalId(null)}}>
                         <Text style={{ fontSize: 20, color: colors.white }}>⌃</Text>
-                      </Pressable>
+                      </TouchableOpacity>
 
                     </View>) : (null)}
                     
@@ -352,18 +328,20 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: colors.bright,
     width: 150,
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 10,
   },
-  modalBox: {
+  modalScreen: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
   },
-  modalThing: {
+  modalBox: {
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
+    width: 360,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",
@@ -416,7 +394,6 @@ const styles = StyleSheet.create({
   downArrow: {
     width: 350,
     height: 25,
-
   },
   add: {
     borderRadius: 5,
@@ -429,6 +406,11 @@ const styles = StyleSheet.create({
   addBox: {
     alignItems: "center",
     marginTop: 50,
+  },
+  addUserFont: {
+    fontFamily: 'nunitoBold',
+    fontSize: 20,
+    color: colors.white
   },
   background: {
     flex: 1,

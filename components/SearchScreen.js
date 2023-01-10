@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Pressable, ScrollView } from "react-native";
+import { View, Text, TextInput, StyleSheet, Pressable, TouchableOpacity } from "react-native";
 import SearchScroll from "./SearchScroll";
 import colors from "../colors";
 import { requestTagSearch } from "./Requests";
@@ -21,10 +21,9 @@ let calId = results.map((cal) => {
   return (
     <View style={styles.background}>
     <TextInput autoCapitalize="none" autoCorrect={false} onChangeText={setSearchString} value={searchString} style={styles.input}/>
-    <Pressable onPress={handleSubmit} style={[styles.search, {opacity: searchOpacity}]}
-      onPressIn={() => setSearchOpacity(.5)} onPressOut={() => setSearchOpacity(1)}>
+    <TouchableOpacity onPress={handleSubmit} style={styles.search}>
       <Text style={styles.font}>Search</Text>
-    </Pressable>
+    </TouchableOpacity>
     {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{margin: 20}}>No results</Text>
     ) : (
     <SearchScroll 
