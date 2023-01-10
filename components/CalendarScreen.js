@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, StatusBar, Text, Pressable } from "react-native";
+import { View, StyleSheet, StatusBar, Text, Pressable, TouchableOpacity } from "react-native";
 import { Calendar } from "react-native-calendars";
 import colors from "../colors";
 import CalendarScroll from "./CalendarScroll";
@@ -10,10 +10,8 @@ export default function CalendarScreen({ navigation, route }) {
   const [selectedCalendarDate, setSelectedCalendarDate] = useState(route.params.selectedDate);
   const [calendarEntries, setCalendarEntries] = useState([]);
   const [refreshCalendar, setRefreshCalendar] = useState(false)
-  const [detailOpacity, setDetailOpacity] = useState(1)
   const dotMarker = { key: 'dotMarker', color: colors.dark }
   const isFocused = useIsFocused()
-
 
   useEffect(() => {
     requestCalendarsEntries(route.params.token, route.params.calendarId).then(
@@ -60,12 +58,14 @@ export default function CalendarScreen({ navigation, route }) {
         markedDates={dateObject}
         initialDate={selectedCalendarDate}
       />
-      <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', }}>
-        <Text style={[styles.font, { color: colors.white }]}>More about this day</Text>
-        <Pressable style={[styles.deetz, { opacity: detailOpacity }]} onPressIn={() => setDetailOpacity(.5)} onPressOut={() => setDetailOpacity(1)}
-          onPress={() => navigation.navigate("Day", { selectedDate: selectedCalendarDate, calendarEntries: calendarEntries, setRefreshCalendar: setRefreshCalendar, refreshCalendar: refreshCalendar, calendarId: route.params.calendarId })}>
-          <Text style={[styles.font, { color: colors.dark }]}>➤</Text>
-        </Pressable>
+      <View style={styles.bar}>
+        <Text style={styles.font}>More about this day</Text>
+        <TouchableOpacity style={styles.deetz}
+          onPress={() => navigation.navigate("Day", {
+            selectedDate: selectedCalendarDate,
+            calendarId: route.params.calendarId })}>
+          <Text style={styles.arrow}>➤</Text>
+        </TouchableOpacity>
       </View>
       <CalendarScroll
         selectedDate={selectedCalendarDate}
@@ -76,10 +76,19 @@ export default function CalendarScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  arrow: {
+    color: colors.dark,
+    fontSize: 25,
+  },
   background: {
     flex: 1,
     backgroundColor: colors.dark,
     color: colors.white,
+  },
+  bar: {
+    flexDirection: 'row', 
+    justifyContent: 'space-evenly', 
+    alignItems: 'center', 
   },
   deetz: {
     backgroundColor: colors.bright,
@@ -92,6 +101,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   font: {
+    color: colors.white,
     fontFamily: 'nunitoBold',
     fontSize: 20,
   }

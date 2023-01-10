@@ -10,7 +10,6 @@ export default function DayScreen({ route }) {
     const [editJournal, setEditJournal] = useState([]);
     const [modalOpacity, setModalOpacity] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
-    const [imgVisible, setImgVisible] = useState(false);
     const [calendarEntries, setCalendarEntries] = useState([]);
     const [editingEvent, setEditingEvent] = useState(false);
     const [editingEntry, setEditingEntry] = useState(false);
@@ -25,14 +24,12 @@ export default function DayScreen({ route }) {
 
     const handleEventEdit = () => {
         requestEditEvent(route.params.token, editJournal, editId)
-            .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setEditingEvent(false),
-                route.params.setRefreshCalendar(!route.params.refreshCalendar), setModalOpacity(1)))
+            .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setEditingEvent(false), setModalOpacity(1)))
     }
 
     const handleEntryEdit = () => {
         requestEditEntry(route.params.token, editJournal, editId)
-            .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setEditingEntry(false),
-                route.params.setRefreshCalendar(!route.params.refreshCalendar), setModalOpacity(1)))
+            .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setEditingEntry(false), setModalOpacity(1)))
     }
 
     const imageArray = []
@@ -44,49 +41,49 @@ export default function DayScreen({ route }) {
         <View style={[styles.scrollview, { opacity: modalOpacity }]}>
             <ScrollView>
                 {calendarEntries.journals === undefined ? (
-                    <View style={{ position: 'absolute', left: 0, right: 0, top: 90 }}>
+                    <View style={styles.indicator}>
                         <ActivityIndicator color={colors.dark} size='large' />
                     </View>
                 ) : (
                     <View>
-
                         <Modal
                             animationType="none"
                             transparent={true}
                             visible={modalVisible}>
-                            <TouchableOpacity style={styles.modalBox} onPress={() => {
+                            <TouchableOpacity style={styles.modalScreen} onPress={() => {
                                 setModalVisible(false),
                                     setModalOpacity(1)
                             }}>
-                                <TouchableOpacity onPress={null} style={styles.modalThing} activeOpacity={1}>
-                                    <Text>Edit Schedule/Journal</Text>
+                                <TouchableOpacity onPress={null} style={styles.modalBox} activeOpacity={1}>
+                                    <Text style={styles.font}>Edit Schedule/Journal</Text>
                                     <TextInput
                                         autoCorrect={false}
                                         autoCapitalize="none"
                                         value={editJournal}
                                         defaultValue={editJournal}
                                         onChangeText={setEditJournal}
-                                        style={styles.inputs} />
-                                    <View style={{ width: 250, flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 5 }}>
-                                        <Pressable onPress={() => {
+                                        style={styles.inputs}
+                                        multiline={true} />
+                                    <View style={styles.modalButtons}>
+                                        <TouchableOpacity onPress={() => {
                                             setModalVisible(!modalVisible);
                                             { editingEvent && (handleEventEdit(), setEditingEvent(false)) };
                                             { editingEntry && (handleEntryEdit(), setEditingEntry(false)) };
                                             setModalOpacity(1)
                                         }}
                                             style={styles.modalButton}>
-                                            <Text style={styles.font}>Submit</Text>
-                                        </Pressable>
-                                        <Pressable onPress={() => {
+                                            <Text style={styles.buttonFont}>Submit</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => {
                                             setModalVisible(!modalVisible),
                                                 setEditJournal([]),
                                                 setEditingEntry(false),
                                                 setEditingEvent(false),
                                                 setModalOpacity(1)
                                         }}
-                                            style={[styles.modalButton, { backgroundColor: 'silver' }]}>
-                                            <Text style={styles.font}>Cancel</Text>
-                                        </Pressable>
+                                            style={[styles.modalButton, { backgroundColor: '#AAA'}]}>
+                                            <Text style={styles.buttonFont}>Cancel</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </TouchableOpacity>
                             </TouchableOpacity>
@@ -159,24 +156,24 @@ export default function DayScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
-    img: {
-        width: 300,
-        height: 300,
+    buttonFont: {
+        fontFamily: 'nunitoBold',
+        fontSize: 20,
+        textAlign: "center", 
+        color: colors.white,
     },
     events: {
-        borderTopWidth: 1,
+        borderWidth: 1,
         backgroundColor: colors.white,
         paddingLeft: 10,
         paddingBottom: 10,
+        marginBottom: -1,
     },
     eventContainer: {
         borderRadius: 5,
         margin: 10,
         marginTop: 0,
         marginBottom: 20,
-        borderRightWidth: 3,
-        borderLeftWidth: 1,
-        borderBottomWidth: 2.5,
     },
     entries: {
         borderTopWidth: 1,
@@ -187,11 +184,20 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 20,
     },
+    indicator:{
+        position: 'absolute', 
+        left: 0, 
+        right: 0, 
+        top: 90,
+    },
+    img: {
+        width: 300,
+        height: 300,
+    },
     scrollview: {
         flex: 1,
         width: "100%",
         padding: 5,
-
     },
     inputFont: {
         borderWidth: 1,
@@ -217,23 +223,33 @@ const styles = StyleSheet.create({
         height: 200,
         margin: 3,
     },
-    modalBox: {
+    modalScreen: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22,
     },
     modalButton: {
-        borderRadius: 20,
+        borderRadius: 10,
         padding: 10,
         elevation: 2,
-        backgroundColor: colors.bright
+        backgroundColor: colors.bright,
     },
-    modalThing: {
+    modalButtons: {
+        width: 250, 
+        flexDirection: 'row', 
+        justifyContent: 'space-evenly', 
+        marginTop: 5 
+    },
+    modalBox: {
         margin: 20,
+        marginTop: 50,
         backgroundColor: "white",
         borderRadius: 20,
+        width: 360,
+        maxHeight: "80%",
         padding: 15,
+        // paddingBottom: 80,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -249,8 +265,8 @@ const styles = StyleSheet.create({
         borderColor: colors.dark,
         borderRadius: 5,
         margin: 10,
-        width: 200,
-        height: 40,
+        minWidth: 200,
+        maxHeight: '87%',
         padding: 3,
         textAlign: "center",
         fontFamily: 'nunitoReg',

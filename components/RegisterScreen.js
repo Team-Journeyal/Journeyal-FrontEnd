@@ -8,7 +8,8 @@ import {
   Image,
   ActivityIndicator,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TouchableOpacity
 } from "react-native";
 import { requestNewUser, requestLogin } from "./Requests";
 import { useState } from "react";
@@ -17,12 +18,11 @@ import colors from "../colors";
 export default function RegisterScreen({ navigation, route }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false)
-  const [registerOpacity, setRegisterOpacity] = useState(1)
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setLoading(true)
+    setLoading(true);
     requestNewUser(username, password).then(
       (response) =>
         response.data.id &&
@@ -32,13 +32,13 @@ export default function RegisterScreen({ navigation, route }) {
           navigation.navigate("Home", { username: username });
         })
     ).catch(function () {
-      setLoading(false)
-    });;
+      setLoading(false);
+    });
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ImageBackground source={require('../assets/kiwihug-zGZYQQVmXw0-unsplash.jpg')} style={styles.background}>
+      <ImageBackground source={require('../assets/paperBackground.jpg')} style={styles.background}>
         <View style={styles.background}>
           <Image
             style={styles.image}
@@ -63,9 +63,9 @@ export default function RegisterScreen({ navigation, route }) {
               placeholder="password"
               style={styles.inputs}
             ></TextInput>
-            <Pressable onPress={handleSubmit} style={[styles.button, {opacity: registerOpacity}]} onPressIn={() => setRegisterOpacity(.5)} onPressOut={() => setRegisterOpacity(1)}>
+            <TouchableOpacity onPress={handleSubmit} style={styles.button}>
               <Text style={styles.registerFont}>Register</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </ImageBackground>

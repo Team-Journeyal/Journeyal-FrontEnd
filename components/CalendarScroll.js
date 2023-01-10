@@ -5,10 +5,9 @@ import { useEffect, useState } from "react";
 export default function CalendarScroll({ selectedDate, calendarEntries }) {
   const [empty, setEmpty] = useState(false)
   const datez = calendarEntries.journals
-  const datez2 = datez.map((dayz) => {return dayz})
+
 console.log(` empty ${empty}`)
 
-console.log(datez2)
   // useEffect(() => {
   //   calendarEntries.journals === undefined ? (null) : (
   //     calendarEntries.journals.date.includes(selectedDate) ?
@@ -68,7 +67,7 @@ console.log(datez2)
                 days.tags.map((tag) =>
                   <View style={styles.tag}>
                     <View style={{ flexDirection: "row", alignItem: "center", justifyContent: 'space-between', }}>
-                      <Text style={{ color: colors.white, fontSize: 8, paddingTop: 4, }}>●</Text>
+                      <Text style={{ color: '#efefef', fontSize: 8, paddingTop: 4, }}>●</Text>
                       <Text style={{ marginLeft: 5 }}>{tag}</Text>
                     </View>
                   </View>)) : null
