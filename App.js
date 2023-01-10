@@ -32,6 +32,8 @@ export default function App() {
   const [calendarId, setCalendarId] = useState("");
   const [settings, setSettings] = useState(true);
   const [editDay, setEditDay] =useState(true);
+  const [addOpacity, setAddOpacity] = useState(1)
+  const [searchOpacity, setSearchOpacity] = useState(1)
   const [loaded] = useFonts({
     nunitoReg: require('./assets/fonts/Nunito-Regular.ttf'),
     nunitoBold: require('./assets/fonts/Nunito-Bold.ttf'),
@@ -106,11 +108,12 @@ export default function App() {
                       calendarId: calendarId,
                     })
                   }
+                  style={{opacity: addOpacity}}
+                  onPressIn={() => setAddOpacity(.5)} onPressOut={() => setAddOpacity(1)}
                 ><Image style={styles.icon} source={require("./assets/searchicon.png")}/></Pressable>
                 <Pressable
-                  style={{marginLeft: 15,}}
-                  onPress={
-                    (() =>
+                  style={{marginLeft: 15, opacity: searchOpacity}}
+                  onPress={() =>
                       navigation.navigate("Add", {
                         setSelectedDate: setSelectedDate,
                         selectedDate: selectedDate,
@@ -118,8 +121,9 @@ export default function App() {
                         refresh: refresh,
                         token: token,
                         calendarId: calendarId,
-                      }))
+                      })
                   }
+                  onPressIn={() => setSearchOpacity(.5)} onPressOut={() => setSearchOpacity(1)}
                 ><Image style={styles.icon} source={require("./assets/plusicon.png")}/></Pressable>
               </>
             ),

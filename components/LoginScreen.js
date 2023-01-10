@@ -20,6 +20,8 @@ export default function LoginScreen({ navigation, route }) {
   const [password, setPassword] = useState("");
   const [invalid, setInvalid] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [loginOpacity, setLoginOpacity] = useState(1)
+  const [registerOpacity, setRegisterOpacity] = useState(1)
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -40,47 +42,50 @@ export default function LoginScreen({ navigation, route }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ImageBackground source={require('../assets/kiwihug-zGZYQQVmXw0-unsplash.jpg')} style={styles.background}>
-    <View style={styles.background}>
-      <Image
-        style={styles.image}
-        source={require('../assets/JourneyalLogo.png')}/>
-      <StatusBar barStyle={"light-content"} />
-      <View style={styles.login}>
-        {invalid === true ? (
-          <Text style={styles.errorFont}>Please enter a valid username or password</Text>
-        ) : null}
-        <View style={{ height: 30 }}>{loading && <ActivityIndicator color={colors.dark}/>}</View>
-        <TextInput
-          autoCorrect={false}
-          autoCapitalize="none"
-          value={username}
-          placeholder="username"
-          onChangeText={setUsername}
-          style={styles.inputs}
-        ></TextInput>
-        <TextInput
-          autoCorrect={false}
-          autoCapitalize="none"
-          value={password}
-          secureTextEntry={true}
-          placeholder="password"
-          onChangeText={setPassword}
-          style={styles.inputs}
-        ></TextInput>
-        <Pressable style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.loginFont}>Log In</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-          navigation.navigate("Register");
-          setInvalid(false);
-          setUsername("");
-          setPassword("")}}>
-            <Text style={styles.registerFont}>Register</Text>
-        </Pressable>
-      </View>
-    </View>
-    </ImageBackground>
+        <View style={styles.background}>
+          <Image
+            style={styles.image}
+            source={require('../assets/JourneyalLogo.png')} />
+          <StatusBar barStyle={"light-content"} />
+          <View style={styles.login}>
+            {invalid === true ? (
+              <Text style={styles.errorFont}>Please enter a valid username or password</Text>
+            ) : null}
+            <View style={{ height: 30 }}>{loading && <ActivityIndicator color={colors.dark} />}</View>
+            <TextInput
+              autoCorrect={false}
+              autoCapitalize="none"
+              value={username}
+              placeholder="username"
+              onChangeText={setUsername}
+              style={styles.inputs}
+            ></TextInput>
+            <TextInput
+              autoCorrect={false}
+              autoCapitalize="none"
+              value={password}
+              secureTextEntry={true}
+              placeholder="password"
+              onChangeText={setPassword}
+              style={styles.inputs}
+            ></TextInput>
+            <Pressable style={[styles.button, { opacity: loginOpacity }]} onPress={handleSubmit} onPressIn={() => setLoginOpacity(.5)} onPressOut={() => setLoginOpacity(1)}>
+              <Text style={styles.loginFont}>Log In</Text>
+            </Pressable>
+            <Pressable
+              style={{ opacity: registerOpacity }}
+              onPress={() => {
+                navigation.navigate("Register");
+                setInvalid(false);
+                setUsername("");
+                setPassword("")
+              }}
+              onPressIn={() => setRegisterOpacity(.5)} onPressOut={() => setRegisterOpacity(1)}>
+              <Text style={styles.registerFont}>Register</Text>
+            </Pressable>
+          </View>
+        </View>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 }
@@ -133,8 +138,8 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   registerFont: {
-    fontFamily: 'nunitoReg', 
-    fontSize: 25, 
+    fontFamily: 'nunitoReg',
+    fontSize: 25,
     color: 'royalblue',
     marginTop: 15,
   },
