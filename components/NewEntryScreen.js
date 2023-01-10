@@ -7,7 +7,8 @@ import {
   Button,
   Keyboard,
   Image,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
@@ -20,6 +21,9 @@ export default function NewEntryScreen({ route, navigation }) {
   const [addImage, setAddImage] = useState([]);
   const [addTag, setAddTag] = useState([]);
   const [tags, setTags] =useState([])
+  const [loading, setLoading] = useState(false)
+  const [submitOpacity, setSubmitOpacity] = useState(1)
+  const [tagOpacity, setTagOpacity] = useState(1)
   const tagArray = []
   const imgArray = []
 
@@ -44,6 +48,7 @@ export default function NewEntryScreen({ route, navigation }) {
   }
 
   const handleSubmit = () => {
+    setLoading(true)
     let formData = new FormData()
     formData.append('date', route.params.selectedDate)
     formData.append('calendar', route.params.calendarId)
@@ -54,13 +59,14 @@ export default function NewEntryScreen({ route, navigation }) {
     tags.length !== 0 && tags.map((tag) => 
     formData.append('tags', tag))
     requestAddEntry(route.params.token, formData).then((response) => 
-      {response && navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh}), console.log(response.data)})
+      {response && navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh}), setLoading(false)})
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.background}>
       <Text style={styles.font}>{route.params.selectedDate}</Text>
+      <View style={{height: 30, marginTop: 20}}>{loading && <ActivityIndicator color={colors.dark} size='large' />}</View>
       <TextInput
         autoCorrect={false}
         multiline={true}
@@ -87,7 +93,7 @@ export default function NewEntryScreen({ route, navigation }) {
           value={addTag}
           onChangeText={setAddTag}
           ></TextInput> 
-          <Pressable style={styles.tagAdd} onPress={handleTags}>
+          <Pressable style={[styles.tagAdd, {opacity: tagOpacity}]} onPress={handleTags} onPressIn={() => setTagOpacity(.5)} onPressOut={() => setTagOpacity(1)}>
             <Image style={styles.icon} source={require("../assets/plusicon.png")}/>
           </Pressable>
         </View>
@@ -108,7 +114,7 @@ export default function NewEntryScreen({ route, navigation }) {
       </View>
       }
 
-      <Pressable style={styles.submit} onPress={handleSubmit}>
+      <Pressable style={[styles.submit, {opacity: submitOpacity}]} onPress={handleSubmit} onPressIn={() => setSubmitOpacity(.5)} onPressOut={() => setSubmitOpacity(1)}>
         <Text style={[styles.font, {color: colors.white, fontSize: 20,}]}> Submit </Text>
       </Pressable>
     </View>

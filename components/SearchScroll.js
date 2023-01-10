@@ -2,34 +2,37 @@ import { ScrollView, View, Text, StyleSheet, Pressable } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import colors from "../colors"
 
-export default function SearchScroll({results, calendarId}) {
-    const navigation = useNavigation(); 
+export default function SearchScroll({ results, calendarId }) {
+    const navigation = useNavigation();
 
     return (
         <ScrollView style={styles.container}>
             <View>
-                {results.map((days) => 
-                <>
-                {calendarId === days.calendar &&
-                <Pressable onPress={() => {navigation.navigate("Day", {selectedDate: days.date, calendarId: calendarId})}} style={styles.resultBox}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Text style={styles.date}>{days.date}</Text>
-                    <View>
-                        <ScrollView>
-                    {days.tags && days.tags.map((tag) => 
-                        <View style ={styles.tag}>
-                            <Text style={[styles.tagFont, {fontSize: 14}]}>{tag}</Text>
-                        </View>)}
-                        </ScrollView>
-                    </View>
-                    </View>
-                    {days.event && <Text style={styles.font}>·{days.event}</Text>}
-                    {days.entry && <Text style={styles.font}>{days.entry}</Text>}
-                </Pressable>}
-                </>
+                {results.map((days) =>
+                    <>
+                        {calendarId === days.calendar &&
+                            <Pressable onPress={() => { navigation.navigate("Day", { selectedDate: days.date, calendarId: calendarId }) }} style={styles.resultBox}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={styles.date}>{days.date}</Text>
+                                    <View>
+                                        <ScrollView>
+                                            {days.tags && days.tags.map((tag) =>
+                                                <View style={styles.tag}>
+                                                    <View style={{ flexDirection: "row", alignItem: "center", justifyContent: 'space-between', }}>
+                                                        <Text style={{ color: colors.white, fontSize: 8, paddingTop: 4, }}>●</Text>
+                                                        <Text style={{marginLeft: 5}}>{tag}</Text>
+                                                    </View>
+                                                </View>)}
+                                        </ScrollView>
+                                    </View>
+                                </View>
+                                {days.event && <Text style={styles.font}>·{days.event}</Text>}
+                                {days.entry && <Text style={styles.font}>{days.entry}</Text>}
+                            </Pressable>}
+                    </>
                 )}
             </View>
-            
+
         </ScrollView>
 
     )
@@ -45,28 +48,26 @@ const styles = StyleSheet.create({
         fontFamily: "nunitoBold",
         marginBottom: 2,
     },
-    font:{
+    font: {
         fontFamily: 'nunitoReg',
         fontSize: 18,
     },
     resultBox: {
         width: "100%",
         height: 113,
-        marginTop: 10, 
+        marginTop: 10,
         padding: 10,
         borderWidth: 1,
         borderRadius: 5,
         backgroundColor: colors.white
     },
-    tag:{
-        minWidth: 60,
+    tag: {
         alignItems: "center",
         backgroundColor: colors.background,
-        borderBottomLeftRadius: 9,
-        borderTopLeftRadius: 9,
+        borderBottomLeftRadius: 12,
+        borderTopLeftRadius: 12,
         padding: 5,
-        marginTop: 3,
-      },
+    },
     tagFont: {
         fontFamily: 'nunitoReg',
         fontSize: 18,

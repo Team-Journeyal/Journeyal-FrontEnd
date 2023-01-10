@@ -7,6 +7,7 @@ import { requestTagSearch } from "./Requests";
 export default function SearchScreen({route}) {
   const [searchString, setSearchString] = useState("");
   const [results, setResults] = useState([''])
+  const [searchOpacity, setSearchOpacity] = useState(1)
 
   const handleSubmit = () => {
     requestTagSearch(route.params.token, searchString)
@@ -20,7 +21,8 @@ let calId = results.map((cal) => {
   return (
     <View style={styles.background}>
     <TextInput autoCapitalize="none" autoCorrect={false} onChangeText={setSearchString} value={searchString} style={styles.input}/>
-    <Pressable onPress={handleSubmit} style={styles.search}>
+    <Pressable onPress={handleSubmit} style={[styles.search, {opacity: searchOpacity}]}
+      onPressIn={() => setSearchOpacity(.5)} onPressOut={() => setSearchOpacity(1)}>
       <Text style={styles.font}>Search</Text>
     </Pressable>
     {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{margin: 20}}>No results</Text>

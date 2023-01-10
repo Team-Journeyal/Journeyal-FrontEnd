@@ -18,6 +18,7 @@ export default function RegisterScreen({ navigation, route }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false)
+  const [registerOpacity, setRegisterOpacity] = useState(1)
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -62,7 +63,7 @@ export default function RegisterScreen({ navigation, route }) {
               placeholder="password"
               style={styles.inputs}
             ></TextInput>
-            <Pressable onPress={handleSubmit} style={styles.button}>
+            <Pressable onPress={handleSubmit} style={[styles.button, {opacity: registerOpacity}]} onPressIn={() => setRegisterOpacity(.5)} onPressOut={() => setRegisterOpacity(1)}>
               <Text style={styles.registerFont}>Register</Text>
             </Pressable>
           </View>
