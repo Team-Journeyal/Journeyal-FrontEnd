@@ -19,9 +19,9 @@ export default function SearchScroll({ results, calendarId }) {
                                         <ScrollView>
                                             {days.tags && days.tags.map((tag) =>
                                                 <View style={styles.tag}>
-                                                    <View style={{ flexDirection: "row", alignItem: "center", justifyContent: 'space-between', }}>
-                                                        <Text style={{ color: '#efefef', fontSize: 8, paddingTop: 4, }}>●</Text>
-                                                        <Text style={{marginLeft: 5}}>{tag}</Text>
+                                                    <View style={{ flexDirection: "row", justifyContent: 'space-between'}}>
+                                                        <Text style={{ color: '#fff', fontSize: 8, paddingTop: 4, }}>●</Text>
+                                                        <Text style={{marginLeft: 5 }}>{tag}</Text>
                                                     </View>
                                                 </View>)}
                                         </ScrollView>
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     },
     resultBox: {
         width: "100%",
-        height: 113,
+        height: 130,
         marginTop: 10,
         padding: 10,
         borderWidth: 1,
@@ -62,11 +62,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white
     },
     tag: {
-        alignItems: "center",
         backgroundColor: colors.background,
         borderBottomLeftRadius: 12,
         borderTopLeftRadius: 12,
         padding: 5,
+        marginTop: 2
     },
     tagFont: {
         fontFamily: 'nunitoReg',

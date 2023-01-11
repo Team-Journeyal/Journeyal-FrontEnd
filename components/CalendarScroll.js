@@ -81,7 +81,7 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
               days.date === selectedDate && days.tags.length !== 0 ? (
                 days.tags.map((tag) =>
                   <View style={styles.tag}>
-                    <View style={{ flexDirection: "row", alignItem: "center", justifyContent: 'space-between', }}>
+                    <View style={{ flexDirection: "row", alignItem: "center", justifyContent: 'space-between',}}>
                       <Text style={{ color: '#efefef', fontSize: 8, paddingTop: 4, }}>●</Text>
                       <Text style={{ marginLeft: 5 }}>{tag}</Text>
                     </View>
