@@ -148,7 +148,7 @@ export default function HomeScreen({ navigation, route }) {
                     style={styles.modalImage}
                     source={{ uri: `${addImage}` }} />
                 )}
-                <View style={{ width: 200, flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={{ width: 200, flexDirection: 'row', justifyContent: 'space-between', marginTop: 10,}}>
                   <TouchableOpacity onPress={() => { handleSubmit(); setModalVisible(!modalVisible) }} style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>
                   </TouchableOpacity>
@@ -175,7 +175,7 @@ export default function HomeScreen({ navigation, route }) {
                   onChangeText={setCalendarName}
                   style={styles.inputs}
                 />
-                <Button title="Add an image" onPress={pickImage} />
+                <Button title="Edit an image" onPress={pickImage} />
                 {addImage && (
                   <Image
                     resizeMode="contain"
@@ -183,7 +183,7 @@ export default function HomeScreen({ navigation, route }) {
                     style={styles.modalImage}
                     source={{ uri: `${addImage}` }} />
                 )}
-                <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
+                <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
                   <TouchableOpacity onPress={() => { handleCalendarEdit(); setEditVisible(!editVisisble) }} 
                   style={styles.modalButton}>
                     <Text style={styles.font}>Submit</Text>

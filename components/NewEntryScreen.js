@@ -115,6 +115,7 @@ export default function NewEntryScreen({ route, navigation }) {
       <View style={styles.tagBox}>
         {tags.map((tag) => 
         <View style={styles.tag}>
+          <Text style={{ color: '#efefef', fontSize: 8, paddingTop: 4, }}>●</Text>
           <Text style={styles.tagFont}>{tag}</Text>
         </View>)}
       </View>
@@ -203,8 +204,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.background,
-    borderBottomLeftRadius: 9,
-    borderTopLeftRadius: 9,
+    borderBottomLeftRadius: 12,
+    borderTopLeftRadius: 12,
     padding: 5,
     margin: 3,
     flexDirection: "row",
