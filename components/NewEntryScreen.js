@@ -115,8 +115,10 @@ export default function NewEntryScreen({ route, navigation }) {
       <View style={styles.tagBox}>
         {tags.map((tag) => 
         <View style={styles.tag}>
-          <Text style={{ color: '#efefef', fontSize: 8, paddingTop: 4, }}>●</Text>
-          <Text style={styles.tagFont}>{tag}</Text>
+                    <View style={{ flexDirection: "row", alignItem: "center", justifyContent: 'space-between', }}>
+                      <Text style={{ color: '#efefef', fontSize: 8, paddingTop: 4, }}>●</Text>
+                      <Text style={{ marginLeft: 5 }}>{tag}</Text>
+                    </View>
         </View>)}
       </View>
       }
@@ -200,16 +202,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   tag:{
-    minWidth: 60,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: colors.background,
+    margin: 5,
+    marginBottom: 50,
     borderBottomLeftRadius: 12,
     borderTopLeftRadius: 12,
     padding: 5,
-    margin: 3,
-    flexDirection: "row",
-
   },
   tagAdd: {
     borderRadius: 3, 
