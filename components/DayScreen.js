@@ -15,6 +15,7 @@ export default function DayScreen({ route }) {
     const [editingEntry, setEditingEntry] = useState(false);
     const [editId, setEditId] = useState([]);
     const [refresh, setRefresh] = useState(false);
+    const monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
     useEffect(() => {
         requestCalendarsEntries(route.params.token, route.params.calendarId)
@@ -25,17 +26,25 @@ export default function DayScreen({ route }) {
     const handleEventEdit = () => {
         requestEditEvent(route.params.token, editJournal, editId)
             .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setEditingEvent(false), setModalOpacity(1)))
-    }
+    };
 
     const handleEntryEdit = () => {
         requestEditEntry(route.params.token, editJournal, editId)
             .then((res) => (res && setRefresh(!refresh), setEditJournal([]), setEditingEntry(false), setModalOpacity(1)))
+    };
+
+    const handleDateString = () => {
+        const selectedDay = new Date(`${today} 00:00:00`)
+        const month = monthArray[selectedDay.getMonth()]
+        const day = selectedDay.getDate()
+        const year = selectedDay.getFullYear()
+        return (`${month} ${day}, ${year}`)
     }
 
     const imageArray = []
     calendarEntries.journals && calendarEntries.journals.map((days) => 
         days.date === today && days.journal_images.length !== 0 && (
-        days.journal_images.map((img) => imageArray.push({image: img.image}))))
+        days.journal_images.map((img) => imageArray.push({image: img.image}))));
 
     return (
         <View style={[styles.scrollview, { opacity: modalOpacity }]}>
@@ -89,7 +98,7 @@ export default function DayScreen({ route }) {
                             </TouchableOpacity>
                         </Modal>
 
-                        <Text style={styles.dateFont}>{today}</Text>
+                        <Text style={styles.dateFont}>{handleDateString()}</Text>
                         <CarouselCards imageArray={imageArray}/>
 
                         <View style={styles.eventContainer}>

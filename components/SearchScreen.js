@@ -1,35 +1,38 @@
 import { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Pressable, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, StyleSheet, Pressable, TouchableOpacity, ActivityIndicator } from "react-native";
 import SearchScroll from "./SearchScroll";
 import colors from "../colors";
 import { requestTagSearch } from "./Requests";
 
-export default function SearchScreen({route}) {
+export default function SearchScreen({ route }) {
   const [searchString, setSearchString] = useState("");
   const [results, setResults] = useState([''])
-  const [searchOpacity, setSearchOpacity] = useState(1)
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = () => {
     requestTagSearch(route.params.token, searchString)
-      .then((response) => setResults(response.data))    
-    }
+      .then((response) => { response && setResults(response.data), setLoading(false) })
+  }
 
-let calId = results.map((cal) => {
-  return cal.calendar
-})
+  let calId = results.map((cal) => {
+    return cal.calendar
+  })
 
   return (
     <View style={styles.background}>
-    <TextInput autoCapitalize="none" autoCorrect={false} onChangeText={setSearchString} value={searchString} style={styles.input}/>
-    <TouchableOpacity onPress={handleSubmit} style={styles.search}>
-      <Text style={styles.font}>Search</Text>
-    </TouchableOpacity>
-    {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{margin: 20}}>No results</Text>
-    ) : (
-    <SearchScroll 
-      setSelectedDate={route.params.setSelectedDate}
-      results={results}
-      calendarId={route.params.calendarId}/>)}
+      <TextInput autoCapitalize="none" autoCorrect={false} onChangeText={setSearchString} value={searchString} style={styles.input} />
+      <TouchableOpacity onPress={() => { handleSubmit(), setLoading(true) }} style={styles.search}>
+        <Text style={styles.font}>Search</Text>
+      </TouchableOpacity>
+      <View style={{height: 30}}>
+      {loading && <ActivityIndicator color={colors.dark} />}
+      </View>
+      {results.length === 0 || !calId.includes(route.params.calendarId) ? (results.length === 0 && <Text style={{ margin: 20 }}>No results</Text>
+      ) : (
+        <SearchScroll
+          setSelectedDate={route.params.setSelectedDate}
+          results={results}
+          calendarId={route.params.calendarId} />)}
     </View>
   );
 }
@@ -37,7 +40,7 @@ let calId = results.map((cal) => {
 
 const styles = StyleSheet.create({
   background: {
-    flex:1,
+    flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
   },

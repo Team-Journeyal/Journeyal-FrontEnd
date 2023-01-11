@@ -16,12 +16,14 @@ import colors from "../colors";
 import { requestAddEntry } from "./Requests";
 
 export default function NewEntryScreen({ route, navigation }) {
+  const today = route.params.selectedDate
   const [addEvent, setAddEvent] = useState([]);
   const [addEntry, setAddEntry] = useState([]);
   const [addImage, setAddImage] = useState([]);
   const [addTag, setAddTag] = useState([]);
   const [tags, setTags] =useState([])
   const [loading, setLoading] = useState(false)
+  const monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   const tagArray = []
   const imgArray = []
 
@@ -47,7 +49,7 @@ export default function NewEntryScreen({ route, navigation }) {
   const handleSubmit = () => {
     setLoading(true)
     let formData = new FormData()
-    formData.append('date', route.params.selectedDate)
+    formData.append('date', today)
     formData.append('calendar', route.params.calendarId)
     addEvent.length !== 0 && formData.append('event', addEvent)
     addEntry.length !== 0 && formData.append('entry', addEntry)
@@ -59,11 +61,18 @@ export default function NewEntryScreen({ route, navigation }) {
       {response && navigation.navigate("Calendar", {calendarId: route.params.calendarId, refresh: route.params.refresh}), setLoading(false)})
   };
 
+  const handleDateString = () => {
+    const selectedDay = new Date(`${today} 00:00:00`)
+    const month = monthArray[selectedDay.getMonth()]
+    const day = selectedDay.getDate()
+    const year = selectedDay.getFullYear()
+    return (`${month} ${day}, ${year}`)
+}
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.background}>
-      <Text style={styles.font}>{route.params.selectedDate}</Text>
-      <View style={{height: 30, marginTop: 20}}>{loading && <ActivityIndicator color={colors.dark} size='large' />}</View>
+      <Text style={styles.dateFont}>{handleDateString()}</Text>
       <TextInput
         autoCorrect={false}
         multiline={true}
@@ -114,6 +123,7 @@ export default function NewEntryScreen({ route, navigation }) {
       <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
         <Text style={[styles.font, {color: colors.white, fontSize: 20,}]}> Submit </Text>
       </TouchableOpacity>
+      <View style={{height: 30, marginTop: 20}}>{loading && <ActivityIndicator color={colors.dark} size='large' />}</View>
     </View>
     </TouchableWithoutFeedback>
   );
@@ -124,6 +134,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+  dateFont: {
+    fontFamily: 'nunitoBold',
+    fontSize: 30,
+    marginTop: 10,
+  },
   image: {
     width: 100,
     height: 100,
@@ -131,7 +146,7 @@ const styles = StyleSheet.create({
   },
   font: {
     fontFamily: 'nunitoBold',
-    fontSize: 30,
+    fontSize: 25,
   },
   grid: {
     flexDirection: "row",

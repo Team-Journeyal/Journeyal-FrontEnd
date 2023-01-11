@@ -9,7 +9,6 @@ import { useIsFocused } from "@react-navigation/native";
 export default function CalendarScreen({ navigation, route }) {
   const [selectedCalendarDate, setSelectedCalendarDate] = useState(route.params.selectedDate);
   const [calendarEntries, setCalendarEntries] = useState([]);
-  const [refreshCalendar, setRefreshCalendar] = useState(false)
   const dotMarker = { key: 'dotMarker', color: colors.dark }
   const isFocused = useIsFocused()
 
