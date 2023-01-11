@@ -19,10 +19,10 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
   useEffect(() => {
     calendarEntries.journals === undefined ? (null) : (
       calendarEntries.journals.map((days) => {
-        entryArray.push(days.entry),
+        entryArray.push({entry: days.entry, date: days.date}),
         entryArray.map((entries) => {
-          entries !== null && (
-          entries.length > 36 ? (setTruncated(entries.slice(0,36), console.log(truncated))) : null)
+          entries.date === selectedDate && entries.entry !== null && (
+          entries.entry.length > 36 ? (setTruncated(entries.entry.slice(0,36), console.log(truncated))) : null)
         })
       })
     )
