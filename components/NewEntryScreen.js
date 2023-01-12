@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   journal: {
     borderWidth: 1,
     borderRadius: 3,
-    height: 45,
+    minHeight: 45,
     width: "80%",
     margin: 3,
     padding: 3,

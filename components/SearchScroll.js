@@ -16,7 +16,7 @@ export default function SearchScroll({ results, calendarId }) {
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Text style={styles.date}>{days.date}</Text>
                                     <View>
-                                        <ScrollView>
+                                        <View>
                                             {days.tags && days.tags.map((tag) =>
                                                 <View style={styles.tag}>
                                                     <View style={{ flexDirection: "row", justifyContent: 'space-between'}}>
@@ -24,11 +24,13 @@ export default function SearchScroll({ results, calendarId }) {
                                                         <Text style={{marginLeft: 5 }}>{tag}</Text>
                                                     </View>
                                                 </View>)}
-                                        </ScrollView>
+                                        </View>
                                     </View>
                                 </View>
+                                <View style={styles.textBox}>
                                 {days.event && <Text style={styles.font}>·{days.event}</Text>}
                                 {days.entry && <Text style={styles.font}>{days.entry}</Text>}
+                                </View>
                             </Pressable>}
                     </>
                 )}
@@ -42,7 +44,6 @@ export default function SearchScroll({ results, calendarId }) {
 const styles = StyleSheet.create({
     container: {
         width: "95%",
-        borderTopWidth: 1,
     },
     date: {
         fontFamily: "nunitoBold",
@@ -68,8 +69,15 @@ const styles = StyleSheet.create({
         padding: 5,
         marginTop: 2
     },
+
     tagFont: {
         fontFamily: 'nunitoReg',
         fontSize: 18,
+    },
+    textBox: {
+        position: "absolute",
+        top: 30,
+        left:10,
+        maxWidth: 320,
     }
 })

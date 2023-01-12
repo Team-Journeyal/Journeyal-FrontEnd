@@ -22,7 +22,7 @@ export default function CalendarScroll({ selectedDate, calendarEntries }) {
         entryArray.push({entry: days.entry, date: days.date}),
         entryArray.map((entries) => {
           entries.date === selectedDate && entries.entry !== null && (
-          entries.entry.length > 36 ? (setTruncated(entries.entry.slice(0,36), console.log(truncated))) : null)
+          entries.entry.length > 36 ? (setTruncated(entries.entry.slice(0,36))) : null)
         })
       })
     )

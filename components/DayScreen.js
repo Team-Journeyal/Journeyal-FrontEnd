@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
     entryContainer: {
         borderRadius: 5,
         marginBottom: 20,
+        paddingRight: 10,
     },
     indicator:{
         position: 'absolute', 
